@@ -1,0 +1,19 @@
+{% block collection_widget %}
+{% spaceless %}
+<div class="tabs">
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
+    {% endif %}
+    <ul>
+    {% for key,child in form %}
+    <li><a href="#tabs-{{ key }}">{{ key|trans }}</a></li>
+    {% endfor %}
+    </ul>
+    {% for key,child in form %}
+    <div id="tabs-{{ key }}">
+    {{ form_widget(child) }}
+    </div>
+    {% endfor %}
+</div>
+{% endspaceless %}
+{% endblock collection_widget %}

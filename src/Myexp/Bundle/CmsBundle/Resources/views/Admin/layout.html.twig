@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{ asset('bundles/cms/css/semantic.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block body %}
+<div class="ui four column doubling grid container">
+  <div class="column">
+    <div class="ui attached stackable menu">
+  <div class="ui container">
+    <a class="item">
+      <i class="home icon"></i> Home
+    </a>
+    <a class="item">
+      <i class="grid layout icon"></i> Browse
+    </a>
+    <a class="item">
+      <i class="mail icon"></i> Messages
+    </a>
+    <div class="ui simple dropdown item">
+      More
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <a class="item"><i class="edit icon"></i> Edit Profile</a>
+        <a class="item"><i class="globe icon"></i> Choose Language</a>
+        <a class="item"><i class="settings icon"></i> Account Settings</a>
+      </div>
+    </div>
+    <div class="right item">
+      <div class="ui input"><input type="text" placeholder="Search..."></div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="column">
+    <p></p>
+    <p></p>
+  </div>
+  <div class="column">
+    <p></p>
+    <p></p>
+  </div>
+  <div class="column">
+    <p></p>
+    <p></p>
+  </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/cms/js/semantic.min.js') }}"></script>
+    <script type="text/javascript">
+        var base_url = '{{ app.request.getBaseURL() }}';
+        $(document).ready(function () {
+            $('.flash_notice').slideUp(2000);
+        });
+    </script>
+{% endblock %}

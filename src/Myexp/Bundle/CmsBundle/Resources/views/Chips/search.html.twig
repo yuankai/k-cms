@@ -1,0 +1,55 @@
+<div id="search_area">
+    <form action="{{ path('search_strain') }}" method="GET">
+        <div id="search_quick">
+            <input type="text" id="q" name="q" value="{% if app.request.query.all.q is defined %}{{ app.request.query.all.q }}{% endif %}" placeholder="{{ 'search.placeholder'|trans }}" />
+            <input type="submit" class="button" value="" /> 
+            <span class="red">{{ 'search.tip'|trans }}</span>
+        </div>
+        <div id="search_adv">
+            <dl>
+                <dt>{{ 'strain.strain_type'|trans }}</dt>
+                <dd>
+                    <select id="strain_type_id" name="strain_type_id[]" multiple size="6" >
+                        <option value="">{{ 'search.any'|trans }}</option>
+                        {% for strainType in tree(strainTypes) %}
+                        <option value="{{ strainType.id }}"{% if app.request.query.all.strain_type_id is defined and strainType.id in app.request.query.all.strain_type_id %} selected{% endif %}>{{ strainType.title|raw }}</option>
+                        {% endfor %}
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt>{{ 'strain.research_areas'|trans }}</dt>
+                <dd>
+                    <select id="research_area_id" name="research_area_id[]" multiple size="6" >
+                        <option value="">{{ 'search.any'|trans }}</option>
+                        {% for researchArea in tree(researchAreas) %}
+                        <option value="{{ researchArea.id }}"{% if app.request.query.all.research_area_id is defined and researchArea.id in app.request.query.all.research_area_id %} selected{% endif %}>{{ researchArea.title|raw }}</option>
+                        {% endfor %}
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt>{{ 'strain.breeding_type'|trans }}</dt>
+                <dd>
+                    <ul>
+                    {% for breedingType in breedingTypes %}
+                        <li><label><input type="checkbox" name="breeding_type_id[]" value="{{ breedingType.id }}"{% if app.request.query.all.breeding_type_id is defined and breedingType.id in app.request.query.all.breeding_type_id %} checked{% endif %} />{{ breedingType.trans.title }}</label></li>
+                    {% endfor %}
+                    </ul>
+                </dd>
+            </dl>
+            {% if app.request.locale == 'zh' %}
+            <dl class="quick">
+                <dt>{{ 'search.hot'|trans }}</dt>
+                <dd>
+                    <ul>
+                {% for keyword in keywords[app.request.locale] %}
+                        <li><a href="{{ path('search_strain') }}?q={{ keyword }}">{{ keyword }}</a></li>
+                {% endfor %}
+                    </ul>
+                </dd>
+            </dl>
+            {% endif %}
+        </div>
+    </form>
+</div>

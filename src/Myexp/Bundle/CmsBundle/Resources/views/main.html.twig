@@ -1,0 +1,12 @@
+{% extends 'SmtCmsBundle::layout.html.twig' %}
+{% block main %}
+    <div class="list_left_side">
+        {% include 'SmtCmsBundle:Chips:leftnav.html.twig' %}
+        {{ render(controller('SmtCmsBundle:Article:notice')) }}
+    </div>
+    <div class="list_right_side">
+        {% include 'SmtCmsBundle:Chips:breadcrumb.html.twig' %}
+        ${sections.render('content')}
+        {% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,239 @@
+zh: 中文
+en: English
+
+site:
+    name: 浙江中医药大学动物实验研究中心
+
+common:
+    submit: 提交
+    reset: 重置
+    yes: 是
+    no: 否
+    actions: 操作
+    edit: 编辑
+    delete: 删除
+    active: 通过审核
+    deny: 取消审核
+    delete_confirm: 你确定要删除吗？
+    show: 查看 
+    new: 新建
+    select: 选择
+    back: 返回
+    back_list: 返回列表
+    success: 操作成功！
+    down: 下载
+    more: 更多
+    notice: 通知公告
+
+paginator:
+    limit: 每页显示：
+    all: 所有
+    
+nav:
+    home: 首页
+    back: 返回
+    location: 现在位置
+    
+user:
+    welcome: 欢迎您，%name%
+    login: 登录
+    register: 注册
+    manage: 用户管理
+    logout: 退出登录
+    list: 用户列表
+    new: 新建用户
+    edit: 编辑用户
+    show: 查看用户
+    id: 编号
+    username: 用户名
+    email: 邮箱
+    last_login: 最后登录
+    password: 
+        change: 修改密码
+        current: 当前密码
+        new: 新密码
+        confirm: 确认密码
+    active: 是否可用
+    group: 用户组
+
+login:
+    title: 用户登录
+    username: 用户名
+    password: 密码
+    remember_me: 记住我
+
+register:
+    username: 用户名
+    email: 邮箱
+    password: 密码
+    password_confirm: 确认密码
+    
+article:
+    list: 文章列表
+    manage: 文章管理
+    new: 新建文章
+    edit: 编辑
+    show: 查看
+    id: 文章编号
+    title: 文章标题
+    author: 文章作者
+    category: 所属分类
+    pic: 标题图片
+    content: 文章内容
+    create_time: 创建时间
+    update_time: 修改时间
+    publish_time: 发表时间
+    is_active: 通过审核
+    source: 来源
+    
+page:
+    list: 页面列表
+    manage: 页面管理
+    new: 新建页面
+    edit: 编辑页面
+    show: 查看页面
+    id: 页面编号
+    name: 页面名称
+    title: 页面标题
+    content: 页面内容
+    group: 所属栏目
+    order: 栏目排序
+    level: 栏目级别
+    path: 标题图片
+    
+category:
+    manage: 栏目管理
+    new: 新建栏目
+    edit: 编辑栏目
+    id: 栏目编号
+    title: 栏目标题
+    name: 栏目名称
+    order: 栏目排序
+    articles: 文章数量
+    parent: 上级菜单
+    list: 分类列表
+    show: 分类详细
+    is_active: 侧边栏是否显示
+    
+menu:
+    list: 菜单列表
+    id: 菜单编号
+    manage: 菜单管理
+    new: 新建菜单
+    edit: 编辑菜单
+    path: 链接地址
+    is_nav: 导航显示
+    title: 菜单标题
+    parent: 上级菜单    
+    order: 菜单排序
+    isIndex: 主页中部显示
+    show: 查看菜单
+    
+link:
+    list: 链接列表
+    manage: 链接管理
+    id: 编号
+    new: 新建链接
+    show: 查看链接
+    edit: 编辑链接
+    title: 链接标题
+    path: 链接地址
+    order: 链接排序
+    photo: 链接图片
+    is_active: 是否通过
+
+album:
+    manage: 相册管理
+    id: 编号
+    name: 相册名称
+    title: 相册标题
+    photos: 图片
+    order: 相册排序
+    new: 创建相册
+    list: 相册列表
+    edit: 修改相册
+    
+photo:
+    manage: 图片管理
+    album: 所属相册
+    name: 图片名称
+    comment: 图片说明
+    picurl: 图片地址
+    title: 图片标题
+    order: 图片排序
+    is_active: 是否审核
+    new: 上传新图片
+    create_time: 创建时间
+    update_time: 更新时间
+    list: 图片列表
+    new: 新建图片
+    edit: 修改图片
+    show: 查看图片
+    
+back:
+    main: 网站内容
+    dashboard: 控制台
+    other: 其他
+    visit: 返回前台
+    menu: 菜单与分类
+    slider: 幻灯管理
+    manage: 后台管理
+    login: 请输入账号和密码
+    lanuage: 切换页面语言
+    current: 当前页
+    
+news: 
+    manage: 新闻管理
+    
+contentgroup:
+    manage: 栏目管理
+    
+sort:
+    manage: 页面分类
+    new: 新建分类
+    edit: 编辑分类
+    id: 分类编号
+    name: 分类名称
+    list: 分类列表
+    show: 分类详细
+    
+search:
+    no_result: 该搜索词未找到结果
+    
+download:
+    manage: 下载管理
+    new: 新建下载页面
+    edit: 编辑
+    id: 编号
+    name: 下载名称
+    list: 下载列表
+    show: 查看下载
+    title: 标题
+    publish_time: 发布时间
+    is_active: 是否通过
+    category: 栏目
+    title: 标题名称
+    url: 下载文件
+    
+slider:
+    id: 幻灯编号
+    manage: 幻灯管理
+    show: 查看幻灯
+    edit: 编辑幻灯
+    new: 创建幻灯
+    list: 幻灯列表
+    name: 幻灯名称
+    title: 幻灯标题
+    width: 幻灯宽度
+    height: 幻灯高度
+    photos: 幻灯图片
+    photo_total: 图片数量
+    photo_path: 图片路径
+    photo_title: 图片标题
+    photo_link: 链接地址
+    photo_lang: 可用语言
+    photo_order: 图片排序
+    photo_add: 新增图片
+    photo_delete: 删除图片
+    
+    

@@ -1,0 +1,13 @@
+<div id="{{ slider.name }}" class="nivoSlider">
+    {% for sliderPhoto in slider.sliderPhotos %}
+    {% if sliderPhoto.lang == app.request.locale or sliderPhoto.lang is empty %}
+    {% if sliderPhoto.link is not null %}
+    <a target="_blank" href="{{ sliderPhoto.link }}">
+    {% endif %}
+        <img src="{{ sliderPhoto.path }}" title="{{ sliderPhoto.title }}" style="width:{{ slider.width }}px;height:{{ slider.height }}px;" />
+    {% if sliderPhoto.link is not null %}
+    </a>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</div>

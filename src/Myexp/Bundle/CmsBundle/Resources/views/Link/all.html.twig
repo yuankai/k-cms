@@ -1,0 +1,11 @@
+<div class="link w1000">
+  <div class="link_cont">
+    <div class="link_h1"><span>友情链接Links</span></div>
+    <div class="link_p">
+        {% for entity in entities %} 
+            <a href="{{ entity.path }}" target="blank">{{entity.trans.title}}</a>{{' | '}}
+        {% endfor %}
+        </div>
+  </div>
+</div>
+

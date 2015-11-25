@@ -1,0 +1,61 @@
+default:
+    resource: "@SmtCmsBundle/Controller/DefaultController.php"
+    type: annotation
+
+user_check:
+    path: /user/check
+    
+user_logout:
+    path: /user/logout
+    
+user:
+    resource: "@SmtCmsBundle/Controller/UserController.php"
+    type: annotation
+    
+admin:
+    resource: "@SmtCmsBundle/Controller/AdminController.php"
+    type: annotation
+    
+category:
+    resource: "@SmtCmsBundle/Controller/CategoryController.php"
+    type: annotation
+    
+page:
+    resource: "@SmtCmsBundle/Controller/PageController.php"
+    type: annotation
+    
+album:
+    resource: "@SmtCmsBundle/Controller/AlbumController.php"
+    type: annotation
+    
+article:
+    resource: "@SmtCmsBundle/Controller/ArticleController.php"
+    type: annotation
+    
+link:
+    resource: "@SmtCmsBundle/Controller/LinkController.php"
+    type: annotation
+    
+menu:
+    resource: "@SmtCmsBundle/Controller/MenuController.php"
+    type: annotation
+    
+photo:
+    resource: "@SmtCmsBundle/Controller/PhotoController.php"
+    type: annotation
+
+search:
+    resource: "@SmtCmsBundle/Controller/SearchController.php"
+    type: annotation
+    
+download:
+    resource: "@SmtCmsBundle/Controller/DownloadController.php"
+    type: annotation
+    
+slider:
+    resource: "@SmtCmsBundle/Controller/SliderController.php"
+    type: annotation
+
+product:
+    resource: "@SmtCmsBundle/Controller/ProductController.php"
+    type: annotation

@@ -1,0 +1,230 @@
+zh: 中文
+en: English
+
+site:
+    name: ZCMA
+
+common:
+    submit: Submit
+    reset: Reset
+    yes: Yes
+    no: No
+    actions: Actions
+    edit: Edit
+    delete: Delete
+    active: Active
+    deny: Deny
+    delete_confirm: Are you sure?
+    show: Show
+    new: New
+    select: Select
+    back: Back
+    back_list: Back to list
+    success: Success
+    down: Download
+
+paginator:
+    limit: Page Size
+    all: All
+    
+nav:
+    home: Home
+    back: Back
+    
+user:
+    welcome: Welcome,%name%
+    login: Login
+    register: Register
+    manage: Users
+    logout: Logout
+    list: User List
+    new: New
+    edit: Edit
+    show: Show
+    id: Id
+    username: Username
+    email: E-mail
+    last_login: Last Login
+    password: 
+        change: Change Password
+        current: Current Password
+        new: New Password
+        confirm: Confirm Password
+    active: Enabled
+    group: User Group
+
+login:
+    username: Username
+    password: Password
+    remember_me: Remember
+    last_login: Last Login
+
+register:
+    username: Username
+    email: E-mail
+    password: Password
+    password_confirm: Confirm Password
+    
+article:
+    list: Article List
+    manage: Article Manage
+    new: New
+    edit: Edit
+    show: Show
+    id: Id
+    title: Title
+    author: Author
+    category: Category
+    pic: Article Picture
+    content: Content
+    create_time: Create Time
+    update_time: Update Time
+    publish_time: Publish Time
+    is_active: Enabled
+    source: Source
+    
+page:
+    list: Page List
+    manage: Page Manage
+    new: New
+    edit: Edit
+    show: Show
+    id: Id
+    name: Name
+    title: Title
+    content: Content
+    group: Group
+    order: Order
+    level: Level
+    path: Path
+    
+category:
+    manage: Category Manage
+    new: New
+    edit: Edit
+    id: Id
+    title: Title
+    name: Name
+    order: Order
+    articles: Articles
+    
+menu:
+    list: Menu List
+    id: Id
+    manage: Menu Manage
+    new: New
+    edit: Edit
+    path: Path
+    is_nav: Enabled
+    title: Title
+    parent: Parent    
+    order: Order
+    isIndex: show index
+    show: Show
+    
+link:
+    list: Link List
+    manage: Link Manage
+    id: Id
+    new: New
+    show: Show
+    edit: Edit
+    title: Title
+    path: Path
+    order: Order
+    photo: Photo
+    is_active: Agree
+
+album:
+    manage: Album Manage
+    id: Id
+    name: Name
+    title: Title
+    photos: Photos
+    order: Order
+    new: New
+    list: List
+    edit: Edit
+    
+photo:
+    manage: Photos Manage
+    album: Photo Album
+    name: Name
+    content: Content
+    picurl: Picture Url
+    title: Title
+    order: Order
+    is_active: Enabled
+    new: New Upload
+    create_time: Create Time
+    update_time: Update Time
+    list: Photos List
+    new: New
+    edit: Edit
+    show: Show
+    
+back:
+    main: main
+    dashboard: dashboard
+    other: other
+    visit: visit websaite
+    menu: menu manage
+    slider: slider manage
+    manage: Webmaster
+    login: Please enter your account number and password
+    lanuage: Change Lanuage
+    current: current page
+    
+news: 
+    manage: news manage
+    
+contentgroup:
+    manage: contentgroup manage
+    
+sort:
+    manage: Sort Manage
+    new: New Sort
+    edit: Edit
+    id: Id
+    name: Name
+    list: List
+    show: Show
+    
+search:
+    no_result: The search term found no results
+    
+download:
+    manage: Download Manage
+    new: New
+    edit: Edit
+    id: Id
+    name: Name
+    list: List
+    show: Show
+    title: Title
+    url: Url
+    publish_time: Publish Time
+    is_active: Is active
+    category: Category
+    title: Title
+    
+slider:
+    id: Id
+    manage: Slider Manage
+    show: Show
+    edit: Edit
+    new: New
+    list: List
+    name: Name
+    title: Title
+    width: Slider Width
+    height: Slider Height
+    photos: Slider Photos
+    photo_total: Photo Total
+    photo_path: Photo Path
+    photo_title: Photo Title
+    photo_link: Photo Link
+    photo_lang: Photo Lang
+    photo_order: Photo Order
+    photo_add: Photo Add
+    photo_delete: Photo Delete

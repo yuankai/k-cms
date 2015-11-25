@@ -1,0 +1,20 @@
+{% extends 'SmtCmsBundle::main.html.twig' %}
+{% block title %}{{ 'page.list'|trans }}{% endblock %}
+{% block content %}
+<div class="list_right_side">
+    <h2>搜索词"{{stat.keyword}}",结果如下：</h2>
+    {% if entities is not empty %}
+    <div class="list_right_list2">
+        <ul>
+                {%for entity in entities %}
+            <li><a href="{{path('article_show',{ 'id': entity.article.id })}}" title="{{entity.title}}">{{entity.title|slice(0, 40)}}</a>
+                <em>[{{entity.article.publishTime|date('Y-m-d')}}]</em></li> 
+        {%endfor%}
+        </ul>
+    </div>
+{% else %}
+{{ 'search.no_result'|trans }}
+{% endif %}
+</div>
+
+    {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'SmtCmsBundle::main.html.twig' %}
+{% block title %}{{ category.trans.title }}{{ parent() }}{% endblock %}
+{% block content %}
+    {% for entity in entities %}      
+        <div class="list_right_list2">
+            <ul>
+                <li><a href="{{ path('article_show', { 'id': entity.id }) }}" title="{{ entity.trans.title }}">{{ entity.trans.title|slice(0, 50) }} </a> <em>[{{entity.publishTime|date('Y-m-d')}}]</em></li>        
+            </ul>
+        </div>
+    {% endfor %}
+    <div class="clear"></div>
+    {% include 'SmtCmsBundle:Chips:paginator.html.twig' %}
+{% endblock %}

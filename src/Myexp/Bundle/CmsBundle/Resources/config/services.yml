@@ -1,0 +1,36 @@
+parameters:
+   languages:
+        zh: 中文
+
+services:    
+    smt.twig.extension:
+        class: Smt\CmsBundle\Twig\SmtCmsExtension
+        tags:
+            - { name: twig.extension }
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }        
+    cms.listener.login_listener:
+        class: 'Smt\CmsBundle\Listener\LoginListener'
+        arguments: ['@security.context', '@doctrine']
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }
+    cms.listener.locale_listener:
+        class: 'Smt\CmsBundle\Listener\LocaleListener'
+        arguments:
+            - "%locale%"
+        tags:
+            - { name: kernel.event_subscriber, event: kernel.request }
+    cms.form.entity_id_type:
+        class: 'Smt\CmsBundle\Form\Type\EntityIdType'
+        arguments: ['@doctrine']
+        tags:
+            - { name: form.type, alias: entity_id }
+    cms.form.lang_type:
+        class: 'Smt\CmsBundle\Form\LangType'
+        arguments:
+            - "%languages%"
+        tags:
+            - { name: form.type, alias: lang }
+            
