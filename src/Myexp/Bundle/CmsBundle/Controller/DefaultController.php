@@ -27,7 +27,7 @@ class DefaultController extends Controller {
     public function indexAction() {
         
         //实体仓库
-        $em = $this->getDoctrine()->getRepository('SmtCmsBundle:Article');
+        $em = $this->getDoctrine()->getRepository('CmsBundle:Article');
         
         //通知
         $notices = $em->getTitles(3, 6);

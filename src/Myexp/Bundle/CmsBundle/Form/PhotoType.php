@@ -12,7 +12,7 @@ class PhotoType extends AbstractType {
         $builder
                 ->add('album', 'entity', array(
                     'label' => 'photo.album',
-                    'class' => 'SmtCmsBundle:Album',
+                    'class' => 'CmsBundle:Album',
                     'property' => 'trans.title',
                     'required' => true
                 ))

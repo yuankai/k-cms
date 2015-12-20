@@ -55,7 +55,7 @@ class MenuController extends Controller {
             $result[] = $parent;
         }
 
-        $entities = $em->getRepository('SmtCmsBundle:Menu')->getChildren($parent);
+        $entities = $em->getRepository('CmsBundle:Menu')->getChildren($parent);
 
         foreach ($entities as $menu) {
             $this->getMenuByRecursive($result, $menu, $depth + 1);
@@ -72,7 +72,7 @@ class MenuController extends Controller {
     public function sortOrderAction() {
 
         $em = $this->getDoctrine()->getManager();
-        $menuRepo = $em->getRepository('SmtCmsBundle:menu');
+        $menuRepo = $em->getRepository('CmsBundle:menu');
 
         $orders = $this->getRequest()->request->get('orders');
 
@@ -94,7 +94,7 @@ class MenuController extends Controller {
      * @Route("/", name="menu_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("SmtCmsBundle:Menu:new.html.twig")
+     * @Template("CmsBundle:Menu:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -160,7 +160,7 @@ class MenuController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Menu')->find($id);
+        $entity = $em->getRepository('CmsBundle:Menu')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Menu entity.');
@@ -185,7 +185,7 @@ class MenuController extends Controller {
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SmtCmsBundle:Menu')->find($id);
+        $entity = $em->getRepository('CmsBundle:Menu')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Menu entity.');
@@ -207,13 +207,13 @@ class MenuController extends Controller {
      * @Route("/{id}", name="menu_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("SmtCmsBundle:Menu:edit.html.twig")
+     * @Template("CmsBundle:Menu:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Menu')->find($id);
+        $entity = $em->getRepository('CmsBundle:Menu')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Menu entity.');
@@ -254,7 +254,7 @@ class MenuController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SmtCmsBundle:Menu')->find($id);
+            $entity = $em->getRepository('CmsBundle:Menu')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Menu entity.');
@@ -276,7 +276,7 @@ class MenuController extends Controller {
     public function renderAction() {
 
         $em = $this->getDoctrine()->getManager();
-        $ep = $em->getRepository('SmtCmsBundle:Menu');
+        $ep = $em->getRepository('CmsBundle:Menu');
 
         $topMenus = $ep->getChildren();
 
@@ -350,7 +350,7 @@ class MenuController extends Controller {
     public function serviceAction($parent) {
 
         $em = $this->getDoctrine()->getManager();
-        $Menus = $em->getRepository('SmtCmsBundle:Menu')->getService(8, $parent);
+        $Menus = $em->getRepository('CmsBundle:Menu')->getService(8, $parent);
         if (empty($Menus)) {
             echo "no result in index";
             exit();

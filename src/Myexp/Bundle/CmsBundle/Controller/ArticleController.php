@@ -30,7 +30,7 @@ class ArticleController extends Controller {
      */
     public function indexAction() {
 
-        $articleRepo = $this->getDoctrine()->getManager()->getRepository('SmtCmsBundle:Article');
+        $articleRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Article');
 
         $params = array();
 
@@ -65,7 +65,7 @@ class ArticleController extends Controller {
         $delete = $this->getRequest()->get('delete', null);
 
         $em = $this->getDoctrine()->getManager();
-        $ep = $this->getDoctrine()->getRepository('SmtCmsBundle:Article');
+        $ep = $this->getDoctrine()->getRepository('CmsBundle:Article');
 
         foreach ($ids as $id) {
             $article = $ep->find($id);
@@ -92,7 +92,7 @@ class ArticleController extends Controller {
      * @Route("/", name="article_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("SmtCmsBundle:Article:new.html.twig")
+     * @Template("CmsBundle:Article:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -128,15 +128,6 @@ class ArticleController extends Controller {
     public function newAction() {
 
         $entity = new Article();
-        $languages = $this->container->getParameter('languages');
-
-        foreach (array_keys($languages) as $lang) {
-
-            $translation = new ArticleTranslation();
-            $translation->setLang($lang);
-
-            $entity->addTranslation($translation);
-        }
 
         $entity->setIsActive(true);
         $entity->setPublishTime(new \DateTime());
@@ -158,7 +149,7 @@ class ArticleController extends Controller {
     public function showAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SmtCmsBundle:Article')->find($id);
+        $entity = $em->getRepository('CmsBundle:Article')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Article entity.');
@@ -186,7 +177,7 @@ class ArticleController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Category')->findOneBy(array(
+        $entity = $em->getRepository('CmsBundle:Category')->findOneBy(array(
             'name' => $name
         ));
 
@@ -198,7 +189,7 @@ class ArticleController extends Controller {
         $topCategory = $entity->getTopCategory();
                 
         //分页处理
-        $articleRepo = $em->getRepository('SmtCmsBundle:Article');
+        $articleRepo = $em->getRepository('CmsBundle:Article');
         $params = array(
             'category' => $entity,
             'isActive' => true
@@ -232,7 +223,7 @@ class ArticleController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Article')->find($id);
+        $entity = $em->getRepository('CmsBundle:Article')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Article entity.');
@@ -254,13 +245,13 @@ class ArticleController extends Controller {
      * @Route("/{id}", name="article_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("SmtCmsBundle:Article:edit.html.twig")
+     * @Template("CmsBundle:Article:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Article')->find($id);
+        $entity = $em->getRepository('CmsBundle:Article')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Article entity.');
@@ -304,7 +295,7 @@ class ArticleController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SmtCmsBundle:Article')->find($id);
+            $entity = $em->getRepository('CmsBundle:Article')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Article entity.');
@@ -338,11 +329,11 @@ class ArticleController extends Controller {
      *
      * @Route("/notice", name="article_notice")
      * @Method("GET")
-     * @Template("SmtCmsBundle:Chips:notice.html.twig")
+     * @Template("CmsBundle:Chips:notice.html.twig")
      */
     public function noticeAction() {
 
-        $em = $this->getDoctrine()->getRepository('SmtCmsBundle:Article');
+        $em = $this->getDoctrine()->getRepository('CmsBundle:Article');
         $notices = $em->getTitles(3, 6);
 
         return array(

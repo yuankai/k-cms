@@ -25,7 +25,7 @@ class ProductController extends Controller {
     public function showAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SmtCmsBundle:Product')->find($id);
+        $entity = $em->getRepository('CmsBundle:Product')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
@@ -51,7 +51,7 @@ class ProductController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Category')->findOneBy(array(
+        $entity = $em->getRepository('CmsBundle:Category')->findOneBy(array(
             'name' => $name
         ));
 
@@ -63,7 +63,7 @@ class ProductController extends Controller {
         $topCategory = $entity->getTopCategory();
 
         //分页处理
-        $productRepo = $this->getDoctrine()->getManager()->getRepository('SmtCmsBundle:Product');
+        $productRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Product');
         $params = array(
             'category' => $entity,
             'isActive' => true

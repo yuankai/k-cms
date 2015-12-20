@@ -31,7 +31,7 @@ class PageController extends Controller {
     public function indexAction() {
 
 
-        $pageRepo = $this->getDoctrine()->getManager()->getRepository('SmtCmsBundle:Page');
+        $pageRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Page');
 
         $params = array();
 
@@ -54,7 +54,7 @@ class PageController extends Controller {
      * @Route("/", name="page_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("SmtCmsBundle:Page:new.html.twig")
+     * @Template("CmsBundle:Page:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -117,7 +117,7 @@ class PageController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Page')->findOneBy(array(
+        $entity = $em->getRepository('CmsBundle:Page')->findOneBy(array(
             'name' => $name
         ));
 
@@ -148,7 +148,7 @@ class PageController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Page')->find($id);
+        $entity = $em->getRepository('CmsBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -170,13 +170,13 @@ class PageController extends Controller {
      * @Route("/{id}", name="page_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("SmtCmsBundle:Page:edit.html.twig")
+     * @Template("CmsBundle:Page:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Page')->find($id);
+        $entity = $em->getRepository('CmsBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -217,7 +217,7 @@ class PageController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SmtCmsBundle:Page')->find($id);
+            $entity = $em->getRepository('CmsBundle:Page')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Page entity.');
@@ -256,7 +256,7 @@ class PageController extends Controller {
     public function upnewAction() {
 
         //置顶新闻查询笼位剩余数量
-        $upnews = $this->getDoctrine()->getRepository('SmtCmsBundle:Page')->findOneBy(array('name' => 'cage'));
+        $upnews = $this->getDoctrine()->getRepository('CmsBundle:Page')->findOneBy(array('name' => 'cage'));
 
         return array(
             'upnews' => $upnews

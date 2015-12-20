@@ -12,7 +12,7 @@ class MenuType extends AbstractType {
         $builder
                 ->add('parent', 'entity', array(
                     'label' => 'menu.parent',
-                    'class' => 'SmtCmsBundle:Menu',
+                    'class' => 'CmsBundle:Menu',
                     'property' => 'trans.title',
                     'required' => false
                 ))

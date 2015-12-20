@@ -78,7 +78,7 @@ class ArticleRepository extends EntityRepository {
     //搜索文章标题
     public function getTitles($categoryId, $limit) {
         
-        $cateRepo = $this->getEntityManager()->getRepository('SmtCmsBundle:Category');
+        $cateRepo = $this->getEntityManager()->getRepository('CmsBundle:Category');
         
         $category = $cateRepo->find($categoryId);
         $allChildren = $category->getAllChildren();

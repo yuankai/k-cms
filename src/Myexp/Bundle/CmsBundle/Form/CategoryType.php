@@ -12,7 +12,7 @@ class CategoryType extends AbstractType {
         $builder
                 ->add('parent', 'entity', array(
                     'label' => 'category.parent',
-                    'class' => 'SmtCmsBundle:Category',
+                    'class' => 'CmsBundle:Category',
                     'property' => 'trans.title',
                     'required' => false
                 ))

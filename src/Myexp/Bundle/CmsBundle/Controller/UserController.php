@@ -34,7 +34,7 @@ class UserController extends Controller {
      */
     public function indexAction() {
 
-        $user_repo = $this->getDoctrine()->getManager()->getRepository('SmtCmsBundle:User');
+        $user_repo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:User');
 
         $user_total = $user_repo->getUserCount();
         $paginator = new Paginator($user_total);
@@ -101,7 +101,7 @@ class UserController extends Controller {
      * @Route("/password_do", name="user_password_do")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("SmtCmsBundle:User:password.html.twig")
+     * @Template("CmsBundle:User:password.html.twig")
      */
     public function passwordDoAction() {
 
@@ -141,7 +141,7 @@ class UserController extends Controller {
      * @Route("/create", name="user_create")
      * 
      * @Method("PUT")
-     * @Template("SmtCmsBundle:User:new.html.twig")
+     * @Template("CmsBundle:User:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -201,7 +201,7 @@ class UserController extends Controller {
     public function showAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SmtCmsBundle:User')->find($id);
+        $entity = $em->getRepository('CmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -226,7 +226,7 @@ class UserController extends Controller {
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SmtCmsBundle:User')->find($id);
+        $entity = $em->getRepository('CmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -248,12 +248,12 @@ class UserController extends Controller {
      * @Route("/{id}", name="user_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("SmtCmsBundle:User:edit.html.twig")
+     * @Template("CmsBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SmtCmsBundle:User')->find($id);
+        $entity = $em->getRepository('CmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -295,7 +295,7 @@ class UserController extends Controller {
         if ($form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SmtCmsBundle:User')->find($id);
+            $entity = $em->getRepository('CmsBundle:User')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');

@@ -21,7 +21,7 @@ class UserType extends AbstractType {
         ));
         $builder->add('groups', 'entity', array(
             'label' => 'user.group',
-            'class' => 'SmtCmsBundle:Group',
+            'class' => 'CmsBundle:Group',
             'property' => 'name',
             'expanded' => true,
             'multiple' => true

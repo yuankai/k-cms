@@ -32,7 +32,7 @@ class DownloadController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SmtCmsBundle:Download')->findAll();
+        $entities = $em->getRepository('CmsBundle:Download')->findAll();
 
         return array(
             'entities' => $entities,
@@ -45,7 +45,7 @@ class DownloadController extends Controller {
      * @Route("/", name="download_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("SmtCmsBundle:Download:new.html.twig")
+     * @Template("CmsBundle:Download:new.html.twig")
      */
     public function createAction(Request $request) {
         $entity = new Download();
@@ -97,7 +97,7 @@ class DownloadController extends Controller {
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Download')->find($id);
+        $entity = $em->getRepository('CmsBundle:Download')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Download entity.');
@@ -122,7 +122,7 @@ class DownloadController extends Controller {
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Download')->find($id);
+        $entity = $em->getRepository('CmsBundle:Download')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Download entity.');
@@ -144,12 +144,12 @@ class DownloadController extends Controller {
      * @Route("/{id}", name="download_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("SmtCmsBundle:Download:edit.html.twig")
+     * @Template("CmsBundle:Download:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Download')->find($id);
+        $entity = $em->getRepository('CmsBundle:Download')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Download entity.');
@@ -187,7 +187,7 @@ class DownloadController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SmtCmsBundle:Download')->find($id);
+            $entity = $em->getRepository('CmsBundle:Download')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Download entity.');
@@ -232,7 +232,7 @@ class DownloadController extends Controller {
         $delete = $this->getRequest()->get('delete', null);
 
         $em = $this->getDoctrine()->getManager();
-        $ep = $this->getDoctrine()->getRepository('SmtCmsBundle:Download');
+        $ep = $this->getDoctrine()->getRepository('CmsBundle:Download');
 
         foreach ($ids as $id) {
             $download = $ep->find($id);
@@ -264,7 +264,7 @@ class DownloadController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SmtCmsBundle:Category')->findOneBy(array(
+        $entity = $em->getRepository('CmsBundle:Category')->findOneBy(array(
             'name' => $name
         ));
 
@@ -276,7 +276,7 @@ class DownloadController extends Controller {
         $topCategory = $entity->getTopCategory();
 
         //处理该分类下的下载
-        $articleRepo = $this->getDoctrine()->getManager()->getRepository('SmtCmsBundle:Download');
+        $articleRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Download');
         $params = array(
             'category' => $entity,
             'isActive' => true
@@ -308,7 +308,7 @@ class DownloadController extends Controller {
      */
     public function downAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository('SmtCmsBundle:Download')
+        $query = $em->getRepository('CmsBundle:Download')
                 ->findOneBy(array('id' => $id));
         $filename = $query->geturl();
 

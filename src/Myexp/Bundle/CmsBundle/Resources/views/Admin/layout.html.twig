@@ -1,59 +1,97 @@
 {% extends '::base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{{ asset('bundles/cms/css/semantic.min.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            padding: 1em;
+        }
+        .ui.menu {
+            margin: 1em 0em;
+        }
+        .ui.menu:last-child {
+            margin-bottom: 110px;
+        }
+    </style>
 {% endblock %}
 {% block body %}
-<div class="ui four column doubling grid container">
-  <div class="column">
-    <div class="ui attached stackable menu">
-  <div class="ui container">
-    <a class="item">
-      <i class="home icon"></i> Home
-    </a>
-    <a class="item">
-      <i class="grid layout icon"></i> Browse
-    </a>
-    <a class="item">
-      <i class="mail icon"></i> Messages
-    </a>
-    <div class="ui simple dropdown item">
-      More
-      <i class="dropdown icon"></i>
-      <div class="menu">
-        <a class="item"><i class="edit icon"></i> Edit Profile</a>
-        <a class="item"><i class="globe icon"></i> Choose Language</a>
-        <a class="item"><i class="settings icon"></i> Account Settings</a>
-      </div>
+
+    <div class="ui teal inverted menu fluid">
+        <div class="header item">K-CMS</div>
+        <div class="active item"><i class="home icon"></i>管理首页</div>
+        <a class="item" href="/"><i class="browser icon"></i>网站首页</a>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui transparent inverted icon input">
+                    <i class="search icon"></i>
+                    <input type="text" placeholder="Search">
+                </div>
+            </div>
+            <div class="ui dropdown item">
+                <i class="dropdown icon"></i>
+                <div class="menu transition hidden" tabindex="-1">
+                    <div class="item">Action</div>
+                    <div class="item">Another Action</div>
+                    <div class="item">Something else here</div>
+                    <div class="divider"></div>
+                    <div class="item">Separated Link</div>
+                    <div class="divider"></div>
+                    <div class="item">One more separated link</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="right item">
-      <div class="ui input"><input type="text" placeholder="Search..."></div>
+
+    <div class="container">
+        <div class="ui grid">
+            <div class="three wide column">
+                <div class="ui vertical pointing menu fluid">
+                    <a class="active teal item" href="./add.html">
+                        <i class="dashboard icon"></i> 控制面板
+                    </a>
+                    <a class="item" href="devices_list.html">
+                        <i class="archive icon"></i> 文章管理
+                    </a>
+                    <a class="item" href="devices_list.html">
+                        <i class="file icon"></i> 页面管理
+                    </a>
+                    <a class="item" href="devices_list.html">
+                        <i class="database icon"></i> 产品管理
+                    </a>
+                    <a class="item" href="devices_list.html">
+                        <i class="photo icon"></i> 相册管理
+                    </a>
+                    <a class="item" href="actions.html">
+                        <i class="settings icon"></i> 设置
+                    </a>
+                </div>
+            </div>
+            <div class="thirteen wide column">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-  </div>
-  <div class="column">
-    <p></p>
-    <p></p>
-  </div>
-  <div class="column">
-    <p></p>
-    <p></p>
-  </div>
-  <div class="column">
-    <p></p>
-    <p></p>
-  </div>
-</div>
+
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/cms/js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/cms/js/semantic.min.js') }}"></script>
     <script type="text/javascript">
         var base_url = '{{ app.request.getBaseURL() }}';
         $(document).ready(function () {
             $('.flash_notice').slideUp(2000);
+
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+            $('.ui.menu a.item')
+                    .on('click', function () {
+                        $(this)
+                                .addClass('active')
+                                .siblings()
+                                .removeClass('active');
+                    });
         });
     </script>
 {% endblock %}
