@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="categories")
+ * @ORM\Table()
  * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\CategoryRepository")
  */
 class Category {
@@ -23,6 +23,12 @@ class Category {
      * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $title;
 
     /**
      * @var int
@@ -59,11 +65,6 @@ class Category {
     private $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="CategoryTranslation", mappedBy="category", indexBy="lang", cascade={"persist", "remove"})
-     */
-    private $translations;
-
-    /**
      * @ORM\OneToMany(targetEntity="Article", mappedBy="category", cascade={"remove"})
      */
     private $articles;
@@ -74,10 +75,19 @@ class Category {
     private $downloads;
 
     /**
-     * @ORM\OneToMany(targetEntity="Page", mappedBy="category", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"remove"})
      */
-    private $pages;
+    private $products;
 
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -106,6 +116,27 @@ class Category {
      */
     public function getName() {
         return $this->name;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Page
+     */
+    public function setTitle($title) {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle() {
+        return $this->title;
     }
 
     /**
@@ -192,13 +223,6 @@ class Category {
         return $this->parent;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add categoryChild
@@ -229,57 +253,6 @@ class Category {
      */
     public function getChildren() {
         return $this->children;
-    }
-
-    /**
-     * Add categoryTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\CategoryTranslation $categoryTranslation
-     * @return category
-     */
-    public function addTranslation(\Myexp\Bundle\CmsBundle\Entity\CategoryTranslation $categoryTranslation) {
-        $categoryTranslation->setCategory($this);
-        $this->translations[$categoryTranslation->getLang()] = $categoryTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Remove categoryTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\CategoryTranslation $categoryTranslation
-     */
-    public function removeTranslation(\Myexp\Bundle\CmsBundle\Entity\CategoryTranslation $categoryTranslation) {
-        $this->translations->removeElement($categoryTranslation);
-    }
-
-    /**
-     * Get pageTranslations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTranslations() {
-        return $this->translations;
-    }
-
-    /**
-     * Get current locale translation
-     * 
-     * @param string $locale Locale
-     * @return \Doctrine\Common\Collections\Collection $pageTranslation
-     */
-    public function getTrans($locale = NULL) {
-
-        if ($locale === NULL) {
-            global $kernel;
-            $locale = $kernel->getContainer()->get('request')->getLocale();
-        }
-
-        if (!isset($this->translations[$locale])) {
-            return false;
-        }
-
-        return $this->translations[$locale];
     }
 
     /**
@@ -343,33 +316,33 @@ class Category {
     }
 
     /**
-     * Add page
+     * Add product
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Page $page
+     * @param \Myexp\Bundle\CmsBundle\Entity\Product $product
      * @return Category
      */
-    public function addPage(\Myexp\Bundle\CmsBundle\Entity\Page $page) {
-        $this->pages[] = $page;
+    public function addPage(\Myexp\Bundle\CmsBundle\Entity\Product $product) {
+        $this->products[] = $product;
 
         return $this;
     }
 
     /**
-     * Remove page
+     * Remove product
      *
      * @param \Myexp\Bundle\CmsBundle\Entity\Page $page
      */
-    public function removePage(\Myexp\Bundle\CmsBundle\Entity\Page $page) {
-        $this->pages->removeElement($page);
+    public function removePage(\Myexp\Bundle\CmsBundle\Entity\Product $product) {
+        $this->products->removeElement($product);
     }
 
     /**
-     * Get pages
+     * Get products
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPages() {
-        return $this->pages;
+    public function getProducts() {
+        return $this->products;
     }
 
     /**
@@ -387,22 +360,22 @@ class Category {
 
         return $this;
     }
-    
+
     /**
      * Get all children
      * 
      * @return array all children
      */
-    public function getAllChildren(){
+    public function getAllChildren() {
         $children = array($this);
-        
+
         $currChildren = $this->getChildren();
-        if($currChildren){
-            foreach($currChildren as $child){
+        if ($currChildren) {
+            foreach ($currChildren as $child) {
                 $children = array_merge($children, $child->getAllChildren());
             }
         }
-        
+
         return $children;
     }
 

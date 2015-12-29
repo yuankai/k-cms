@@ -25,17 +25,17 @@ class Album {
     private $name;
 
     /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $title;
+
+    /**
      * @var int
      * 
      * @ORM\Column(name="sort_order", type="integer", nullable=true)
      */
     private $sortOrder;
-    
-    
-    /**
-     * @ORM\OneToMany(targetEntity="AlbumTranslation", mappedBy="album", indexBy="lang", cascade={"persist", "remove"})
-     */
-    private $translations;
 
     /**
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="album", cascade={"remove"})
@@ -73,6 +73,27 @@ class Album {
     }
 
     /**
+     * Set title
+     *
+     * @param string $title
+     * @return Page
+     */
+    public function setTitle($title) {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle() {
+        return $this->title;
+    }
+
+    /**
      * Set sortOrder
      *
      * @param int $sortOrder
@@ -93,63 +114,11 @@ class Album {
         return $this->sortOrder;
     }
 
-
     /**
      * Constructor
      */
     public function __construct() {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add albumTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\AlbumTranslation $albumTranslation
-     * @return album
-     */
-    public function addTranslation(\Myexp\Bundle\CmsBundle\Entity\AlbumTranslation $albumTranslation) {
-        $albumTranslation->setAlbum($this);
-        $this->translations[$albumTranslation->getLang()] = $albumTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Remove albumTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\AlbumTranslation $albumTranslation
-     */
-    public function removeTranslation(\Myexp\Bundle\CmsBundle\Entity\AlbumTranslation $albumTranslation) {
-        $this->translations->removeElement($albumTranslation);
-    }
-
-    /**
-     * Get pageTranslations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTranslations() {
-        return $this->translations;
-    }
-
-    /**
-     * Get current locale translation
-     * 
-     * @param string $locale Locale
-     * @return \Doctrine\Common\Collections\Collection $pageTranslation
-     */
-    public function getTrans($locale = NULL) {
-
-        if ($locale === NULL) {
-            global $kernel;
-            $locale = $kernel->getContainer()->get('request')->getLocale();
-        }
-
-        if (!isset($this->translations[$locale])) {
-            return false;
-        }
-
-        return $this->translations[$locale];
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

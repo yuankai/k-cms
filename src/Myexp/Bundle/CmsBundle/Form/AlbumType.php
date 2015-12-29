@@ -14,11 +14,9 @@ class AlbumType extends AbstractType {
                     'label' => 'album.name',
                     'attr' => array('size' => 80)
                 ))
-                ->add('translations', 'collection', array(
-                    'label' => 'album.title',
-                    'type' => new AlbumTransType(),
-                    'allow_add' => true,
-                    'by_reference' => false
+                ->add('title', 'text', array(
+                    'label' => false,
+                    'attr' => array('size' => 80)
                 ))
                 ->add('sortOrder', 'integer', array(
                     'label' => 'album.order',
@@ -35,7 +33,7 @@ class AlbumType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_albumtype';
+        return 'myexp_bundle_cmsbundle_album';
     }
 
 }

@@ -10,6 +10,13 @@ class PageType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('title', 'text', array(
+                    'label' => 'page.title'
+                ))
+                ->add('content', 'textarea', array(
+                    'label' => 'page.content',
+                    'required' => false
+                ))
                 ->add('name', 'text', array('label' => 'page.name'))
                 ->add('filePhoto', 'file', array('label' => 'page.path', 'required' => false))
                 ->add('translations', 'collection', array(
@@ -39,7 +46,7 @@ class PageType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_page_type';
+        return 'myexp_bundle_cmsbundle_page';
     }
 
 }

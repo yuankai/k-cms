@@ -6,26 +6,35 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PhotoTransType extends AbstractType {
+class NodeType extends AbstractType {
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('content', 'textarea', array(
-                    'label' => false,
-                    'required' => false
-                ))
-                ->add('lang', 'hidden')
+                ->add('websiteId')
+                ->add('sequenceId')
+                ->add('title')
+                ->add('isActive')
         ;
     }
 
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Myexp\Bundle\CmsBundle\Entity\PhotoTranslation'
+            'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Node'
         ));
     }
 
+    /**
+     * @return string
+     */
     public function getName() {
-        return 'smt_cmsbundle_photo_translation_type';
+        return 'myexp_bundle_cmsbundle_node';
     }
 
 }

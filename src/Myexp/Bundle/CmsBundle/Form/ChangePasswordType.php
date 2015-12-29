@@ -30,7 +30,7 @@ class ChangePasswordType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_change_password_type';
+        return 'myexp_bundle_cmsbundle_change_password';
     }
 
 }

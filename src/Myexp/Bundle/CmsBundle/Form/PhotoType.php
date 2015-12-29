@@ -10,6 +10,10 @@ class PhotoType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('content', 'textarea', array(
+                    'label' => false,
+                    'required' => false
+                ))
                 ->add('album', 'entity', array(
                     'label' => 'photo.album',
                     'class' => 'CmsBundle:Album',
@@ -40,7 +44,7 @@ class PhotoType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_photo_type';
+        return 'myexp_bundle_cmsbundle_photo';
     }
 
 }

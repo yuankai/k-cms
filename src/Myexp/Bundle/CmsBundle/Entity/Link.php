@@ -22,6 +22,12 @@ class Link {
     private $id;
 
     /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $title;
+
+    /**
      * @ORM\Column(name="path", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
@@ -40,7 +46,7 @@ class Link {
      * @ORM\Column(name="picurl", type="string", length=255, nullable=true)
      */
     private $picurl;
-    
+
     /**
      * @var boolean
      *
@@ -79,7 +85,7 @@ class Link {
 
         return $this;
     }
-    
+
     /**
      * Get picurl
      *
@@ -88,8 +94,8 @@ class Link {
     public function getPicUrl() {
         return $this->picurl;
     }
-    
-     /**
+
+    /**
      * Get isActive
      *
      * @return boolean 
@@ -97,8 +103,8 @@ class Link {
     public function getIsActive() {
         return $this->isActive;
     }
-    
-        /**
+
+    /**
      * Set isActive
      *
      * @param boolean $isActive
@@ -124,6 +130,27 @@ class Link {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Page
+     */
+    public function setTitle($title) {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle() {
+        return $this->title;
     }
 
     /**
@@ -166,57 +193,6 @@ class Link {
      */
     public function getSortOrder() {
         return $this->sortOrder;
-    }
-
-    /**
-     * Add translations
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\LinkTranslation $linkTranslation
-     * @return Link
-     */
-    public function addTranslation(\Myexp\Bundle\CmsBundle\Entity\LinkTranslation $linkTranslation) {
-        $linkTranslation->setLink($this);
-        $this->translations[$linkTranslation->getLang()] = $linkTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Remove translation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\LinkTranslation $linkTranslation
-     */
-    public function removeTranslation(\Myexp\Bundle\CmsBundle\Entity\LinkTranslation $linkTranslation) {
-        $this->translations->removeElement($linkTranslation);
-    }
-
-    /**
-     * Get translations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTranslations() {
-        return $this->translations;
-    }
-
-    /**
-     * Get current locale translation
-     * 
-     * @param string $locale Locale
-     * @return \Myexp\Bundle\CmsBundle\Entity\MenuTranslation $menuTranslation
-     */
-    public function getTrans($locale = NULL) {
-
-        if ($locale === NULL) {
-            global $kernel;
-            $locale = $kernel->getContainer()->get('request')->getLocale();
-        }
-
-        if (!isset($this->translations[$locale])) {
-            return false;
-        }
-
-        return $this->translations[$locale];
     }
 
     /**

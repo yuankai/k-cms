@@ -19,6 +19,12 @@ class Menu {
     private $id;
 
     /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $title;
+
+    /**
      * @ORM\Column(name="path", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
@@ -37,8 +43,8 @@ class Menu {
      * @ORM\Column(name="is_nav", type="boolean", nullable=true)
      */
     private $isNav;
-    
-        /**
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="is_Index", type="boolean", nullable=true)
@@ -72,6 +78,27 @@ class Menu {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Page
+     */
+    public function setTitle($title) {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle() {
+        return $this->title;
     }
 
     /**
@@ -136,8 +163,8 @@ class Menu {
     public function getIsNav() {
         return $this->isNav;
     }
-    
-        /**
+
+    /**
      * Get isIndex
      *
      * @return boolean 
@@ -145,8 +172,8 @@ class Menu {
     public function getIsIndex() {
         return $this->isIndex;
     }
-    
-      /**
+
+    /**
      * Set isIndex
      *
      * @param boolean $isIndex
@@ -226,7 +253,7 @@ class Menu {
         if (!isset($this->translations[$locale])) {
             return false;
         }
-        
+
 
         return $this->translations[$locale];
     }

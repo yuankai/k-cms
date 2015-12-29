@@ -10,17 +10,14 @@ class MenuType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('title', 'text', array(
+                    'label' => false
+                ))
                 ->add('parent', 'entity', array(
                     'label' => 'menu.parent',
                     'class' => 'CmsBundle:Menu',
                     'property' => 'trans.title',
                     'required' => false
-                ))
-                ->add('translations', 'collection', array(
-                    'label' => 'menu.title',
-                    'type' => new MenuTransType(),
-                    'allow_add' => true,
-                    'by_reference' => false
                 ))
                 ->add('path', 'text', array(
                     'label' => 'menu.path',
@@ -48,7 +45,7 @@ class MenuType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_menutype';
+        return 'myexp_bundle_cmsbundle_menu';
     }
 
 }

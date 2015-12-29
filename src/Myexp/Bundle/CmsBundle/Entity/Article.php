@@ -22,6 +22,17 @@ class Article {
     private $id;
 
     /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(name="content", type="text", nullable=true)
+     */
+    private $content;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -33,6 +44,7 @@ class Article {
      * @ORM\Column(name="author", type="string", length=255, nullable=true)
      */
     private $author;
+
     /**
      * @var string
      *
@@ -78,11 +90,6 @@ class Article {
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="ArticleTranslation", mappedBy="article", indexBy="lang", cascade={"persist", "remove"})
-     */
-    private $translations;
-
-    /**
      * @Assert\Image(
      *     minWidth = 40,
      *     maxWidth = 4000,
@@ -107,6 +114,48 @@ class Article {
     }
 
     /**
+     * Set title
+     *
+     * @param string $title
+     * @return Page
+     */
+    public function setTitle($title) {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle() {
+        return $this->title;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Page
+     */
+    public function setContent($content) {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent() {
+        return $this->content;
+    }
+
+    /**
      * Set author
      *
      * @param string $author
@@ -126,7 +175,7 @@ class Article {
     public function getAuthor() {
         return $this->author;
     }
-    
+
     /**
      * Get from
      *
@@ -135,7 +184,7 @@ class Article {
     public function getSource() {
         return $this->source;
     }
-    
+
     /**
      * Set from
      *
@@ -238,58 +287,6 @@ class Article {
     public function __construct() {
         $this->setCreateTime(new \DateTime());
         $this->setUpdateTime($this->getCreateTime());
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add newsTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\ArticleTranslation $articleTranslation
-     * @return Article
-     */
-    public function addTranslation(\Myexp\Bundle\CmsBundle\Entity\ArticleTranslation $articleTranslation) {
-        $articleTranslation->setArticle($this);
-        $this->translations[$articleTranslation->getLang()] = $articleTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Remove newsTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\ArticleTranslation $articleTranslation
-     */
-    public function removeTranslation(\Myexp\Bundle\CmsBundle\Entity\ArticleTranslation $articleTranslation) {
-        $this->translations->removeElement($articleTranslation);
-    }
-
-    /**
-     * Get newsTranslations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTranslations() {
-        return $this->translations;
-    }
-
-    /**
-     * Get current locale translation
-     * 
-     * @param string $locale Locale
-     * @return \Doctrine\Common\Collections\Collection $newsTranslation
-     */
-    public function getTrans($locale = NULL) {
-
-        if ($locale === NULL) {
-            global $kernel;
-            $locale = $kernel->getContainer()->get('request')->getLocale();
-        }
-
-        if (!isset($this->translations[$locale])) {
-            return false;
-        }
-
-        return $this->translations[$locale];
     }
 
     /**

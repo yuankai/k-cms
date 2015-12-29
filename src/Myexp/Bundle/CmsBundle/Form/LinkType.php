@@ -10,11 +10,8 @@ class LinkType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('translations', 'collection', array(
-                    'label' => 'link.title',
-                    'type' => new LinkTransType(),
-                    'allow_add' => true,
-                    'by_reference' => false
+                ->add('title', 'text', array(
+                    'label' => false
                 ))
                 ->add('path', 'text', array(
                     'label' => 'link.path',
@@ -43,7 +40,7 @@ class LinkType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_linktype';
+        return 'myexp_bundle_cmsbundle_link';
     }
 
 }

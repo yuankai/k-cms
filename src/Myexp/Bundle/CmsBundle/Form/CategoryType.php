@@ -10,6 +10,10 @@ class CategoryType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('title', 'text', array(
+                    'label' => false,
+                    'attr' => array('size' => 80)
+                ))
                 ->add('parent', 'entity', array(
                     'label' => 'category.parent',
                     'class' => 'CmsBundle:Category',
@@ -20,18 +24,12 @@ class CategoryType extends AbstractType {
                     'label' => 'category.name',
                     'attr' => array('size' => 80)
                 ))
-                ->add('translations', 'collection', array(
-                    'label' => 'category.title',
-                    'type' => new CategoryTransType(),
-                    'allow_add' => true,
-                    'by_reference' => false
-                ))
                 ->add('sortOrder', 'integer', array(
                     'label' => 'category.order',
                     'required' => false,
                     'attr' => array('class' => 'number')
                 ))
-                 ->add('isActive', 'checkbox', array(
+                ->add('isActive', 'checkbox', array(
                     'label' => 'category.is_active',
                     'required' => false
                 ))
@@ -45,7 +43,7 @@ class CategoryType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_categorytype';
+        return 'myexp_bundle_cmsbundle_category';
     }
 
 }

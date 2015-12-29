@@ -10,11 +10,13 @@ class ArticleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('translations', 'collection', array(
-                    'label' => false,
-                    'type' => new ArticleTransType(),
-                    'allow_add' => true,
-                    'by_reference' => false
+                ->add('title', 'text', array(
+                    'label' => 'article.title',
+                    'attr' => array('size' => 80)
+                ))
+                ->add('content', 'textarea', array(
+                    'label' => 'article.content',
+                    'required' => false
                 ))
                 ->add('category', 'entity', array(
                     'label' => 'article.category',
@@ -50,7 +52,7 @@ class ArticleType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_article_type';
+        return 'myexp_bundle_cmsbundle_article';
     }
 
 }

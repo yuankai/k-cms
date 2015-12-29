@@ -50,7 +50,7 @@ class DownloadType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'smt_cmsbundle_download';
+        return 'myexp_bundle_cmsbundle_download';
     }
 
 }

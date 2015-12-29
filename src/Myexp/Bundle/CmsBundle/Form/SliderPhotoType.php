@@ -42,7 +42,7 @@ class SliderPhotoType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_sliderphototype';
+        return 'myexp_bundle_cmsbundle_sliderphoto';
     }
 
 }

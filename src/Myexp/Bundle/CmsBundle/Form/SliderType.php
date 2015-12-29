@@ -46,7 +46,7 @@ class SliderType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_slidertype';
+        return 'myexp_bundle_cmsbundle_slider';
     }
 
 }

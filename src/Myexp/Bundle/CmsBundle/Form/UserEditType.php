@@ -34,7 +34,7 @@ class UserEditType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_user_edit_type';
+        return 'myexp_bundle_cmsbundle_user_edit';
     }
 
 }

@@ -36,7 +36,7 @@ class UserType extends AbstractType {
     }
 
     public function getName() {
-        return 'smt_cmsbundle_user_type';
+        return 'myexp_bundle_cmsbundle_user';
     }
 
 }
