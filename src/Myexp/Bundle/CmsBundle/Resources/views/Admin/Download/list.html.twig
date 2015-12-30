@@ -1,0 +1,13 @@
+{% extends 'SmtCmsBundle::main.html.twig' %}
+{% block title %}{{ 'download.list'|trans }}{% endblock %}
+{% block content %}
+    {% for entity in entities %}      
+        <div class="list_right_list2">
+            <ul>
+                <li><a href="{{path('download_down',{'id':entity.id})}}" title="{{ entity.title }}">{{ entity.title|slice(0, 50) }} </a> <em>[{{entity.publishTime|date('Y-m-d')}}]</em></li>        
+            </ul>
+        </div>
+    {% endfor %}
+    <div class="clear"></div>
+    {% include 'SmtCmsBundle:Chips:paginator.html.twig' %}
+{% endblock %}

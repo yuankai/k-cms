@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Category;
 use Myexp\Bundle\CmsBundle\Entity\CategoryTranslation;
 use Myexp\Bundle\CmsBundle\Form\CategoryType;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Category controller.
@@ -23,7 +22,6 @@ class CategoryController extends Controller {
      * Lists all Category entities.
      *
      * @Route("/", name="category")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -66,7 +64,6 @@ class CategoryController extends Controller {
      * Creates a new Category entity.
      *
      * @Route("/", name="category_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Category:new.html.twig")
      */
@@ -97,7 +94,6 @@ class CategoryController extends Controller {
      * Displays a form to create a new Category entity.
      *
      * @Route("/new", name="category_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -126,7 +122,6 @@ class CategoryController extends Controller {
      * Finds and displays a Category entity.
      *
      * @Route("/{id}", name="category_show")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -152,7 +147,6 @@ class CategoryController extends Controller {
      * Displays a form to edit an existing Category entity.
      *
      * @Route("/{id}/edit", name="category_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -180,7 +174,6 @@ class CategoryController extends Controller {
      * Edits an existing Category entity.
      *
      * @Route("/{id}", name="category_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Category:edit.html.twig")
      */
@@ -218,7 +211,6 @@ class CategoryController extends Controller {
      * Deletes a Category entity.
      *
      * @Route("/{id}", name="category_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

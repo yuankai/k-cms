@@ -8,10 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Article;
-use Myexp\Bundle\CmsBundle\Entity\ArticleTranslation;
 use Myexp\Bundle\CmsBundle\Form\ArticleType;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Article controller.
@@ -24,7 +22,6 @@ class ArticleController extends Controller {
      * Lists all Article entities.
      *
      * @Route("/", name="article")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -52,7 +49,6 @@ class ArticleController extends Controller {
      * Change article status , active or delete.
      *
      * @Route("/status", name="article_status")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      */
     public function statusAction() {
@@ -90,7 +86,6 @@ class ArticleController extends Controller {
      * Creates a new Article entity.
      *
      * @Route("/", name="article_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Article:new.html.twig")
      */
@@ -121,7 +116,6 @@ class ArticleController extends Controller {
      * Displays a form to create a new Article entity.
      *
      * @Route("/new", name="article_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST|GET")
      * @Template()
      */
@@ -215,7 +209,6 @@ class ArticleController extends Controller {
      * Displays a form to edit an existing Article entity.
      *
      * @Route("/{id}/edit", name="article_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -243,7 +236,6 @@ class ArticleController extends Controller {
      * Edits an existing Article entity.
      *
      * @Route("/{id}", name="article_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Article:edit.html.twig")
      */
@@ -285,7 +277,6 @@ class ArticleController extends Controller {
      * Deletes a Article entity.
      *
      * @Route("/{id}", name="article_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

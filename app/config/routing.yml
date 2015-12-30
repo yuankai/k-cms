@@ -1,3 +1,3 @@
-app:
-    resource: "@CmsBundle/Controller/"
-    type:     annotation
+cms_bundle:
+    resource: "@CmsBundle/Resources/config/routing.yml"
+    prefix:   /

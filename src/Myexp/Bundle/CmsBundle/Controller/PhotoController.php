@@ -24,7 +24,6 @@ class PhotoController extends Controller {
      * Lists all Photo entities.
      *
      * @Route("/", name="photo")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -54,7 +53,6 @@ class PhotoController extends Controller {
      * Change photo status , active or delete.
      *
      * @Route("/status", name="photo_status")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      */
     public function statusAction() {
@@ -90,7 +88,6 @@ class PhotoController extends Controller {
      * Creates a new Photo entity.
      *
      * @Route("/", name="photo_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Photo:new.html.twig")
      */
@@ -121,7 +118,6 @@ class PhotoController extends Controller {
      * Displays a form to create a new Photo entity.
      *
      * @Route("/new", name="photo_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|POST")
      * @Template()
      */
@@ -151,7 +147,6 @@ class PhotoController extends Controller {
      * Finds and displays a Photo entity.
      *
      * @Route("/view-{id}.html", name="photo_show", requirements={"id"="\d+"})
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -245,7 +240,6 @@ class PhotoController extends Controller {
      * Edits an existing Photo entity.
      *
      * @Route("/{id}", name="photo_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Photo:edit.html.twig")
      */
@@ -287,7 +281,6 @@ class PhotoController extends Controller {
      * Deletes a Photo entity.
      *
      * @Route("/{id}", name="photo_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

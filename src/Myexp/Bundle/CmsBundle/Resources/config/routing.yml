@@ -1,5 +1,5 @@
-default:
-    resource: "@SmtCmsBundle/Controller/DefaultController.php"
+homepage:
+    resource: "@CmsBundle/Controller/DefaultController.php"
     type: annotation
 
 user_check:
@@ -9,53 +9,53 @@ user_logout:
     path: /user/logout
     
 user:
-    resource: "@SmtCmsBundle/Controller/UserController.php"
+    resource: "@CmsBundle/Controller/UserController.php"
     type: annotation
     
+#category:
+#    resource: "@CmsBundle/Controller/CategoryController.php"
+#    type: annotation
+    
+#page:
+#    resource: "@CmsBundle/Controller/PageController.php"
+#    type: annotation
+    
+#album:
+#    resource: "@CmsBundle/Controller/AlbumController.php"
+#    type: annotation
+     
+#link:
+#    resource: "@CmsBundle/Controller/LinkController.php"
+#    type: annotation
+    
+#menu:
+#    resource: "@CmsBundle/Controller/MenuController.php"
+#    type: annotation
+    
+#photo:
+#    resource: "@CmsBundle/Controller/PhotoController.php"
+#    type: annotation
+
+#search:
+#    resource: "@CmsBundle/Controller/SearchController.php"
+#    type: annotation
+    
+#download:
+#    resource: "@CmsBundle/Controller/DownloadController.php"
+#    type: annotation
+    
+#slider:
+#    resource: "@CmsBundle/Controller/SliderController.php"
+#    type: annotation
+
+#product:
+#    resource: "@CmsBundle/Controller/ProductController.php"
+#    type: annotation
+
 admin:
-    resource: "@SmtCmsBundle/Controller/AdminController.php"
-    type: annotation
-    
-category:
-    resource: "@SmtCmsBundle/Controller/CategoryController.php"
-    type: annotation
-    
-page:
-    resource: "@SmtCmsBundle/Controller/PageController.php"
-    type: annotation
-    
-album:
-    resource: "@SmtCmsBundle/Controller/AlbumController.php"
-    type: annotation
-    
-article:
-    resource: "@SmtCmsBundle/Controller/ArticleController.php"
-    type: annotation
-    
-link:
-    resource: "@SmtCmsBundle/Controller/LinkController.php"
-    type: annotation
-    
-menu:
-    resource: "@SmtCmsBundle/Controller/MenuController.php"
-    type: annotation
-    
-photo:
-    resource: "@SmtCmsBundle/Controller/PhotoController.php"
+    resource: "@CmsBundle/Controller/Admin/DefaultController.php"
     type: annotation
 
-search:
-    resource: "@SmtCmsBundle/Controller/SearchController.php"
-    type: annotation
-    
-download:
-    resource: "@SmtCmsBundle/Controller/DownloadController.php"
-    type: annotation
-    
-slider:
-    resource: "@SmtCmsBundle/Controller/SliderController.php"
-    type: annotation
-
-product:
-    resource: "@SmtCmsBundle/Controller/ProductController.php"
+admin_article:
+    resource: "@CmsBundle/Controller/Admin/ArticleController.php"
     type: annotation

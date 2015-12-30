@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Album;
 use Myexp\Bundle\CmsBundle\Entity\AlbumTranslation;
 use Myexp\Bundle\CmsBundle\Form\AlbumType;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Album controller.
@@ -23,7 +22,6 @@ class AlbumController extends Controller {
      * Lists all Album entities.
      *
      * @Route("/", name="album")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -41,7 +39,6 @@ class AlbumController extends Controller {
      * Creates a new Album entity.
      *
      * @Route("/", name="album_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Album:new.html.twig")
      */
@@ -72,7 +69,6 @@ class AlbumController extends Controller {
      * Displays a form to create a new Album entity.
      *
      * @Route("/new", name="album_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -125,7 +121,6 @@ class AlbumController extends Controller {
      * Displays a form to edit an existing Album entity.
      *
      * @Route("/{id}/edit", name="album_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -153,7 +148,6 @@ class AlbumController extends Controller {
      * Edits an existing Album entity.
      *
      * @Route("/{id}", name="album_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Album:edit.html.twig")
      */
@@ -191,7 +185,6 @@ class AlbumController extends Controller {
      * Deletes a Album entity.
      *
      * @Route("/{id}", name="album_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

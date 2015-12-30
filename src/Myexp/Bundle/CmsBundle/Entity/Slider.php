@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="sliders")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\SliderRepository")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\SliderRepository")
  */
 class Slider {
 

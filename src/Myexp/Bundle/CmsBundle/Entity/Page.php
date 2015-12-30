@@ -9,7 +9,7 @@ use Myexp\Bundle\CmsBundle\Helper\Upload;
 
 /**
  * @ORM\Table(name="pages")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\PageRepository")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\PageRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Page {
@@ -63,11 +63,6 @@ class Page {
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $user;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PageTranslation", mappedBy="page", indexBy="lang", cascade={"persist", "remove"})
-     */
-    private $translations;
 
     /**
      * @Assert\Image(
@@ -181,58 +176,6 @@ class Page {
      * Constructor
      */
     public function __construct() {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add pageTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\PageTranslation $pageTranslation
-     * @return Page
-     */
-    public function addTranslation(\Myexp\Bundle\CmsBundle\Entity\PageTranslation $pageTranslation) {
-        $pageTranslation->setPage($this);
-        $this->translations[$pageTranslation->getLang()] = $pageTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Remove pageTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\PageTranslation $pageTranslation
-     */
-    public function removeTranslation(\Myexp\Bundle\CmsBundle\Entity\PageTranslation $pageTranslation) {
-        $this->translations->removeElement($pageTranslation);
-    }
-
-    /**
-     * Get pageTranslations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTranslations() {
-        return $this->translations;
-    }
-
-    /**
-     * Get current locale translation
-     * 
-     * @param string $locale Locale
-     * @return \Doctrine\Common\Collections\Collection $pageTranslation
-     */
-    public function getTrans($locale = NULL) {
-
-        if ($locale === NULL) {
-            global $kernel;
-            $locale = $kernel->getContainer()->get('request')->getLocale();
-        }
-
-        if (!isset($this->translations[$locale])) {
-            return false;
-        }
-
-        return $this->translations[$locale];
     }
 
     /**

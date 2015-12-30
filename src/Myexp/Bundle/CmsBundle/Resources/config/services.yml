@@ -2,35 +2,38 @@ parameters:
    languages:
         zh: 中文
 
-services:    
-    smt.twig.extension:
-        class: Smt\CmsBundle\Twig\SmtCmsExtension
+services:
+    
+    slugger:
+        class: Myexp\Bundle\CmsBundle\Utils\Slugger
+
+    markdown:
+        class: Myexp\Bundle\CmsBundle\Utils\Markdown
+        
+    cms.twig.app_extension:
+        public:    false
+        class:     Myexp\Bundle\CmsBundle\Twig\AppExtension
+        arguments: ['@markdown', %app_locales%]
         tags:
             - { name: twig.extension }
-    twig.extension.text:
-        class: Twig_Extensions_Extension_Text
+        
+    cms.twig.extension:
+        class: Myexp\Bundle\CmsBundle\Twig\CmsExtension
         tags:
-            - { name: twig.extension }        
+            - { name: twig.extension }   
     cms.listener.login_listener:
-        class: 'Smt\CmsBundle\Listener\LoginListener'
+        class: 'Myexp\Bundle\CmsBundle\EventListener\LoginListener'
         arguments: ['@security.context', '@doctrine']
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
     cms.listener.locale_listener:
-        class: 'Smt\CmsBundle\Listener\LocaleListener'
-        arguments:
-            - "%locale%"
+        class: 'Myexp\Bundle\CmsBundle\EventListener\LocaleListener'
+        arguments: ['@router', %app_locales%, %locale%]
         tags:
-            - { name: kernel.event_subscriber, event: kernel.request }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
     cms.form.entity_id_type:
-        class: 'Smt\CmsBundle\Form\Type\EntityIdType'
+        class: 'Myexp\Bundle\CmsBundle\Form\Type\EntityIdType'
         arguments: ['@doctrine']
         tags:
             - { name: form.type, alias: entity_id }
-    cms.form.lang_type:
-        class: 'Smt\CmsBundle\Form\LangType'
-        arguments:
-            - "%languages%"
-        tags:
-            - { name: form.type, alias: lang }
             

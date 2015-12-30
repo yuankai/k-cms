@@ -9,7 +9,7 @@ use Myexp\Bundle\CmsBundle\Helper\Upload;
 
 /**
  * @ORM\Table(name="articles")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\ArticleRepository")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\ArticleRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Article {

@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * User
  *
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\UserRepository")
  * @UniqueEntity("username")
  * @UniqueEntity("email")
  */
@@ -90,9 +90,9 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
     private $isActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      */
-    private $groups;
+    private $roles;
 
     /**
      * Construct
@@ -101,7 +101,7 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
         $this->createTime = new \DateTime();
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -285,7 +285,7 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
      * @inheritDoc
      */
     public function getRoles() {
-        return $this->groups->toArray();
+        return $this->roles->toArray();
     }
 
     /**
@@ -328,33 +328,23 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
     }
 
     /**
-     * Add groups
+     * Add role
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Group $group
+     * @param \Myexp\Bundle\CmsBundle\Entity\Role $role
      * @return User
      */
-    public function addGroup(\Myexp\Bundle\CmsBundle\Entity\Group $group) {
-        $this->groups[] = $group;
+    public function addRole(\Myexp\Bundle\CmsBundle\Entity\Role $role) {
+        $this->roles[] = $role;
 
         return $this;
     }
 
     /**
-     * Remove groups
+     * Remove role
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Group $group
+     * @param \Myexp\Bundle\CmsBundle\Entity\Role $role
      */
-    public function removeGroup(\Myexp\Bundle\CmsBundle\Entity\Group $group) {
-        $this->groups->removeElement($group);
+    public function removeRole(\Myexp\Bundle\CmsBundle\Entity\Role $role) {
+        $this->roles->removeElement($role);
     }
-
-    /**
-     * Get groups
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getGroups() {
-        return $this->groups;
-    }
-
 }

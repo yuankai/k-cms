@@ -1,0 +1,8 @@
+<div class="list_left_gg">
+    <h1><span>{{ 'common.notice'|trans }}</span><a href="{{path('article_list',{'name':'news-notice'})}}">{{ 'common.more'|trans }}</a></h1>
+    <div class="list_left_gg_c">
+        {% for notice in notices %}
+            <div class="list_left_gg_l"><a href="{{ path('article_show', { 'id': notice.id }) }}" target="blank">{{notice.trans.title}}---[{{notice.publishTime|date('Y-m-d')}}]</a></div>
+        {% endfor %}
+    </div>
+</div>

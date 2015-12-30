@@ -1,0 +1,38 @@
+{% extends 'SmtCmsBundle:Admin:layout.html.twig' %}
+{% block title %}{{ 'article.edit'|trans }}{% endblock %}
+{% block breadcrumd %}
+        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('article')}}">{{ 'article.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'article.edit'|trans }}</a></span>
+{% endblock %}
+{% block content %}
+<form action="{{ path('article_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+        <input type="hidden" name="_method" value="PUT" />
+        {% form_theme edit_form 'SmtCmsBundle:Form:tabs.html.twig' %}
+        {{ form_widget(edit_form) }}
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="{{ 'common.submit'|trans }}" />
+            <input type="reset" class="btn btn-danger" value="{{ 'common.reset'|trans }}" />
+        </div>
+
+</form>
+<form action="{{ path('article_delete', { 'id': entity.id }) }}" method="post">
+    <div class="form-actions">
+        <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+        <button type="submit" class="btn btn-warning" onclick="return confirm('{{ 'common.delete_confirm'|trans }}');">{{ 'common.delete'|trans }}</button>
+        <input class="btn btn-primary" type="submit" value="{{ 'common.back_list'|trans }}"  onclick="saveToDraft(this,'{{ path('article') }}');" />
+    </div>
+</form>
+   {% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.tabs').tabs();
+        var editor_zh = CKEDITOR.replace('smt_cmsbundle_article_type_translations_zh_content');
+        CKFinder.setupCKEditor(editor_zh, '/ckfinder/');
+    });
+    </script>
+{% endblock %}

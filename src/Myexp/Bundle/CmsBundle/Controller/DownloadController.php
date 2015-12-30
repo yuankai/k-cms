@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Download;
 use Myexp\Bundle\CmsBundle\Form\DownloadType;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -25,7 +24,6 @@ class DownloadController extends Controller {
      * Lists all Download entities.
      *
      * @Route("/", name="download")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -43,7 +41,6 @@ class DownloadController extends Controller {
      * Creates a new Download entity.
      *
      * @Route("/", name="download_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Download:new.html.twig")
      */
@@ -70,7 +67,6 @@ class DownloadController extends Controller {
      * Displays a form to create a new Download entity.
      *
      * @Route("/new", name="download_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|POST")
      * @Template()
      */
@@ -90,7 +86,6 @@ class DownloadController extends Controller {
     /**
      * Finds and displays a Download entity.
      * @Route("/view-{id}.html", name="download_show", requirements={"id"="\d+"})
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -115,7 +110,6 @@ class DownloadController extends Controller {
      * Displays a form to edit an existing Download entity.
      *
      * @Route("/{id}/edit", name="download_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -142,7 +136,6 @@ class DownloadController extends Controller {
      * Edits an existing Download entity.
      *
      * @Route("/{id}", name="download_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Download:edit.html.twig")
      */
@@ -178,7 +171,6 @@ class DownloadController extends Controller {
      * Deletes a Download entity.
      *
      * @Route("/{id}", name="download_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
@@ -219,7 +211,6 @@ class DownloadController extends Controller {
      * Change download status , active or delete.
      *
      * @Route("/status", name="download_status")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      */
     public function statusAction() {

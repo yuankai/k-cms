@@ -1,0 +1,37 @@
+{% extends 'SmtCmsBundle:Admin:layout.html.twig' %}
+{% block title %}{{ 'album.list'|trans }}{% endblock %}
+{% block breadcrumd %}
+        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'album.manage'|trans }}</a></span>
+{% endblock %}
+{% block content %}
+<table class="table table-striped table-bordered bootstrap-datatable datatable">
+    <thead>
+        <tr>
+            <th class="id">{{ 'album.id'|trans }}</th>
+            <th>{{ 'album.title'|trans }}</th>
+            <th>{{ 'album.name'|trans }}</th>
+            <th>{{ 'album.photos'|trans }}</th>
+            <th class="actions">{{ 'common.actions'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td class="id"><a href="{{ path('album_show', { 'name': entity.name }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.trans.title }}</td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.photos.count }}</td>
+            <td>
+                <a href="{{ path('album_show', { 'name': entity.name }) }}" class="btn btn-success">{{ 'common.show'|trans }}</a>
+                <a href="{{ path('album_edit', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'common.edit'|trans }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form>
+    <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="{{ 'album.new'|trans }}"  onclick="saveToDraft(this, '{{ path('album_new') }}');" />
+    </div>
+</form>
+{% endblock %}

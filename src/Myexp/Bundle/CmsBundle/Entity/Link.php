@@ -55,11 +55,6 @@ class Link {
     private $isActive;
 
     /**
-     * @ORM\OneToMany(targetEntity="LinkTranslation", mappedBy="link", indexBy="lang", cascade={"persist", "remove"})
-     */
-    private $translations;
-
-    /**
      * @Assert\Image(
      *     minWidth = 10,
      *     maxWidth = 800,
@@ -120,7 +115,6 @@ class Link {
      * Constructor
      */
     public function __construct() {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

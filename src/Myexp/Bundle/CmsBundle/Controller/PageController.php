@@ -11,7 +11,6 @@ use Myexp\Bundle\CmsBundle\Entity\Page;
 use Myexp\Bundle\CmsBundle\Entity\PageTranslation;
 use Myexp\Bundle\CmsBundle\Form\PageType;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Page controller.
@@ -24,7 +23,6 @@ class PageController extends Controller {
      * Lists all Page entities.
      *
      * @Route("/", name="page")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -52,7 +50,6 @@ class PageController extends Controller {
      * Creates a new Page entity.
      *
      * @Route("/", name="page_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Page:new.html.twig")
      */
@@ -83,7 +80,6 @@ class PageController extends Controller {
      * Displays a form to create a new Page entity.
      *
      * @Route("/new", name="page_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -109,7 +105,6 @@ class PageController extends Controller {
     /**
      * Finds and displays a Page entity.
      *
-     * @Route("/{name}.html", name="page_show")
      * @Method("GET")
      * @Template()
      */
@@ -140,7 +135,6 @@ class PageController extends Controller {
      * Displays a form to edit an existing Page entity.
      *
      * @Route("/{id}/edit", name="page_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -168,7 +162,6 @@ class PageController extends Controller {
      * Edits an existing Page entity.
      *
      * @Route("/{id}", name="page_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Page:edit.html.twig")
      */
@@ -207,7 +200,6 @@ class PageController extends Controller {
      * Deletes a Page entity.
      *
      * @Route("/{id}", name="page_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

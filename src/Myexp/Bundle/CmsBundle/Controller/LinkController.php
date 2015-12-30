@@ -23,7 +23,6 @@ class LinkController extends Controller {
      * Lists all Link entities.
      *
      * @Route("/", name="link")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -59,7 +58,6 @@ class LinkController extends Controller {
      * Creates a new Link entity.
      *
      * @Route("/", name="link_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      * @Template("CmsBundle:Link:new.html.twig")
      */
@@ -89,7 +87,6 @@ class LinkController extends Controller {
      * Change article status , active or delete.
      *
      * @Route("/status", name="link_status")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
      */
     public function statusAction() {
@@ -123,7 +120,6 @@ class LinkController extends Controller {
      * Displays a form to create a new Link entity.
      *
      * @Route("/new", name="link_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|POST")
      * @Template()
      */
@@ -152,7 +148,6 @@ class LinkController extends Controller {
      * Finds and displays a Link entity.
      *
      * @Route("/{id}", name="link_show")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET")
      * @Template()
      */
@@ -178,7 +173,6 @@ class LinkController extends Controller {
      * Displays a form to edit an existing Link entity.
      *
      * @Route("/{id}/edit", name="link_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -206,7 +200,6 @@ class LinkController extends Controller {
      * Edits an existing Link entity.
      *
      * @Route("/{id}", name="link_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
      * @Template("CmsBundle:Link:edit.html.twig")
      */
@@ -244,7 +237,6 @@ class LinkController extends Controller {
      * Deletes a Link entity.
      *
      * @Route("/{id}", name="link_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

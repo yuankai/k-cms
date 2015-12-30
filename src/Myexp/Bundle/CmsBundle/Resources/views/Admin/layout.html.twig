@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CmsBundle::base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/cms/css/semantic.min.css') }}" rel="stylesheet" type="text/css" />
@@ -46,10 +46,10 @@
         <div class="ui grid">
             <div class="three wide column">
                 <div class="ui vertical pointing menu fluid">
-                    <a class="active teal item" href="./add.html">
+                    <a class="active teal item" href="./">
                         <i class="dashboard icon"></i> 控制面板
                     </a>
-                    <a class="item" href="devices_list.html">
+                    <a class="item" href="{{ path('admin_article') }}">
                         <i class="archive icon"></i> 文章管理
                     </a>
                     <a class="item" href="devices_list.html">
@@ -62,7 +62,7 @@
                         <i class="photo icon"></i> 相册管理
                     </a>
                     <a class="item" href="actions.html">
-                        <i class="settings icon"></i> 设置
+                        <i class="settings icon"></i> 系統设置
                     </a>
                 </div>
             </div>
@@ -70,6 +70,10 @@
                 {% block content %}{% endblock %}
             </div>
         </div>
+    </div>
+            
+    <div id="footer-copyright" class="col-md-6">
+        <p>&copy; {{ 'now'|date('Y') }} - Myexp.net</p>
     </div>
 
 {% endblock %}

@@ -9,7 +9,7 @@ use Myexp\Bundle\CmsBundle\Helper\Upload;
 
 /**
  * @ORM\Table(name="photos")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\PhotoRepository")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\PhotoRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Photo {
@@ -62,11 +62,6 @@ class Photo {
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $user;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PhotoTranslation", mappedBy="photo", indexBy="lang", cascade={"persist", "remove"})
-     */
-    private $translations;
 
     /**
      * @Assert\Image(
@@ -224,58 +219,6 @@ class Photo {
     public function __construct() {
         $this->setCreateTime(new \DateTime());
         $this->setUpdateTime($this->getCreateTime());
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add newsTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\PhotoTranslation $photoTranslation
-     * @return Photo
-     */
-    public function addTranslation(\Myexp\Bundle\CmsBundle\Entity\PhotoTranslation $photoTranslation) {
-        $photoTranslation->setPhoto($this);
-        $this->translations[$photoTranslation->getLang()] = $photoTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Remove newsTranslation
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\PhotoTranslation $photoTranslation
-     */
-    public function removeTranslation(\Myexp\Bundle\CmsBundle\Entity\PhotoTranslation $photoTranslation) {
-        $this->translations->removeElement($photoTranslation);
-    }
-
-    /**
-     * Get newsTranslations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTranslations() {
-        return $this->translations;
-    }
-
-    /**
-     * Get current locale translation
-     * 
-     * @param string $locale Locale
-     * @return \Doctrine\Common\Collections\Collection $newsTranslation
-     */
-    public function getTrans($locale = NULL) {
-
-        if ($locale === NULL) {
-            global $kernel;
-            $locale = $kernel->getContainer()->get('request')->getLocale();
-        }
-
-        if (!isset($this->translations[$locale])) {
-            return false;
-        }
-
-        return $this->translations[$locale];
     }
 
     /**
