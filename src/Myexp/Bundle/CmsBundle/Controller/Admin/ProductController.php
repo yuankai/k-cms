@@ -1,28 +1,30 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
 
 /**
  * Product controller.
  *
- * @Route("/product")
+ * @Route("/admin/product")
  */
 class ProductController extends Controller {
 
     /**
      * Finds and displays a Product entity.
      *
-     * @Route("/view-{id}.html", name="product_show", requirements={"id"="\d+"})
+     * @Route("/", name="admin_product")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id) {
+    public function indexAction() {
 
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CmsBundle:Product')->find($id);
@@ -40,49 +42,5 @@ class ProductController extends Controller {
         );
     }
 
-    /**
-     * Finds and display product entities by category.
-     *
-     * @Route("/{name}.html", name="product_list")
-     * @Method("GET")
-     * @Template()
-     */
-    public function listAction($name) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CmsBundle:Category')->findOneBy(array(
-            'name' => $name
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
-        }
-
-        //当前列表的顶级分类
-        $topCategory = $entity->getTopCategory();
-
-        //分页处理
-        $productRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Product');
-        $params = array(
-            'category' => $entity,
-            'isActive' => true
-        );
-        $productTotal = $productRepo->getProductCount($params);
-        $paginator = new Paginator($productTotal);
-        $paginator->setShowLimit(false);
-
-        $sorts = array('p.updateTime' => 'DESC');
-        $entities = $productRepo->getProductsWithPagination(
-                $params, $sorts, $paginator->getOffset(), $paginator->getLimit()
-        );
-
-        return array(
-            'entities' => $entities,
-            'paginator' => $paginator,
-            'category' => $entity,
-            'topCategory' => $topCategory
-        );
-    }
 
 }

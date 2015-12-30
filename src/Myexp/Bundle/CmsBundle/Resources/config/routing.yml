@@ -1,4 +1,4 @@
-homepage:
+default:
     resource: "@CmsBundle/Controller/DefaultController.php"
     type: annotation
 
@@ -52,10 +52,26 @@ user:
 #    resource: "@CmsBundle/Controller/ProductController.php"
 #    type: annotation
 
-admin:
+admin_default:
     resource: "@CmsBundle/Controller/Admin/DefaultController.php"
     type: annotation
 
 admin_article:
     resource: "@CmsBundle/Controller/Admin/ArticleController.php"
+    type: annotation
+    
+admin_page:
+    resource: "@CmsBundle/Controller/Admin/PageController.php"
+    type: annotation
+
+admin_product:
+    resource: "@CmsBundle/Controller/Admin/ProductController.php"
+    type: annotation
+
+admin_album:
+    resource: "@CmsBundle/Controller/Admin/AlbumController.php"
+    type: annotation
+
+admin_user:
+    resource: "@CmsBundle/Controller/Admin/UserController.php"
     type: annotation

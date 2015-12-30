@@ -1,11 +1,12 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Album;
 use Myexp\Bundle\CmsBundle\Entity\AlbumTranslation;
@@ -14,16 +15,16 @@ use Myexp\Bundle\CmsBundle\Form\AlbumType;
 /**
  * Album controller.
  *
- * @Route("/album")
+ * @Route("/admin/album")
  */
 class AlbumController extends Controller {
 
     /**
      * Lists all Album entities.
      *
-     * @Route("/", name="album")
-     * @Secure(roles="ROLE_ADMIN_USER")
-     * @Method("GET|DELETE")
+     * @Route("/", name="admin_album")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("GET")
      * @Template()
      */
     public function indexAction() {
@@ -40,7 +41,7 @@ class AlbumController extends Controller {
      * Creates a new Album entity.
      *
      * @Route("/", name="album_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("CmsBundle:Album:new.html.twig")
      */
@@ -71,7 +72,7 @@ class AlbumController extends Controller {
      * Displays a form to create a new Album entity.
      *
      * @Route("/new", name="album_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -124,7 +125,7 @@ class AlbumController extends Controller {
      * Displays a form to edit an existing Album entity.
      *
      * @Route("/{id}/edit", name="album_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -152,7 +153,7 @@ class AlbumController extends Controller {
      * Edits an existing Album entity.
      *
      * @Route("/{id}", name="album_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("CmsBundle:Album:edit.html.twig")
      */
@@ -190,7 +191,7 @@ class AlbumController extends Controller {
      * Deletes a Album entity.
      *
      * @Route("/{id}", name="album_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

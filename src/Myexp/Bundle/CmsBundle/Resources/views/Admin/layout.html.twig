@@ -36,7 +36,7 @@
                     <div class="divider"></div>
                     <div class="item">Separated Link</div>
                     <div class="divider"></div>
-                    <div class="item">One more separated link</div>
+                    <a class="item" href="{{ path('user_logout') }}">退出</a>
                 </div>
             </div>
         </div>
@@ -46,35 +46,43 @@
         <div class="ui grid">
             <div class="three wide column">
                 <div class="ui vertical pointing menu fluid">
-                    <a class="active teal item" href="./">
+                    <a class="active teal item" href="{{ path('admin_homepage') }}">
                         <i class="dashboard icon"></i> 控制面板
                     </a>
                     <a class="item" href="{{ path('admin_article') }}">
                         <i class="archive icon"></i> 文章管理
                     </a>
-                    <a class="item" href="devices_list.html">
+                    <a class="item" href="{{ path('admin_page') }}">
                         <i class="file icon"></i> 页面管理
                     </a>
-                    <a class="item" href="devices_list.html">
+                    <a class="item" href="{{ path('admin_product') }}">
                         <i class="database icon"></i> 产品管理
                     </a>
-                    <a class="item" href="devices_list.html">
+                    <a class="item" href="{{ path('admin_album') }}">
                         <i class="photo icon"></i> 相册管理
                     </a>
-                    <a class="item" href="actions.html">
+                    <a class="item" href="{{ path('admin_user') }}">
+                        <i class="user icon"></i> 用户管理
+                    </a>
+                    <a class="item" href="#">
                         <i class="settings icon"></i> 系統设置
                     </a>
                 </div>
             </div>
             <div class="thirteen wide column">
-                {% block content %}{% endblock %}
-            </div>
+                {% if app.session.started %}
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div class="flash_notice">{{ flashMessage | trans }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% block content %}{% endblock %}
         </div>
     </div>
-            
-    <div id="footer-copyright" class="col-md-6">
-        <p>&copy; {{ 'now'|date('Y') }} - Myexp.net</p>
-    </div>
+</div>
+
+<div id="footer-copyright" class="col-md-6">
+    <p>&copy; {{ 'now'|date('Y') }} - The K-CMS</p>
+</div>
 
 {% endblock %}
 {% block javascripts %}
@@ -85,17 +93,12 @@
         var base_url = '{{ app.request.getBaseURL() }}';
         $(document).ready(function () {
             $('.flash_notice').slideUp(2000);
-
             $('.ui.menu .ui.dropdown').dropdown({
                 on: 'hover'
             });
-            $('.ui.menu a.item')
-                    .on('click', function () {
-                        $(this)
-                                .addClass('active')
-                                .siblings()
-                                .removeClass('active');
-                    });
+            $('.ui.menu a.item').on('click', function () {
+                $(this).addClass('active').siblings().removeClass('active');
+            });
         });
     </script>
 {% endblock %}

@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\CategoryRepository")
+ * @ORM\Table(name="categories")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\CategoryRepository")
  */
 class Category {
 

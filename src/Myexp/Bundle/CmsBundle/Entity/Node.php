@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Node
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\NodeRepository")
+ * @ORM\Table(name="nodes")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\NodeRepository")
  */
 class Node {
 

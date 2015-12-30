@@ -1,30 +1,30 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Page;
 use Myexp\Bundle\CmsBundle\Entity\PageTranslation;
 use Myexp\Bundle\CmsBundle\Form\PageType;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Page controller.
  *
- * @Route("/page")
+ * @Route("/admin/page")
  */
 class PageController extends Controller {
 
     /**
      * Lists all Page entities.
      *
-     * @Route("/", name="page")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Route("/", name="admin_page")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -52,7 +52,7 @@ class PageController extends Controller {
      * Creates a new Page entity.
      *
      * @Route("/", name="page_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("CmsBundle:Page:new.html.twig")
      */
@@ -83,7 +83,7 @@ class PageController extends Controller {
      * Displays a form to create a new Page entity.
      *
      * @Route("/new", name="page_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -140,7 +140,7 @@ class PageController extends Controller {
      * Displays a form to edit an existing Page entity.
      *
      * @Route("/{id}/edit", name="page_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -168,7 +168,7 @@ class PageController extends Controller {
      * Edits an existing Page entity.
      *
      * @Route("/{id}", name="page_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("CmsBundle:Page:edit.html.twig")
      */
@@ -207,7 +207,7 @@ class PageController extends Controller {
      * Deletes a Page entity.
      *
      * @Route("/{id}", name="page_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

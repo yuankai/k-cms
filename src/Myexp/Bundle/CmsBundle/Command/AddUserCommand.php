@@ -183,7 +183,7 @@ class AddUserCommand extends ContainerAwareCommand {
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
-        $user->setRoles(array($isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER'));
+        //$user->setRoles(array($isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER'));
 
         // See http://symfony.com/doc/current/book/security.html#security-encoding-password
         $encoder = $this->getContainer()->get('security.password_encoder');

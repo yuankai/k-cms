@@ -29,7 +29,7 @@ class Role implements RoleInterface {
     private $role;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
      */
     private $users;
 

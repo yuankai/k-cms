@@ -6,7 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Myexp\Bundle\CmsBundle\Entity\Menu;
 use Myexp\Bundle\CmsBundle\Controller\MenuController;
 
@@ -20,30 +22,12 @@ class DefaultController extends Controller {
     /**
      * Home page.
      *
-     * @Route("/", name="homepage")
+     * @Route("/", name="admin_homepage")
+     * @Security("has_role('ROLE_USER')")
      * @Method("GET")
      * @Template()
      */
     public function indexAction() {
-        
-               
-        //传值
-        return array(
-           
-        );
+        return array();
     }
-
-    /**
-     * Chage language.
-     *
-     * @Route("/locale", name="locale")
-     * @Method("GET")
-     */
-    public function localeAction() {
-        $locale = $this->getRequest()->query->get('l', 'zh');
-        $this->getRequest()->getSession()->set('_locale', $locale);
-
-        return new Response('OK');
-    }
-
 }

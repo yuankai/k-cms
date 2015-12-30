@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * QueryUrl
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\QueryUrlRepository")
+ * @ORM\Table(name="query_urls")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\QueryUrlRepository")
  */
 class QueryUrl {
 

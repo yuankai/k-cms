@@ -14,15 +14,15 @@ class UserEditType extends AbstractType {
         $builder->add('email', 'email', array('label' => 'user.email'));
 
         // add group form
-        $builder->add('groups', 'entity', array(
-            'label' => 'user.group',
-            'class' => 'CmsBundle:Group',
+        $builder->add('roles', 'entity', array(
+            'label' => 'user.roles',
+            'class' => 'CmsBundle:Role',
             'property' => 'name',
             'expanded' => true,
             'multiple' => true,
             'query_builder' => function(EntityRepository $er) {
-        return $er->createQueryBuilder('g');
-    }
+                return $er->createQueryBuilder('r');
+            }
         ));
     }
 

@@ -19,9 +19,9 @@ class UserType extends AbstractType {
             'first_options' => array('label' => 'register.password'),
             'second_options' => array('label' => 'register.password_confirm')
         ));
-        $builder->add('groups', 'entity', array(
-            'label' => 'user.group',
-            'class' => 'CmsBundle:Group',
+        $builder->add('roles', 'entity', array(
+            'label' => 'user.role',
+            'class' => 'CmsBundle:Role',
             'property' => 'name',
             'expanded' => true,
             'multiple' => true

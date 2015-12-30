@@ -24,23 +24,23 @@ class ArticleController extends Controller {
      * @Method("GET")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
 
-        $articleRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Article');
+        $articleRepo = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('CmsBundle:Article');
 
         $params = array();
+        $query = $articleRepo->getPaginationQuery($params);
 
-        $articleTotal = $articleRepo->getArticleCount($params);
-        $paginator = new Paginator($articleTotal);
-
-        $sorts = array('a.createDate' => 'DESC', 'a.id' => 'DESC');
-        $entities = $articleRepo->getArticlesWithPagination(
-                $params, $sorts, $paginator->getOffset(), $paginator->getLimit()
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query, $request->query->getInt('page', 1), 10
         );
 
         return array(
-            'entities' => $entities,
-            'paginator' => $paginator
+            'pagination' => $pagination
         );
     }
 
@@ -180,7 +180,7 @@ class ArticleController extends Controller {
 
         //当前列表的顶级分类
         $topCategory = $entity->getTopCategory();
-                
+
         //分页处理
         $articleRepo = $em->getRepository('CmsBundle:Article');
         $params = array(

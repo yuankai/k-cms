@@ -12,32 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticleRepository extends EntityRepository {
 
-    public function getArticleCount($params = null) {
-
+    public function getPaginationQuery($params = null) {
         $qb = $this->buildQuery($params);
-        $qb->select($qb->expr()->count('a'));
-
-        return $qb->getQuery()->getSingleScalarResult();
-    }
-
-    public function getArticlesWithPagination($params = null, $order_by = array(), $offset = 0, $limit = 0) {
-
-        $qb = $this->buildQuery($params);
-
-        if ((isset($offset)) && (isset($limit))) {
-            if ($limit > 0) {
-                $qb->setFirstResult($offset);
-                $qb->setMaxResults($limit);
-            }
-        }
-
-        foreach ($order_by as $key => $value) {
-            $qb->add('orderBy', $key . ' ' . $value);
-        }
-
-        $q = $qb->getQuery();
-
-        return $q->getResult();
+        
+        return $qb->getQuery();
     }
 
     private function buildQuery($params) {

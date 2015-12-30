@@ -11,7 +11,7 @@ use Myexp\Bundle\CmsBundle\Helper\Upload;
  * Download
  *
  * @ORM\Table(name="downloads")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Entity\DownloadRepository")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\DownloadRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Download {

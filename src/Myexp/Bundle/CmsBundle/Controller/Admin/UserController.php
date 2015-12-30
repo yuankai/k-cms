@@ -1,12 +1,14 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Myexp\Bundle\CmsBundle\Form\ChangePasswordType;
 use Myexp\Bundle\CmsBundle\Form\UserType;
 use Myexp\Bundle\CmsBundle\Form\UserEditType;
@@ -15,20 +17,19 @@ use Myexp\Bundle\CmsBundle\Form\ChangePassword;
 use Myexp\Bundle\CmsBundle\Entity\User;
 use Symfony\Component\Security\Core\SecurityContext;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * User controller.
  *
- * @Route("/user")
+ * @Route("/admin/user")
  */
 class UserController extends Controller {
 
     /**
      * Lists all User entities.
      *
-     * @Route("/", name="user")
-     *
+     * @Route("/", name="admin_user")
+     * @Security("has_role('ROLE_USER')")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -37,35 +38,14 @@ class UserController extends Controller {
         $user_repo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:User');
 
         $user_total = $user_repo->getUserCount();
-        $paginator = new Paginator($user_total);
+        //$paginator = new Paginator($user_total);
 
         $entities = $user_repo->getUsersWithPagination(
-                array('id' => 'DESC'), $paginator->getOffset(), $paginator->getLimit()
+                array('id' => 'DESC'), 0, 5
         );
 
         return array(
             'entities' => $entities,
-            'paginator' => $paginator
-        );
-    }
-
-    /**
-     * Displays a form to login.
-     *
-     * @Route("/login", name="user_login")
-     * @Method("GET")
-     * @Template()
-     */
-    public function loginAction() {
-
-        $helper = $this->get('security.authentication_utils');
-
-        $form = $this->createForm(new LoginType());
-
-        return array(
-            'last_username' => $helper->getLastUsername(),
-            'error' => $helper->getLastAuthenticationError(),
-            'form' => $form->createView()
         );
     }
 
@@ -130,7 +110,7 @@ class UserController extends Controller {
     /**
      * Creates a new User entity.
      *
-     * @Route("/create", name="user_create")
+     * @Route("/create", name="admin_user_create")
      * 
      * @Method("PUT")
      * @Template("CmsBundle:User:new.html.twig")
@@ -166,7 +146,7 @@ class UserController extends Controller {
     /**
      * Displays a form to create a new User entity.
      *
-     * @Route("/new", name="user_new")
+     * @Route("/new", name="admin_user_new")
      * 
      * @Method("GET")
      * @Template()
@@ -210,7 +190,7 @@ class UserController extends Controller {
     /**
      * Displays a form to edit an existing User entity.
      *
-     * @Route("/{id}/edit", name="user_edit")
+     * @Route("/{id}/edit", name="admin_user_edit")
      * 
      * @Method("GET|DELETE")
      * @Template()
@@ -237,7 +217,7 @@ class UserController extends Controller {
     /**
      * Edits an existing User entity.
      *
-     * @Route("/{id}", name="user_update")
+     * @Route("/{id}", name="admin_user_update")
      * 
      * @Method("PUT")
      * @Template("CmsBundle:User:edit.html.twig")

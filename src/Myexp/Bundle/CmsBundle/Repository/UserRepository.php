@@ -89,21 +89,4 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         return $q->getResult();
     }
 
-    public function getTotalByRole() {
-
-        $qb = $this->createQueryBuilder('u');
-
-        $qb
-                ->select('r.id', $qb->expr()->countDistinct('r') . ' AS total')
-                ->andWhere('r.isActive = true')
-                ->andWhere('r.id IN (1,2)')
-                ->join('u.roles', 'r')
-                ->groupBy('r.id')
-        ;
-
-        $q = $qb->getQuery();
-
-        return $q->getResult();
-    }
-
 }

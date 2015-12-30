@@ -6,11 +6,11 @@
 {% block content %}
 <div id="page">
     <div>
-        <h3>{# "user.welcome" | trans({'%name%': app.user.username}) #}!</h3>
+        <h3>{{ "user.welcome" | trans({'%name%': app.user.username}) }}!</h3>
     </div>
     <div>
         <h4>{{ 'user.last_login'|trans }}:</h4>
-        <p>{# app.user.lastLogin|date('Y-m-d H:i') #}<br /></p>
+        <p>{{ app.user.lastLogin|date('Y-m-d H:i') }}<br /></p>
     </div>
 </div>
 {% endblock %}

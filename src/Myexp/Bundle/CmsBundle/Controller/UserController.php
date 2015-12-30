@@ -40,6 +40,15 @@ class UserController extends Controller {
             'form' => $form->createView()
         );
     }
+    
+    /**
+     * @Route("/check", name="user_check")
+     */
+    public function loginCheckAction()
+    {
+        // this controller will not be executed,
+        // as the route is handled by the Security system
+    }
 
     /**
      * Displays a form to change password.

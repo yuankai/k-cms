@@ -20,7 +20,6 @@ class LoginType extends AbstractType {
         $builder->add('_remember_me', 'checkbox', array(
             'required' => false,
             'label' => 'login.remember_me'
-            
         ));
     }
 
