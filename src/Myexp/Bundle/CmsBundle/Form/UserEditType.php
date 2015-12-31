@@ -16,7 +16,7 @@ class UserEditType extends AbstractType {
         // add group form
         $builder->add('roles', 'entity', array(
             'label' => 'user.roles',
-            'class' => 'CmsBundle:Role',
+            'class' => 'MyexpCmsBundle:Role',
             'property' => 'name',
             'expanded' => true,
             'multiple' => true,

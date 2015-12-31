@@ -31,7 +31,7 @@ class LinkController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CmsBundle:Link')->findAll();
+        $entities = $em->getRepository('MyexpCmsBundle:Link')->findAll();
 
         return array(
             'entities' => $entities,
@@ -43,12 +43,12 @@ class LinkController extends Controller {
      *
      * @Route("/all.html", name="link_all")
      * @Method("GET")
-     * @Template("CmsBundle:Link:all.html.twig")
+     * @Template("MyexpCmsBundle:Link:all.html.twig")
      */
     public function allAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CmsBundle:Link')->getAlllinks();
+        $entities = $em->getRepository('MyexpCmsBundle:Link')->getAlllinks();
 
         return array(
             'entities' => $entities,
@@ -61,7 +61,7 @@ class LinkController extends Controller {
      * @Route("/", name="link_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("CmsBundle:Link:new.html.twig")
+     * @Template("MyexpCmsBundle:Link:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -101,7 +101,7 @@ class LinkController extends Controller {
         $orders = $this->getRequest()->get('orders', null);
 
         $em = $this->getDoctrine()->getManager();
-        $ep = $this->getDoctrine()->getRepository('CmsBundle:Link');
+        $ep = $this->getDoctrine()->getRepository('MyexpCmsBundle:Link');
 
         foreach ($ids as $id) {
 
@@ -160,7 +160,7 @@ class LinkController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Link')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Link')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Link entity.');
@@ -186,7 +186,7 @@ class LinkController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Link')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Link')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Link entity.');
@@ -208,13 +208,13 @@ class LinkController extends Controller {
      * @Route("/{id}", name="link_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("CmsBundle:Link:edit.html.twig")
+     * @Template("MyexpCmsBundle:Link:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Link')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Link')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Link entity.');
@@ -254,7 +254,7 @@ class LinkController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Link')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Link')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Link entity.');

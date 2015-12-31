@@ -1,4 +1,4 @@
-{% extends 'SmtCmsBundle::main.html.twig' %}
+{% extends 'MyexpCmsBundle::main.html.twig' %}
 {% block title %}{{ 'download.list'|trans }}{% endblock %}
 {% block content %}
     {% for entity in entities %}      
@@ -9,5 +9,5 @@
         </div>
     {% endfor %}
     <div class="clear"></div>
-    {% include 'SmtCmsBundle:Chips:paginator.html.twig' %}
+    {% include 'MyexpCmsBundle:Chips:paginator.html.twig' %}
 {% endblock %}

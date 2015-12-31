@@ -1,5 +1,5 @@
 default:
-    resource: "@CmsBundle/Controller/DefaultController.php"
+    resource: "@MyexpCmsBundle/Controller/DefaultController.php"
     type: annotation
 
 user_check:
@@ -9,69 +9,69 @@ user_logout:
     path: /user/logout
     
 user:
-    resource: "@CmsBundle/Controller/UserController.php"
+    resource: "@MyexpCmsBundle/Controller/UserController.php"
     type: annotation
     
 #category:
-#    resource: "@CmsBundle/Controller/CategoryController.php"
+#    resource: "@MyexpCmsBundle/Controller/CategoryController.php"
 #    type: annotation
     
 #page:
-#    resource: "@CmsBundle/Controller/PageController.php"
+#    resource: "@MyexpCmsBundle/Controller/PageController.php"
 #    type: annotation
     
 #album:
-#    resource: "@CmsBundle/Controller/AlbumController.php"
+#    resource: "@MyexpCmsBundle/Controller/AlbumController.php"
 #    type: annotation
      
 #link:
-#    resource: "@CmsBundle/Controller/LinkController.php"
+#    resource: "@MyexpCmsBundle/Controller/LinkController.php"
 #    type: annotation
     
 #menu:
-#    resource: "@CmsBundle/Controller/MenuController.php"
+#    resource: "@MyexpCmsBundle/Controller/MenuController.php"
 #    type: annotation
     
 #photo:
-#    resource: "@CmsBundle/Controller/PhotoController.php"
+#    resource: "@MyexpCmsBundle/Controller/PhotoController.php"
 #    type: annotation
 
 #search:
-#    resource: "@CmsBundle/Controller/SearchController.php"
+#    resource: "@MyexpCmsBundle/Controller/SearchController.php"
 #    type: annotation
     
 #download:
-#    resource: "@CmsBundle/Controller/DownloadController.php"
+#    resource: "@MyexpCmsBundle/Controller/DownloadController.php"
 #    type: annotation
     
 #slider:
-#    resource: "@CmsBundle/Controller/SliderController.php"
+#    resource: "@MyexpCmsBundle/Controller/SliderController.php"
 #    type: annotation
 
 #product:
-#    resource: "@CmsBundle/Controller/ProductController.php"
+#    resource: "@MyexpCmsBundle/Controller/ProductController.php"
 #    type: annotation
 
 admin_default:
-    resource: "@CmsBundle/Controller/Admin/DefaultController.php"
+    resource: "@MyexpCmsBundle/Controller/Admin/DefaultController.php"
     type: annotation
 
 admin_article:
-    resource: "@CmsBundle/Controller/Admin/ArticleController.php"
+    resource: "@MyexpCmsBundle/Controller/Admin/ArticleController.php"
     type: annotation
     
 admin_page:
-    resource: "@CmsBundle/Controller/Admin/PageController.php"
+    resource: "@MyexpCmsBundle/Controller/Admin/PageController.php"
     type: annotation
 
 admin_product:
-    resource: "@CmsBundle/Controller/Admin/ProductController.php"
+    resource: "@MyexpCmsBundle/Controller/Admin/ProductController.php"
     type: annotation
 
 admin_album:
-    resource: "@CmsBundle/Controller/Admin/AlbumController.php"
+    resource: "@MyexpCmsBundle/Controller/Admin/AlbumController.php"
     type: annotation
 
 admin_user:
-    resource: "@CmsBundle/Controller/Admin/UserController.php"
+    resource: "@MyexpCmsBundle/Controller/Admin/UserController.php"
     type: annotation

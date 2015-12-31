@@ -16,7 +16,6 @@ use Myexp\Bundle\CmsBundle\Form\LoginType;
 use Myexp\Bundle\CmsBundle\Form\ChangePassword;
 use Myexp\Bundle\CmsBundle\Entity\User;
 use Symfony\Component\Security\Core\SecurityContext;
-use Myexp\Bundle\CmsBundle\Helper\Paginator;
 
 /**
  * User controller.
@@ -24,6 +23,11 @@ use Myexp\Bundle\CmsBundle\Helper\Paginator;
  * @Route("/admin/user")
  */
 class UserController extends Controller {
+    
+    /**
+     * @var type 
+     */
+    public $primaryMenu = "admin_user";
 
     /**
      * Lists all User entities.
@@ -35,7 +39,7 @@ class UserController extends Controller {
      */
     public function indexAction() {
 
-        $user_repo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:User');
+        $user_repo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:User');
 
         $user_total = $user_repo->getUserCount();
         //$paginator = new Paginator($user_total);
@@ -45,7 +49,7 @@ class UserController extends Controller {
         );
 
         return array(
-            'entities' => $entities,
+            'entities' => $entities
         );
     }
 
@@ -73,7 +77,7 @@ class UserController extends Controller {
      * @Route("/password_do", name="user_password_do")
      * 
      * @Method("PUT")
-     * @Template("CmsBundle:User:password.html.twig")
+     * @Template("MyexpCmsBundle:User:password.html.twig")
      */
     public function passwordDoAction() {
 
@@ -113,7 +117,7 @@ class UserController extends Controller {
      * @Route("/create", name="admin_user_create")
      * 
      * @Method("PUT")
-     * @Template("CmsBundle:User:new.html.twig")
+     * @Template("MyexpCmsBundle:User:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -156,10 +160,10 @@ class UserController extends Controller {
         $entity = new User();
         $form = $this->createForm(new UserType(), $entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -173,7 +177,7 @@ class UserController extends Controller {
     public function showAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:User')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -198,7 +202,7 @@ class UserController extends Controller {
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:User')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -220,12 +224,12 @@ class UserController extends Controller {
      * @Route("/{id}", name="admin_user_update")
      * 
      * @Method("PUT")
-     * @Template("CmsBundle:User:edit.html.twig")
+     * @Template("MyexpCmsBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:User')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -267,7 +271,7 @@ class UserController extends Controller {
         if ($form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:User')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');

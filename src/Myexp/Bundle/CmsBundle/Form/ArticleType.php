@@ -20,7 +20,7 @@ class ArticleType extends AbstractType {
                 ))
                 ->add('category', 'entity', array(
                     'label' => 'article.category',
-                    'class' => 'CmsBundle:Category',
+                    'class' => 'MyexpCmsBundle:Category',
                     'property' => 'trans.title',
                     'required' => true
                 ))

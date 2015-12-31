@@ -74,7 +74,7 @@ class UserController extends Controller {
      * @Route("/password_do", name="user_password_do")
      * 
      * @Method("PUT")
-     * @Template("CmsBundle:User:password.html.twig")
+     * @Template("MyexpCmsBundle:User:password.html.twig")
      */
     public function passwordDoAction() {
 
@@ -119,7 +119,7 @@ class UserController extends Controller {
     public function showAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:User')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -144,7 +144,7 @@ class UserController extends Controller {
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:User')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -166,12 +166,12 @@ class UserController extends Controller {
      * @Route("/{id}", name="user_update")
      * 
      * @Method("PUT")
-     * @Template("CmsBundle:User:edit.html.twig")
+     * @Template("MyexpCmsBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:User')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');

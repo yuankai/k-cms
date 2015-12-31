@@ -84,7 +84,7 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output) {
         $maxResults = $input->getOption('max-results');
         // Use ->findBy() instead of ->findAll() to allow result sorting and limiting
-        $users = $this->entityManager->getRepository('CmsBundle:User')->findBy(array(), array('id' => 'DESC'), $maxResults);
+        $users = $this->entityManager->getRepository('MyexpCmsBundle:User')->findBy(array(), array('id' => 'DESC'), $maxResults);
 
         // Doctrine query returns an array of objects and we need an array of plain arrays
         $usersAsPlainArrays = array_map(function (User $user) {

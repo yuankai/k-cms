@@ -1,4 +1,4 @@
-{% extends 'CmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
 {% block title %}{{ 'user.list'|trans }}{% endblock %}
 {% block breadcrumd %}
     <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'user.manage'|trans }}</a></span>
@@ -16,7 +16,7 @@
 <table class="ui green table">
     <thead>
         <tr>
-            <th>{{ 'user.id'|trans }}</th>
+            <th>{{ 'common.select'|trans }}</th>
             <th>{{ 'user.username'|trans }}</th>
             <th>{{ 'user.email'|trans }}</th>
             <th>{{ 'user.last_login'|trans }}</th>
@@ -27,14 +27,16 @@
     <tbody>
         {% for entity in entities %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td><a href="{{ path('user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>
+                    <div class="ui fitted checkbox">
+                        <input type="checkbox"> <label></label>
+                    </div>
                 <td>{{ entity.username }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.lastLogin|date('Y-m-d H:i') }}</td>
                 <td>{% if entity.isActive %}{{ 'common.yes'|trans }}{% else %}{{ 'common.no'|trans }}{% endif %}</td>
                 <td>
-                    <a href="{{ path('user_show', { 'id': entity.id }) }}" class="btn btn-success">{{ 'common.show'|trans }}</a>
-                    <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'common.edit'|trans }}</a>
+                    <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="ui button">{{ 'common.edit'|trans }}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -42,6 +44,15 @@
     <tfoot>
         <tr>
             <th colspan="6">
+                <div class="ui left small button">
+                    Approve
+                </div>
+                <div class="ui left small button">
+                    Approve All
+                </div>
+                <div class="ui left small teal labeled icon button">
+                    <i class="user icon"></i> Add User
+                </div>
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>

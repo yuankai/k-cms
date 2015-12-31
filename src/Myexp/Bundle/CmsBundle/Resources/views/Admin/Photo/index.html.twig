@@ -1,4 +1,4 @@
-{% extends 'SmtCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
 {% block title %}{{ 'photo.list'|trans }}{% endblock %}
 {% block breadcrumd %}
         <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'photo.manage'|trans }}</a></span>
@@ -42,7 +42,7 @@
                 <input class="btn" type="submit" name="deny" value="{{ 'common.deny'|trans }}" />
                 <input class="btn btn-warning" type="submit" name="delete" value="{{ 'common.delete'|trans }}" onclick="return confirm('{{ 'common.delete_confirm'|trans }}');" />
                 <input type="hidden" name="url" value="{{ app.request.uri }}" />
-                {% include 'SmtCmsBundle:Chips:paginator.html.twig' %}
+                {% include 'MyexpCmsBundle:Chips:paginator.html.twig' %}
             </div>
     </form>
     {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'CmsBundle::base.html.twig' %}
+{% extends 'MyexpCmsBundle::base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/cms/css/semantic.min.css') }}" rel="stylesheet" type="text/css" />
@@ -46,25 +46,28 @@
         <div class="ui grid">
             <div class="three wide column">
                 <div class="ui vertical pointing menu fluid">
-                    <a class="active teal item" href="{{ path('admin_homepage') }}">
+                    {% if primaryMenu is not defined %}
+                        {% set primaryMenu = "" %}
+                    {% endif %}
+                    <a class="{% if primaryMenu == "admin_homepage" %}active teal {% endif %}item" href="{{ path('admin_homepage') }}">
                         <i class="dashboard icon"></i> 控制面板
                     </a>
-                    <a class="item" href="{{ path('admin_article') }}">
+                    <a class="{% if primaryMenu == "admin_article" %}active teal {% endif %}item" href="{{ path('admin_article') }}">
                         <i class="archive icon"></i> 文章管理
                     </a>
-                    <a class="item" href="{{ path('admin_page') }}">
+                    <a class="{% if primaryMenu == "admin_page" %}active teal {% endif %}item" href="{{ path('admin_page') }}">
                         <i class="file icon"></i> 页面管理
                     </a>
-                    <a class="item" href="{{ path('admin_product') }}">
+                    <a class="{% if primaryMenu == "admin_product" %}active teal {% endif %}item" href="{{ path('admin_product') }}">
                         <i class="database icon"></i> 产品管理
                     </a>
-                    <a class="item" href="{{ path('admin_album') }}">
+                    <a class="{% if primaryMenu == "admin_album" %}active teal {% endif %}item" href="{{ path('admin_album') }}">
                         <i class="photo icon"></i> 相册管理
                     </a>
-                    <a class="item" href="{{ path('admin_user') }}">
+                    <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
                         <i class="user icon"></i> 用户管理
                     </a>
-                    <a class="item" href="#">
+                    <a class="{% if primaryMenu == "admin_settings" %}active teal {% endif %}item" href="#">
                         <i class="settings icon"></i> 系統设置
                     </a>
                 </div>

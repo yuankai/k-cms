@@ -16,7 +16,7 @@ class PhotoType extends AbstractType {
                 ))
                 ->add('album', 'entity', array(
                     'label' => 'photo.album',
-                    'class' => 'CmsBundle:Album',
+                    'class' => 'MyexpCmsBundle:Album',
                     'property' => 'trans.title',
                     'required' => true
                 ))
