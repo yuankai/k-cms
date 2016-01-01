@@ -31,7 +31,7 @@ class SliderController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CmsBundle:Slider')->findAll();
+        $entities = $em->getRepository('MyexpCmsBundle:Slider')->findAll();
 
         return array(
             'entities' => $entities,
@@ -44,7 +44,7 @@ class SliderController extends Controller {
      * @Route("/", name="slider_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("CmsBundle:Slider:new.html.twig")
+     * @Template("MyexpCmsBundle:Slider:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -99,7 +99,7 @@ class SliderController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Slider')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Slider')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Slider entity.');
@@ -125,7 +125,7 @@ class SliderController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Slider')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Slider')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Slider entity.');
@@ -147,13 +147,13 @@ class SliderController extends Controller {
      * @Route("/{id}", name="slider_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("CmsBundle:Slider:edit.html.twig")
+     * @Template("MyexpCmsBundle:Slider:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Slider')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Slider')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Slider entity.');
@@ -212,7 +212,7 @@ class SliderController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Slider')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Slider')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Slider entity.');
@@ -236,7 +236,7 @@ class SliderController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Slider')->findOneBy(array(
+        $entity = $em->getRepository('MyexpCmsBundle:Slider')->findOneBy(array(
             'name' => $name
         ));
 

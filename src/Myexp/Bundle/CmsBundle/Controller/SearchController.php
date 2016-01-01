@@ -30,7 +30,7 @@ class SearchController extends Controller {
             return $this->redirect($this->generateUrl('homepage'));
         }
 
-        $em = $this->getDoctrine()->getManager()->getRepository('CmsBundle:ArticleTranslation');
+        $em = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:ArticleTranslation');
         $entities = $em->getResults($keyword);
 
         $stat = array(

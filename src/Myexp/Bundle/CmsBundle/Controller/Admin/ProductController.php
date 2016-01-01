@@ -27,7 +27,7 @@ class ProductController extends Controller {
     public function indexAction() {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:Product')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Product')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product entity.');

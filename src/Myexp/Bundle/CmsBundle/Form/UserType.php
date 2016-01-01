@@ -21,7 +21,7 @@ class UserType extends AbstractType {
         ));
         $builder->add('roles', 'entity', array(
             'label' => 'user.role',
-            'class' => 'CmsBundle:Role',
+            'class' => 'MyexpCmsBundle:Role',
             'property' => 'name',
             'expanded' => true,
             'multiple' => true

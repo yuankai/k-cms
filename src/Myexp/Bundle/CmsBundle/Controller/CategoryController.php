@@ -53,7 +53,7 @@ class CategoryController extends Controller {
             $result[] = $parent;
         }
 
-        $entities = $em->getRepository('CmsBundle:Category')->getChildren($parent);
+        $entities = $em->getRepository('MyexpCmsBundle:Category')->getChildren($parent);
 
         foreach ($entities as $menu) {
             $this->getCategoryByRecursive($result, $menu, $depth + 1);
@@ -65,7 +65,7 @@ class CategoryController extends Controller {
      *
      * @Route("/", name="category_create")
      * @Method("POST")
-     * @Template("CmsBundle:Category:new.html.twig")
+     * @Template("MyexpCmsBundle:Category:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -129,7 +129,7 @@ class CategoryController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Category')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -154,7 +154,7 @@ class CategoryController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Category')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -175,13 +175,13 @@ class CategoryController extends Controller {
      *
      * @Route("/{id}", name="category_update")
      * @Method("PUT")
-     * @Template("CmsBundle:Category:edit.html.twig")
+     * @Template("MyexpCmsBundle:Category:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Category')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -219,7 +219,7 @@ class CategoryController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Category')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Category entity.');

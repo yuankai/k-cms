@@ -21,7 +21,7 @@ class DownloadType extends AbstractType {
                 ->add('file', 'file', array('label' => 'download.url', 'required' => false))
                 ->add('category', 'entity', array(
                     'label' => 'download.category',
-                    'class' => 'CmsBundle:Category',
+                    'class' => 'MyexpCmsBundle:Category',
                     'property' => 'trans.title',
                     'required' => true
                 ))

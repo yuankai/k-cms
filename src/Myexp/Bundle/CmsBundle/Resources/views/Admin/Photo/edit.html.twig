@@ -1,4 +1,4 @@
-{% extends 'SmtCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
 {% block title %}{{ 'photo.edit'|trans }}{% endblock %}
 {% block breadcrumd %}
         <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('photo')}}">{{ 'photo.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'photo.edit'|trans }}</a></span>
@@ -8,7 +8,7 @@
     <div class="form">
 {% if entity.picurl %}<img src="{{ asset(entity.picurl|picurl) }}" width="180">{% endif %}
         <input type="hidden" name="_method" value="PUT" />
-        {% form_theme edit_form 'SmtCmsBundle:Form:tabs.html.twig' %}
+        {% form_theme edit_form 'MyexpCmsBundle:Form:tabs.html.twig' %}
         {{ form_widget(edit_form) }}
         <div class="form-actions">
             <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />

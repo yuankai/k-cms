@@ -27,7 +27,7 @@ class NodeController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CmsBundle:Node')->findAll();
+        $entities = $em->getRepository('MyexpCmsBundle:Node')->findAll();
 
         return array(
             'entities' => $entities,
@@ -39,7 +39,7 @@ class NodeController extends Controller {
      *
      * @Route("/", name="node_create")
      * @Method("POST")
-     * @Template("CmsBundle:Node:new.html.twig")
+     * @Template("MyexpCmsBundle:Node:new.html.twig")
      */
     public function createAction(Request $request) {
         $entity = new Node();
@@ -105,7 +105,7 @@ class NodeController extends Controller {
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Node')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Node')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Node entity.');
@@ -129,7 +129,7 @@ class NodeController extends Controller {
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Node')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Node')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Node entity.');
@@ -168,12 +168,12 @@ class NodeController extends Controller {
      *
      * @Route("/{id}", name="node_update")
      * @Method("PUT")
-     * @Template("CmsBundle:Node:edit.html.twig")
+     * @Template("MyexpCmsBundle:Node:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Node')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Node')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Node entity.');
@@ -208,7 +208,7 @@ class NodeController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Node')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Node')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Node entity.');

@@ -2,22 +2,26 @@
 
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Myexp\Bundle\CmsBundle\Entity\Menu;
-use Myexp\Bundle\CmsBundle\Controller\MenuController;
-
 /**
  * Default controller.
  *
  * @Route("/admin")
  */
-class DefaultController extends Controller {
+class DefaultController extends AdminController {
+    
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_homepage';
 
     /**
      * Home page.

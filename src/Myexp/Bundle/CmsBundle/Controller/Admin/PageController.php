@@ -3,7 +3,6 @@
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -18,7 +17,15 @@ use Myexp\Bundle\CmsBundle\Helper\Paginator;
  *
  * @Route("/admin/page")
  */
-class PageController extends Controller {
+class PageController extends AdminController {
+    
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_article';
 
     /**
      * Lists all Page entities.
@@ -30,8 +37,7 @@ class PageController extends Controller {
      */
     public function indexAction() {
 
-
-        $pageRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Page');
+        $pageRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Page');
 
         $params = array();
 
@@ -54,7 +60,7 @@ class PageController extends Controller {
      * @Route("/", name="page_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
-     * @Template("CmsBundle:Page:new.html.twig")
+     * @Template("MyexpCmsBundle:Page:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -117,7 +123,7 @@ class PageController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Page')->findOneBy(array(
+        $entity = $em->getRepository('MyexpCmsBundle:Page')->findOneBy(array(
             'name' => $name
         ));
 
@@ -148,7 +154,7 @@ class PageController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Page')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -170,13 +176,13 @@ class PageController extends Controller {
      * @Route("/{id}", name="page_update")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
-     * @Template("CmsBundle:Page:edit.html.twig")
+     * @Template("MyexpCmsBundle:Page:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Page')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -217,7 +223,7 @@ class PageController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Page')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Page')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Page entity.');
@@ -256,7 +262,7 @@ class PageController extends Controller {
     public function upnewAction() {
 
         //置顶新闻查询笼位剩余数量
-        $upnews = $this->getDoctrine()->getRepository('CmsBundle:Page')->findOneBy(array('name' => 'cage'));
+        $upnews = $this->getDoctrine()->getRepository('MyexpCmsBundle:Page')->findOneBy(array('name' => 'cage'));
 
         return array(
             'upnews' => $upnews

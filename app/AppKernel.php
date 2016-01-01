@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Myexp\Bundle\CmsBundle\CmsBundle(),
+            new Myexp\Bundle\CmsBundle\MyexpCmsBundle(),
         );
 
         // Some bundles are only used while developing the application or during

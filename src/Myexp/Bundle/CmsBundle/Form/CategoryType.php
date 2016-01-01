@@ -16,7 +16,7 @@ class CategoryType extends AbstractType {
                 ))
                 ->add('parent', 'entity', array(
                     'label' => 'category.parent',
-                    'class' => 'CmsBundle:Category',
+                    'class' => 'MyexpCmsBundle:Category',
                     'property' => 'trans.title',
                     'required' => false
                 ))

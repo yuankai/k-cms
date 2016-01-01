@@ -28,7 +28,7 @@ class AlbumController extends Controller {
     public function indexAction() {
 
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('CmsBundle:Album')->findAll();
+        $entities = $em->getRepository('MyexpCmsBundle:Album')->findAll();
 
         return array(
             'entities' => $entities,
@@ -40,7 +40,7 @@ class AlbumController extends Controller {
      *
      * @Route("/", name="album_create")
      * @Method("POST")
-     * @Template("CmsBundle:Album:new.html.twig")
+     * @Template("MyexpCmsBundle:Album:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -104,7 +104,7 @@ class AlbumController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Album')->findOneBy(array(
+        $entity = $em->getRepository('MyexpCmsBundle:Album')->findOneBy(array(
             'name' => $name
         ));
 
@@ -128,7 +128,7 @@ class AlbumController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Album')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Album')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Album entity.');
@@ -149,13 +149,13 @@ class AlbumController extends Controller {
      *
      * @Route("/{id}", name="album_update")
      * @Method("PUT")
-     * @Template("CmsBundle:Album:edit.html.twig")
+     * @Template("MyexpCmsBundle:Album:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Album')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Album')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Album entity.');
@@ -193,7 +193,7 @@ class AlbumController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Album')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Album')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Album entity.');

@@ -30,7 +30,7 @@ class PhotoController extends Controller {
      */
     public function indexAction() {
 
-        $photoRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Photo');
+        $photoRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Photo');
 
         $params = array();
 
@@ -67,7 +67,7 @@ class PhotoController extends Controller {
         $delete = $this->getRequest()->get('delete', null);
 
         $em = $this->getDoctrine()->getManager();
-        $ep = $this->getDoctrine()->getRepository('CmsBundle:Photo');
+        $ep = $this->getDoctrine()->getRepository('MyexpCmsBundle:Photo');
 
         foreach ($ids as $id) {
             $photo = $ep->find($id);
@@ -92,7 +92,7 @@ class PhotoController extends Controller {
      * @Route("/", name="photo_create")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("POST")
-     * @Template("CmsBundle:Photo:new.html.twig")
+     * @Template("MyexpCmsBundle:Photo:new.html.twig")
      */
     public function createAction(Request $request) {
 
@@ -158,7 +158,7 @@ class PhotoController extends Controller {
     public function showAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:Photo')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Photo')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Photo entity.');
@@ -183,7 +183,7 @@ class PhotoController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Album')->findOneBy(array(
+        $entity = $em->getRepository('MyexpCmsBundle:Album')->findOneBy(array(
             'name' => $name
         ));
 
@@ -192,7 +192,7 @@ class PhotoController extends Controller {
         }
 
         //处理该相册下的图片
-        $photoRepo = $this->getDoctrine()->getManager()->getRepository('CmsBundle:Photo');
+        $photoRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Photo');
         $params = array(
             'album' => $entity,
             'isActive' => true
@@ -225,7 +225,7 @@ class PhotoController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Photo')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Photo')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Photo entity.');
@@ -247,13 +247,13 @@ class PhotoController extends Controller {
      * @Route("/{id}", name="photo_update")
      * @Secure(roles="ROLE_ADMIN_USER")
      * @Method("PUT")
-     * @Template("CmsBundle:Photo:edit.html.twig")
+     * @Template("MyexpCmsBundle:Photo:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Photo')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Photo')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Photo entity.');
@@ -297,7 +297,7 @@ class PhotoController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Photo')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Photo')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Photo entity.');
@@ -336,7 +336,7 @@ class PhotoController extends Controller {
     public function sliderAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CmsBundle:Photo')->getSlider($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Photo')->getSlider($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Photo entity.');

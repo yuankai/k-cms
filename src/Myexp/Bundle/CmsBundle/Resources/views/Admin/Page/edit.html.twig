@@ -1,4 +1,4 @@
-{% extends 'SmtCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
 {% block title %}{{ 'page.edit'|trans }}{% endblock %}
 {% block breadcrumd %}
         <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('page')}}">{{ 'page.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'page.edit'|trans }}</a></span>
@@ -7,7 +7,7 @@
 <div class="form">
     <form action="{{ path('page_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
-        {% form_theme edit_form 'SmtCmsBundle:Form:tabs.html.twig' %}
+        {% form_theme edit_form 'MyexpCmsBundle:Form:tabs.html.twig' %}
         {{ form_widget(edit_form) }}
         <div class="form-actions">
             <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />

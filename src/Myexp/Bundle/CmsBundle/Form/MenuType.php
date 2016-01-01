@@ -15,7 +15,7 @@ class MenuType extends AbstractType {
                 ))
                 ->add('parent', 'entity', array(
                     'label' => 'menu.parent',
-                    'class' => 'CmsBundle:Menu',
+                    'class' => 'MyexpCmsBundle:Menu',
                     'property' => 'trans.title',
                     'required' => false
                 ))

@@ -27,7 +27,7 @@ class WebsiteController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CmsBundle:Website')->findAll();
+        $entities = $em->getRepository('MyexpCmsBundle:Website')->findAll();
 
         return array(
             'entities' => $entities,
@@ -39,7 +39,7 @@ class WebsiteController extends Controller {
      *
      * @Route("/", name="website_create")
      * @Method("POST")
-     * @Template("CmsBundle:Website:new.html.twig")
+     * @Template("MyexpCmsBundle:Website:new.html.twig")
      */
     public function createAction(Request $request) {
         $entity = new Website();
@@ -105,7 +105,7 @@ class WebsiteController extends Controller {
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Website')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Website')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Website entity.');
@@ -129,7 +129,7 @@ class WebsiteController extends Controller {
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Website')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Website')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Website entity.');
@@ -168,12 +168,12 @@ class WebsiteController extends Controller {
      *
      * @Route("/{id}", name="website_update")
      * @Method("PUT")
-     * @Template("CmsBundle:Website:edit.html.twig")
+     * @Template("MyexpCmsBundle:Website:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CmsBundle:Website')->find($id);
+        $entity = $em->getRepository('MyexpCmsBundle:Website')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Website entity.');
@@ -208,7 +208,7 @@ class WebsiteController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CmsBundle:Website')->find($id);
+            $entity = $em->getRepository('MyexpCmsBundle:Website')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Website entity.');

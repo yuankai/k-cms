@@ -1,4 +1,4 @@
-{% extends 'SmtCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
 {% block title %}{{ 'user.show'|trans }}{% endblock %}
 {% block breadcrumd %}
 <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('user')}}">{{ 'user.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'user.show'|trans }}</a></span>
