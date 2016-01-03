@@ -123,7 +123,7 @@ class UserController extends Controller {
 
         $entity = new User();
         $form = $this->createForm(new UserType(), $entity);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
 
@@ -160,10 +160,10 @@ class UserController extends Controller {
         $entity = new User();
         $form = $this->createForm(new UserType(), $entity);
 
-        return $this->display(array(
+        return array(
             'entity' => $entity,
             'form' => $form->createView(),
-        ));
+        );
     }
 
     /**

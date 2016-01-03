@@ -1,7 +1,3 @@
-parameters:
-   languages:
-        zh: 中文
-
 services:
     
     slugger:
@@ -20,17 +16,20 @@ services:
     cms.twig.extension:
         class: Myexp\Bundle\CmsBundle\Twig\CmsExtension
         tags:
-            - { name: twig.extension }   
+            - { name: twig.extension }
+            
     cms.listener.login_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LoginListener'
         arguments: ['@security.context', '@doctrine']
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
+            
     cms.listener.locale_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LocaleListener'
-        arguments: ['@router', %app_locales%, %locale%]
+        arguments: ['@router', %myexp_cms.locales%, %locale%]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            
     cms.form.entity_id_type:
         class: 'Myexp\Bundle\CmsBundle\Form\Type\EntityIdType'
         arguments: ['@doctrine']

@@ -8,11 +8,12 @@
         <i class="right angle icon divider"></i>
         <div class="active section">T-Shirt</div>
     </div>
-
+    {{ form_start(form) }}
     <form action="{{ path('admin_user_create') }}" method="post" {{ form_enctype(form) }} class="ui form">
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(form) }}
         <button class="ui button" type="submit">{{ 'common.submit'|trans }}</button>
     </form>
+    {{ form_end(form) }}
 
 {% endblock %}
