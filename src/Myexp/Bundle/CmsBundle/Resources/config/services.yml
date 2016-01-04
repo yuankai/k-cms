@@ -10,14 +10,14 @@ services:
     # 本地化监听器，用于设置全局locale
     myexp_cms.listener.locale_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LocaleListener'
-        arguments: ['%kernel.default_locale%', %locale%]
+        arguments: ['%myexp_cms_locales%', %locale%]
         tags:
             - { name: kernel.event_subscriber}
             
     # 视图监听器，用于设置全局变量
     myexp_cms.listener.view_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\ViewListener'
-        arguments: ['@doctrine', %rewrite%]
+        arguments: ['@doctrine', %myexp_cms_rewrite%]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
             - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
@@ -28,9 +28,10 @@ services:
         arguments: ['@doctrine']
         tags:
             - { name: form.type, alias: entity_id }
-            
+    
+    # 自定义路由加载器，加载内容类型默认路由以及URL别名
     myexp_cms.routing_loader:
         class: 'Myexp\Bundle\CmsBundle\Routing\RewriteLoader'
-        arguments: ['@doctrine', %rewrite%]
+        arguments: ['@doctrine', %myexp_cms_rewrite%]
         tags:
             - { name: routing.loader }

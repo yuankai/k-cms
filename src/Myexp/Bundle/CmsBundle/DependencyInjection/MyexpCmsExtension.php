@@ -13,6 +13,16 @@ use Symfony\Component\DependencyInjection\Loader;
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class MyexpCmsExtension extends Extension {
+    
+    /**
+     * 
+     * @param array $config
+     * @param ContainerBuilder $container
+     * @return \Myexp\Bundle\CmsBundle\DependencyInjection\Configuration
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container) {
+        return new Configuration($container->getParameter('kernel.debug'));
+    }
 
     /**
      * {@inheritDoc}
@@ -21,6 +31,11 @@ class MyexpCmsExtension extends Extension {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('config.yml');
         $loader->load('services.yml');
+        
+        $configuration = $this->getConfiguration($configs, $container);
+        $config = $this->processConfiguration($configuration, $configs);
+        
+        $container->setParameter('myexp_cms.enabled_locales', $config['enabled_locales']);
     }
 
 }

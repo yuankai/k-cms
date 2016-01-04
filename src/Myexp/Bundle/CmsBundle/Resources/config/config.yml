@@ -1,5 +1,14 @@
+myexp_cms:
+    enabled_locales: ['en', 'zh']
+    content_models: ['Page', 'Article']
+    rewrite:
+        on: true
+        url_surrfix: '.html'
+        
+    
 parameters:
-    rewrite: 
+    myexp_cms_locales: ['en', 'zh']
+    myexp_cms_rewrite: 
         on: true
         url_surffix: '.html'
         content_models: ['Page', 'Article']

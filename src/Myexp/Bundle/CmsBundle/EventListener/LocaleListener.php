@@ -28,7 +28,7 @@ class LocaleListener implements EventSubscriberInterface {
      */
     public function __construct($locales, $defaultLocale = null) {
 
-        $this->locales = explode('|', trim($locales));
+        $this->locales = $locales;
         if (empty($this->locales)) {
             throw new \UnexpectedValueException('The list of supported locales must not be empty.');
         }

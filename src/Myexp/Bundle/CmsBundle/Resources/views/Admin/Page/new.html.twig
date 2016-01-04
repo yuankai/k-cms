@@ -1,19 +1,15 @@
 {% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
 {% block title %}{{ 'page.new'|trans }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('page')}}">{{ 'page.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'page.new'|trans }}</a></span>
+    <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> >
+    <a href="{{path('page')}}">{{ 'page.manage'|trans }}</a> >
+    <a href="{{app.request.getRequestUri()}}">{{ 'page.new'|trans }}</a>
 {% endblock %}
 {% block content %}
-{% form_theme form 'Form/labels.html.twig' %}
-<form action="{{ path('page_create') }}" method="post" {{ form_enctype(form) }}>
-    <div class="form">
-        {{ form_widget(form) }}
-        <div class="form-actions">
-            <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />
-            <input class="btn" type="reset" value="{{ 'common.reset'|trans }}" />
-        </div>
-    </div>
-</form>
+    {% form_theme form 'MyexpCmsBundle:Admin/Form:fields.html.twig' %}
+    {{ form_start(form, {action:path('page_create')}) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
@@ -21,9 +17,8 @@
 <script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.tabs').tabs();
-        var editor_zh = CKEDITOR.replace('smt_cmsbundle_page_type_translations_zh_content');
-        CKFinder.setupCKEditor(editor_zh, '/ckfinder/');
+        //var editor_zh = CKEDITOR.replace('smt_cmsbundle_page_type_translations_zh_content');
+        //CKFinder.setupCKEditor(editor_zh, '/ckfinder/');
     });
 </script>
 {% endblock %}
