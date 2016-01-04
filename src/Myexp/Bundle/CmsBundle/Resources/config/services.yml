@@ -1,38 +1,36 @@
 services:
-    
-    slugger:
-        class: Myexp\Bundle\CmsBundle\Utils\Slugger
-
-    markdown:
-        class: Myexp\Bundle\CmsBundle\Utils\Markdown
-        
-    cms.twig.app_extension:
-        public:    false
-        class:     Myexp\Bundle\CmsBundle\Twig\AppExtension
-        arguments: ['@markdown', %app_locales%]
-        tags:
-            - { name: twig.extension }
-        
-    cms.twig.extension:
-        class: Myexp\Bundle\CmsBundle\Twig\CmsExtension
-        tags:
-            - { name: twig.extension }
-            
-    cms.listener.login_listener:
+    # 登录监听器，记录用户最后一次登录时间
+    # 以及登录次数
+    myexp_cms.listener.login_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LoginListener'
         arguments: ['@security.context', '@doctrine']
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
-            
-    cms.listener.locale_listener:
+    
+    # 本地化监听器，用于设置全局locale
+    myexp_cms.listener.locale_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LocaleListener'
-        arguments: ['@router', %myexp_cms.locales%, %locale%]
+        arguments: ['%kernel.default_locale%', %locale%]
+        tags:
+            - { name: kernel.event_subscriber}
+            
+    # 视图监听器，用于设置全局变量
+    myexp_cms.listener.view_listener:
+        class: 'Myexp\Bundle\CmsBundle\EventListener\ViewListener'
+        arguments: ['@doctrine', %rewrite%]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
             
-    cms.form.entity_id_type:
+    # 注册实体ID转换表单类型
+    myexp_cms.form.entity_id_type:
         class: 'Myexp\Bundle\CmsBundle\Form\Type\EntityIdType'
         arguments: ['@doctrine']
         tags:
             - { name: form.type, alias: entity_id }
             
+    myexp_cms.routing_loader:
+        class: 'Myexp\Bundle\CmsBundle\Routing\RewriteLoader'
+        arguments: ['@doctrine', %rewrite%]
+        tags:
+            - { name: routing.loader }

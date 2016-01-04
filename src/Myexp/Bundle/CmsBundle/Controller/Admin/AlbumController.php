@@ -17,7 +17,15 @@ use Myexp\Bundle\CmsBundle\Form\AlbumType;
  *
  * @Route("/admin/album")
  */
-class AlbumController extends Controller {
+class AlbumController extends AdminController {
+    
+     /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_album';
 
     /**
      * Lists all Album entities.
@@ -32,9 +40,9 @@ class AlbumController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('MyexpCmsBundle:Album')->findAll();
 
-        return array(
+        return $this->display(array(
             'entities' => $entities,
-        );
+        ));
     }
 
     /**

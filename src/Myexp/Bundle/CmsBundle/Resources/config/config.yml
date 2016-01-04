@@ -1,0 +1,5 @@
+parameters:
+    rewrite: 
+        on: true
+        url_surffix: '.html'
+        content_models: ['Page', 'Article']

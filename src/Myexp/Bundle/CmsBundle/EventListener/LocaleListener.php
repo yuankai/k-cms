@@ -3,14 +3,10 @@
 namespace Myexp\Bundle\CmsBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class LocaleListener {
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
+class LocaleListener implements EventSubscriberInterface {
 
     /**
      * List of supported locales.
@@ -27,12 +23,10 @@ class LocaleListener {
     /**
      * Constructor.
      *
-     * @param UrlGeneratorInterface $urlGenerator
      * @param string $locales Supported locales separated by '|'
      * @param string|null $defaultLocale
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator, $locales, $defaultLocale = null) {
-        $this->urlGenerator = $urlGenerator;
+    public function __construct($locales, $defaultLocale = null) {
 
         $this->locales = explode('|', trim($locales));
         if (empty($this->locales)) {
@@ -45,9 +39,6 @@ class LocaleListener {
             throw new \UnexpectedValueException(sprintf('The default locale ("%s") must be one of "%s".', $this->defaultLocale, $locales));
         }
 
-        // Add the default locale at the first position of the array,
-        // because Symfony\HttpFoundation\Request::getPreferredLanguage
-        // returns the first element when no an appropriate language is found
         array_unshift($this->locales, $this->defaultLocale);
         $this->locales = array_unique($this->locales);
     }
@@ -58,22 +49,34 @@ class LocaleListener {
     public function onKernelRequest(GetResponseEvent $event) {
         $request = $event->getRequest();
 
-        // Ignore sub-requests and all URLs but the homepage
-        if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
-            return;
-        }
-        // Ignore requests from referrers with the same HTTP host in order to prevent
-        // changing language for users who possibly already selected it for this application.
-        if (0 === stripos($request->headers->get('referer'), $request->getSchemeAndHttpHost())) {
-            return;
+        $locale = $request->attributes->get('_locale');
+        if ($locale) {
+            $request->getSession()->set('_locale', $locale);
         }
 
-        $preferredLanguage = $request->getPreferredLanguage($this->locales);
+        // If user selected locale
+        if (!$request->getSession()->get('_locale')) {
 
-        if ($preferredLanguage !== $this->defaultLocale) {
-            $response = new RedirectResponse($this->urlGenerator->generate('homepage', array('_locale' => $preferredLanguage)));
-            $event->setResponse($response);
+            // Set preferred language
+            $preferredLanguage = $request->getPreferredLanguage($this->locales);
+            if ($preferredLanguage !== $this->defaultLocale) {
+                $request->getSession()->set('_locale', $preferredLanguage);
+            } else {
+                $request->getSession()->set('_locale', $this->defaultLocale);
+            }
         }
+
+        $request->setLocale($request->getSession()->get('_locale'));
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public static function getSubscribedEvents() {
+        return array(
+            KernelEvents::REQUEST => array(array('onKernelRequest', 17)),
+        );
     }
 
 }

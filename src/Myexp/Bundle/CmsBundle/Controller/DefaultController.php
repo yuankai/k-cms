@@ -3,12 +3,11 @@
 namespace Myexp\Bundle\CmsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Myexp\Bundle\CmsBundle\Entity\Menu;
-use Myexp\Bundle\CmsBundle\Controller\MenuController;
 
 /**
  * Default controller.
@@ -24,12 +23,11 @@ class DefaultController extends Controller {
      * @Method("GET")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
         
-               
         //传值
         return array(
-           
+           'a'=>'b'
         );
     }
 

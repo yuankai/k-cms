@@ -1,3 +1,7 @@
+myexp_rewrite:
+    resource: .
+    type: rewrite
+
 default:
     resource: "@MyexpCmsBundle/Controller/DefaultController.php"
     type: annotation

@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Page;
 use Myexp\Bundle\CmsBundle\Entity\PageTranslation;
 use Myexp\Bundle\CmsBundle\Form\PageType;
-use Myexp\Bundle\CmsBundle\Helper\Paginator;
 
 /**
  * Page controller.
@@ -25,7 +24,7 @@ class PageController extends AdminController {
      * 
      * @var type 
      */
-    protected $primaryMenu = 'admin_article';
+    protected $primaryMenu = 'admin_page';
 
     /**
      * Lists all Page entities.
@@ -42,16 +41,14 @@ class PageController extends AdminController {
         $params = array();
 
         $pageTotal = $pageRepo->getPageCount($params);
-        $paginator = new Paginator($pageTotal);
         $sorts = array('a.createDate' => 'DESC', 'a.id' => 'DESC');
         $entities = $pageRepo->getPagesWithPagination(
-                $params, $sorts, $paginator->getOffset(), $paginator->getLimit()
+                $params, $sorts, 0,10
         );
 
-        return array(
+        return $this->display(array(
             'entities' => $entities,
-            'paginator' => $paginator
-        );
+        ));
     }
 
     /**
@@ -88,7 +85,7 @@ class PageController extends AdminController {
     /**
      * Displays a form to create a new Page entity.
      *
-     * @Route("/new", name="page_new")
+     * @Route("/new", name="admin_page_new")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
@@ -96,51 +93,15 @@ class PageController extends AdminController {
     public function newAction() {
 
         $entity = new Page();
-        $languages = $this->container->getParameter('languages');
-
-        foreach (array_keys($languages) as $lang) {
-            $translation = new PageTranslation();
-            $translation->setLang($lang);
-            $entity->addTranslation($translation);
-        }
-
+        
         $form = $this->createForm(new PageType(), $entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Page entity.
-     *
-     * @Route("/{name}.html", name="page_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($name) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Page')->findOneBy(array(
-            'name' => $name
         ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Page entity.');
-        }
-
-        //分类
-        $category = $entity->getCategory();
-        $topCategory = $category->getTopCategory();
-
-        return array(
-            'entity' => $entity,
-            'category' => $category,
-            'topCategory' => $topCategory
-        );
     }
+
 
     /**
      * Displays a form to edit an existing Page entity.

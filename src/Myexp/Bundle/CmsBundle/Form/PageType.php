@@ -19,18 +19,6 @@ class PageType extends AbstractType {
                 ))
                 ->add('name', 'text', array('label' => 'page.name'))
                 ->add('filePhoto', 'file', array('label' => 'page.path', 'required' => false))
-                ->add('translations', 'collection', array(
-                    'label' => false,
-                    'type' => new PageTransType(),
-                    'by_reference' => false,
-                    'allow_add' => true
-                ))
-                ->add('category', 'entity', array(
-                    'label' => 'article.category',
-                    'class' => 'MyexpCmsBundle:Category',
-                    'property' => 'trans.title',
-                    'required' => false
-                ))
                 ->add('sortOrder', 'integer', array(
                     'label' => 'category.order',
                     'required' => false,

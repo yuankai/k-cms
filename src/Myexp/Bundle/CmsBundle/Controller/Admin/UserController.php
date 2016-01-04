@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\SecurityContext;
  *
  * @Route("/admin/user")
  */
-class UserController extends Controller {
+class UserController extends AdminController {
     
     /**
      * @var type 
@@ -48,9 +48,9 @@ class UserController extends Controller {
                 array('id' => 'DESC'), 0, 5
         );
 
-        return array(
+        return $this->display(array(
             'entities' => $entities
-        );
+        ));
     }
 
     /**

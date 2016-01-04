@@ -32,6 +32,6 @@ class DefaultController extends AdminController {
      * @Template()
      */
     public function indexAction() {
-        return array();
+        return $this->display(array());
     }
 }

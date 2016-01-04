@@ -4,9 +4,9 @@
         <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('page')}}">{{ 'page.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'page.new'|trans }}</a></span>
 {% endblock %}
 {% block content %}
+{% form_theme form 'Form/labels.html.twig' %}
 <form action="{{ path('page_create') }}" method="post" {{ form_enctype(form) }}>
     <div class="form">
-        {% form_theme form 'MyexpCmsBundle:Form:tabs.html.twig' %}
         {{ form_widget(form) }}
         <div class="form-actions">
             <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />
@@ -14,11 +14,6 @@
         </div>
     </div>
 </form>
-<form action="{{ path('page') }}" method="GET">
-<div class="form-actions">
-        <input class="btn" type="submit" value="{{ 'common.back_list'|trans }}" />
-</div>
-    </form>
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}

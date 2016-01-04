@@ -14,7 +14,15 @@ use Myexp\Bundle\CmsBundle\Helper\Paginator;
  *
  * @Route("/admin/product")
  */
-class ProductController extends Controller {
+class ProductController extends AdminController {
+
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_product';
 
     /**
      * Finds and displays a Product entity.
@@ -26,21 +34,19 @@ class ProductController extends Controller {
      */
     public function indexAction() {
 
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('MyexpCmsBundle:Product')->find($id);
+        $pageRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Page');
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
-        }
+        $params = array();
 
-        //当前分类的顶级分类
-        $category = $entity->getCategory()->getTopCategory();
-
-        return array(
-            'entity' => $entity,
-            'category' => $category
+        $pageTotal = $pageRepo->getPageCount($params);
+        $sorts = array('a.createDate' => 'DESC', 'a.id' => 'DESC');
+        $entities = $pageRepo->getPagesWithPagination(
+                $params, $sorts, 0, 10
         );
-    }
 
+        return $this->display(array(
+                    'entities' => $entities,
+        ));
+    }
 
 }
