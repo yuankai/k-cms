@@ -1,30 +1,29 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Link;
-use Myexp\Bundle\CmsBundle\Entity\LinkTranslation;
 use Myexp\Bundle\CmsBundle\Form\LinkType;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Link controller.
  *
- * @Route("/link")
+ * @Route("/admin/link")
  */
 class LinkController extends Controller {
 
     /**
      * Lists all Link entities.
      *
-     * @Route("/", name="link")
-     * @Secure(roles="ROLE_ADMIN_USER")
-     * @Method("GET|DELETE")
+     * @Route("/", name="admin_link")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("GET")
      * @Template()
      */
     public function indexAction() {
@@ -39,27 +38,10 @@ class LinkController extends Controller {
     }
 
     /**
-     * Finds and displays all Link entity.
-     *
-     * @Route("/all.html", name="link_all")
-     * @Method("GET")
-     * @Template("MyexpCmsBundle:Link:all.html.twig")
-     */
-    public function allAction() {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MyexpCmsBundle:Link')->getAlllinks();
-
-        return array(
-            'entities' => $entities,
-        );
-    }
-
-    /**
      * Creates a new Link entity.
      *
      * @Route("/", name="link_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Link:new.html.twig")
      */
@@ -89,7 +71,7 @@ class LinkController extends Controller {
      * Change article status , active or delete.
      *
      * @Route("/status", name="link_status")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      */
     public function statusAction() {
@@ -123,7 +105,7 @@ class LinkController extends Controller {
      * Displays a form to create a new Link entity.
      *
      * @Route("/new", name="link_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|POST")
      * @Template()
      */
@@ -149,36 +131,10 @@ class LinkController extends Controller {
     }
 
     /**
-     * Finds and displays a Link entity.
-     *
-     * @Route("/{id}", name="link_show")
-     * @Secure(roles="ROLE_ADMIN_USER")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Link')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Link entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
      * Displays a form to edit an existing Link entity.
      *
      * @Route("/{id}/edit", name="link_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -206,7 +162,7 @@ class LinkController extends Controller {
      * Edits an existing Link entity.
      *
      * @Route("/{id}", name="link_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Link:edit.html.twig")
      */
@@ -244,7 +200,7 @@ class LinkController extends Controller {
      * Deletes a Link entity.
      *
      * @Route("/{id}", name="link_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

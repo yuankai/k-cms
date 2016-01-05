@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Page;
-use Myexp\Bundle\CmsBundle\Entity\PageTranslation;
 use Myexp\Bundle\CmsBundle\Form\PageType;
 
 /**

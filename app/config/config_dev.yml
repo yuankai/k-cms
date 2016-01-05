@@ -36,5 +36,5 @@ monolog:
 
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        path:     "%database_path%"
+        driver: pdo_sqlite
+        path: "%kernel.root_dir%/../var/data/kcms.sqlite"

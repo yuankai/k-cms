@@ -158,7 +158,7 @@ class UserController extends AdminController {
     public function newAction() {
 
         $entity = new User();
-        $form = $this->createForm(new UserType(), $entity);
+        $form = $this->createForm(UserType::class, $entity);
 
         return array(
             'entity' => $entity,

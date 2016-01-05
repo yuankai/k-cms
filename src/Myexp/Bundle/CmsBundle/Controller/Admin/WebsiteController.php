@@ -1,6 +1,6 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,14 +13,22 @@ use Myexp\Bundle\CmsBundle\Form\WebsiteType;
 /**
  * Website controller.
  *
- * @Route("/website")
+ * @Route("/admin/website")
  */
-class WebsiteController extends Controller {
+class WebsiteController extends AdminController {
+    
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_website';
 
     /**
      * Lists all Website entities.
      *
-     * @Route("/", name="website")
+     * @Route("/", name="admin_website")
      * @Method("GET")
      * @Template()
      */
@@ -29,9 +37,9 @@ class WebsiteController extends Controller {
 
         $entities = $em->getRepository('MyexpCmsBundle:Website')->findAll();
 
-        return array(
+        return $this->display(array(
             'entities' => $entities,
-        );
+        ));
     }
 
     /**

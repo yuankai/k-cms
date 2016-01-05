@@ -28,9 +28,7 @@ user:
 #    resource: "@MyexpCmsBundle/Controller/AlbumController.php"
 #    type: annotation
      
-#link:
-#    resource: "@MyexpCmsBundle/Controller/LinkController.php"
-#    type: annotation
+
     
 #menu:
 #    resource: "@MyexpCmsBundle/Controller/MenuController.php"
@@ -43,10 +41,7 @@ user:
 #search:
 #    resource: "@MyexpCmsBundle/Controller/SearchController.php"
 #    type: annotation
-    
-#download:
-#    resource: "@MyexpCmsBundle/Controller/DownloadController.php"
-#    type: annotation
+   
     
 #slider:
 #    resource: "@MyexpCmsBundle/Controller/SliderController.php"
@@ -68,6 +63,10 @@ admin_page:
     resource: "@MyexpCmsBundle/Controller/Admin/PageController.php"
     type: annotation
 
+admin_download:
+    resource: "@MyexpCmsBundle/Controller/Admin/DownloadController.php"
+    type: annotation
+
 admin_product:
     resource: "@MyexpCmsBundle/Controller/Admin/ProductController.php"
     type: annotation
@@ -78,4 +77,12 @@ admin_album:
 
 admin_user:
     resource: "@MyexpCmsBundle/Controller/Admin/UserController.php"
+    type: annotation
+
+admin_link:
+    resource: "@MyexpCmsBundle/Controller/Admin/LinkController.php"
+    type: annotation
+
+admin_website:
+    resource: "@MyexpCmsBundle/Controller/Admin/WebsiteController.php"
     type: annotation

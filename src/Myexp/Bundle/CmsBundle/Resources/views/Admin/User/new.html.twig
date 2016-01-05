@@ -1,4 +1,4 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
 {% block title %}{{ 'user.new'|trans }}{% endblock %}
 {% block content %}
     <div class="ui breadcrumb">
@@ -8,12 +8,8 @@
         <i class="right angle icon divider"></i>
         <div class="active section">T-Shirt</div>
     </div>
-    {{ form_start(form) }}
-    <form action="{{ path('admin_user_create') }}" method="post" {{ form_enctype(form) }} class="ui form">
+    {{ form_start(form, {action: path('admin_user_create')}) }}
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(form) }}
-        <button class="ui button" type="submit">{{ 'common.submit'|trans }}</button>
-    </form>
     {{ form_end(form) }}
-
 {% endblock %}

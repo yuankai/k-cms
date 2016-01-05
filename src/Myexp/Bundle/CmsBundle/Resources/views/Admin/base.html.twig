@@ -54,6 +54,9 @@
                             <a class="{% if primaryMenu == "admin_page" %}active teal {% endif %}item" href="{{ path('admin_page') }}">
                                 <i class="file icon"></i> 页面管理
                             </a>
+                            <a class="{% if primaryMenu == "admin_download" %}active teal {% endif %}item" href="{{ path('admin_download') }}">
+                                <i class="attach icon"></i> 下载管理
+                            </a>
                             <a class="{% if primaryMenu == "admin_product" %}active teal {% endif %}item" href="{{ path('admin_product') }}">
                                 <i class="database icon"></i> 产品管理
                             </a>
@@ -62,6 +65,12 @@
                             </a>
                             <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
                                 <i class="user icon"></i> 用户管理
+                            </a>
+                            <a class="{% if primaryMenu == "admin_link" %}active teal {% endif %}item" href="{{ path('admin_link') }}">
+                                <i class="linkify icon"></i> 链接管理
+                            </a>
+                            <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
+                                <i class="home icon"></i> 网站管理
                             </a>
                             <a class="{% if primaryMenu == "admin_settings" %}active teal {% endif %}item" href="#">
                                 <i class="settings icon"></i> 系統设置

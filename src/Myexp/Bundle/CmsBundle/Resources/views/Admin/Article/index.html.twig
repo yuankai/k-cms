@@ -5,17 +5,19 @@
 {% endblock %}
 {% block content %}
 <form action="{{ path('article_status') }}" method="post">
-    <table class="table table-striped table-bordered  ">
+    <table class="ui green table">
         <thead>
             <tr>
-                <th class="id"><input type="checkbox" onclick="check_all(this, 'ids');" title="{{ 'common.select'|trans }}" /></th>
+                <th>
+                    <input type="checkbox" onclick="check_all(this, 'ids');" title="{{ 'common.select'|trans }}" />
+                </th>
                 <th>{{ 'article.title'|trans }}</th>
                 <th>{{ 'article.category'|trans }}</th>
                 <th>{{ 'article.create_time'|trans }}</th>
                 <th>{{ 'article.update_time'|trans }}</th>
                 <th>{{ 'article.source'|trans }}</th>
                 <th>{{ 'article.is_active'|trans }}</th>
-                <th class="actions">{{ 'common.actions'|trans }}</th>
+                <th>{{ 'common.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -35,14 +37,35 @@
             </tr>
         {% endfor %}
         </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="8">
+                <div class="ui left small button">
+                    Approve
+                </div>
+                <div class="ui left small button">
+                    Approve All
+                </div>
+                <div class="ui left small teal labeled icon button">
+                    <i class="user icon"></i> Add User
+                </div>
+                <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                        <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                        <i class="right chevron icon"></i>
+                    </a>
+                </div>
+            </th>
+        </tr>
+    </tfoot>
     </table>   
-    <div class="form-actions">
-        <input class="btn btn-primary" type="submit" value="{{ 'article.new'|trans }}"  onclick="saveToDraft(this, '{{ path('article_new') }}');" />
-        <input class="btn" type="submit" name="active" value="{{ 'common.active'|trans }}" />
-        <input class="btn" type="submit" name="deny" value="{{ 'common.deny'|trans }}" />
-        <input class="btn btn-warning" type="submit" name="delete" value="{{ 'common.delete'|trans }}" onclick="return confirm('{{ 'common.delete_confirm'|trans }}');" />
-        <input type="hidden" name="url" value="{{ app.request.uri }}" />
-
-    </div>
+    
 </form>
+
     {% endblock %}
