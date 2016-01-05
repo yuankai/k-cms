@@ -1,7 +1,9 @@
 {% extends 'MyexpCmsBundle::base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('bundles/cms/css/semantic.min.css') }}" rel="stylesheet" type="text/css" />
+    {% stylesheets 'bundles/myexpcms/css/semantic.min.css' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" rel="stylesheet" type="text/css"/>
+    {% endstylesheets %}
     <style>
         body {
             padding: 1em;
@@ -90,8 +92,12 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/cms/js/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/cms/js/semantic.min.js') }}"></script>
+    {% javascripts '@MyexpCmsBundle/Resources/public/js/jquery.min.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    <% endjavascripts %>
+    {% javascripts '@MyexpCmsBundle/Resources/public/js/semantic.min.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    <% endjavascripts %>
     <script type="text/javascript">
         var base_url = '{{ app.request.getBaseURL() }}';
         $(document).ready(function () {

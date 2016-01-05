@@ -3,15 +3,9 @@
 namespace Myexp\Bundle\CmsBundle\EventListener;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 
 class LoginListener {
-
-    /**
-     * @var \Symfony\Component\Security\Core\SecurityContext 
-     */
-    private $securityContext;
 
     /**
      * @var \Doctrine\ORM\EntityManager 
@@ -24,8 +18,7 @@ class LoginListener {
      * @param SecurityContext $securityContext
      * @param Doctrine $doctrine
      */
-    public function __construct(SecurityContext $securityContext, Doctrine $doctrine) {
-        $this->securityContext = $securityContext;
+    public function __construct(Doctrine $doctrine) {
         $this->em = $doctrine->getManager();
     }
 

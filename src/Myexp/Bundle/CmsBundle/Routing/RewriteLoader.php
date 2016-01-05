@@ -20,27 +20,34 @@ class RewriteLoader extends Loader {
      * @var type 
      */
     private $loaded = false;
-
-    /**
-     *
-     * @var type 
-     */
-    protected $rewrite;
-
+    
     /**
      *
      * @var type 
      */
     protected $registry;
+    
+    /**
+     *
+     * @var type 
+     */
+    protected $rewriteConfig;
+
+    /**
+     *
+     * @var type 
+     */
+    protected $contentModels;
 
     /**
      * 
      * @param RegistryInterface $registry
      * @param type $rewrite
      */
-    public function __construct(RegistryInterface $registry, $rewrite) {
+    public function __construct(RegistryInterface $registry, $rewriteConfig, $contentModels) {
         $this->registry = $registry;
-        $this->rewrite = $rewrite;
+        $this->rewriteConfig = $rewriteConfig;
+        $this->contentModels = $contentModels;
     }
 
     /**
@@ -56,7 +63,7 @@ class RewriteLoader extends Loader {
 
         $routes = new RouteCollection();
 
-        if ($this->rewrite['on']) {
+        if ($this->rewriteConfig['on']) {
             $this->loadContentModelDefaultRoute($routes);
             $this->loadUrlAliasRoute($routes);
         }
@@ -71,7 +78,7 @@ class RewriteLoader extends Loader {
      */
     private function loadContentModelDefaultRoute(RouteCollection $routes) {
 
-        $contentModels = $this->rewrite['content_models'];
+        $contentModels = $this->contentModels;
         if ($contentModels) {
 
             $em = $this->registry->getEntityManager();
@@ -79,7 +86,7 @@ class RewriteLoader extends Loader {
                 $rep = $em->getRepository('MyexpCmsBundle:' . $contentModel);
 
                 if ($rep instanceof ContentModel) {
-                    $defaultRoutes = $rep->getDefaultRoute($this->rewrite['url_surffix']);
+                    $defaultRoutes = $rep->getDefaultRoute($this->rewriteConfig['url_suffix']);
                     $routes->addCollection($defaultRoutes);
                 }
             }
@@ -91,7 +98,7 @@ class RewriteLoader extends Loader {
      */
     private function loadUrlAliasRoute(RouteCollection $routes) {
 
-        $em = $this->registry->getEntityManager();
+        $em = $this->registry->getManager();
         $urlAliasRepo = $em->getRepository("MyexpCmsBundle:UrlAlias");
 
         $urlAliases = $urlAliasRepo->findAll();
@@ -105,7 +112,7 @@ class RewriteLoader extends Loader {
             $requirements = array();
             $route = new Route($path, array_merge($defaults, $parameters), $requirements);
 
-            $routeName = 'rewriteRoute' . $urlAlias->getId();
+            $routeName = '_urlRewriteRoute_' . $urlAlias->getId();
             $routes->add($routeName, $route);
         }
     }

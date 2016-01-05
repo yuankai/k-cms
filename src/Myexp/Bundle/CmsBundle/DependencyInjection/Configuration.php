@@ -11,7 +11,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * @author Kevin
  */
 class Configuration implements ConfigurationInterface {
-    
+
     /**
      *
      * @var type 
@@ -19,11 +19,23 @@ class Configuration implements ConfigurationInterface {
     private $debug;
     
     /**
+     *
+     * @var type 
+     */
+    private $locales = array('zh', 'en');
+    
+    /**
+     *
+     * @var type 
+     */
+    private $models = array('Page', 'Article');
+
+    /**
      * 
      * @param type $debug
      */
     public function __construct($debug) {
-        $this->debug = (bool)$debug;
+        $this->debug = (bool) $debug;
     }
 
     /**
@@ -36,13 +48,36 @@ class Configuration implements ConfigurationInterface {
         $rootNode = $treeBuilder->root('myexp_cms');
 
         $rootNode
-            ->children()
-                
-                ->arrayNode('enabled_locales')->end()
-                
-            ->end()
+                ->children()
+                    ->arrayNode('enabled_locales')
+                        ->defaultValue($this->locales)
+                        ->prototype('scalar')
+                    ->end()
+                ->end()
         ;
-
+        
+        $rootNode
+                ->children()
+                    ->arrayNode('content_models')
+                        ->defaultValue($this->models)
+                        ->prototype('scalar')
+                    ->end()
+                ->end()
+        ;
+       
+      
+        $rootNode
+                ->children()
+                    ->arrayNode('url_rewrite')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->booleanNode('on')->defaultTrue()->end()
+                            ->scalarNode('url_suffix')->defaultValue('.html')->end()
+                        ->end()
+                    ->end()
+                ->end()
+        ;
+        
         return $treeBuilder;
     }
 

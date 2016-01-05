@@ -3,21 +3,21 @@ services:
     # 以及登录次数
     myexp_cms.listener.login_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LoginListener'
-        arguments: ['@security.context', '@doctrine']
+        arguments: ['@doctrine']
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
     
     # 本地化监听器，用于设置全局locale
     myexp_cms.listener.locale_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\LocaleListener'
-        arguments: ['%myexp_cms_locales%', %locale%]
+        arguments: [%myexp_cms.enabled_locales%, %locale%]
         tags:
             - { name: kernel.event_subscriber}
             
     # 视图监听器，用于设置全局变量
     myexp_cms.listener.view_listener:
         class: 'Myexp\Bundle\CmsBundle\EventListener\ViewListener'
-        arguments: ['@doctrine', %myexp_cms_rewrite%]
+        arguments: ['@doctrine', %myexp_cms.url_rewrite%]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
             - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
@@ -32,6 +32,6 @@ services:
     # 自定义路由加载器，加载内容类型默认路由以及URL别名
     myexp_cms.routing_loader:
         class: 'Myexp\Bundle\CmsBundle\Routing\RewriteLoader'
-        arguments: ['@doctrine', %myexp_cms_rewrite%]
+        arguments: ['@doctrine', %myexp_cms.url_rewrite%, %myexp_cms.content_models%]
         tags:
             - { name: routing.loader }
