@@ -1,4 +1,4 @@
-{% extends 'MyexpCmsBundle::base.html.twig' %}
+{% extends 'MyexpCmsBundle::layout.html.twig' %}
 {% block title %}{{ 'back.manage'|trans }}{{parent()}}{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
@@ -21,7 +21,7 @@
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             <h2 class="ui teal image header">
-                <img src="{{ asset('bundles/cms/images/logo.png') }}" class="image"/>
+                <img src="{{ asset('bundles/myexpcms/images/logo.png') }}" class="image"/>
                 <div class="content">
                     Log-in to your account
                 </div>

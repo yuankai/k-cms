@@ -32,7 +32,7 @@ class UserController extends Controller {
 
         $helper = $this->get('security.authentication_utils');
 
-        $form = $this->createForm(new LoginType());
+        $form = $this->createForm(LoginType::class);
 
         return array(
             'last_username' => $helper->getLastUsername(),

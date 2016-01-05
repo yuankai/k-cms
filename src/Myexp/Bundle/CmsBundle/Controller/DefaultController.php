@@ -25,10 +25,10 @@ class DefaultController extends Controller {
      */
     public function indexAction(Request $request) {
         
+        var_dump($request->getLocale());
+        
         //传值
-        return array(
-           'a'=>'b'
-        );
+        return array();
     }
 
     /**

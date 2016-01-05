@@ -1,4 +1,4 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
 {% block title %}{{ 'nav.home'|trans }}{{ parent() }}{% endblock %}
 {% block breadcrumd %}
     <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> > <a href="{{app.request.getRequestUri()}}">{{ 'back.dashboard'|trans }}</a></span>
