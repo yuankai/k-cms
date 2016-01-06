@@ -41,7 +41,7 @@ class UserType extends AbstractType {
                     'expanded' => true,
                     'multiple' => true
                 ))
-                ->add('save', SubmitType::class, array('label'=>'common.save'))
+                ->add('save', SubmitType::class, array('label'=>'common.submit'))
         ;
     }
 

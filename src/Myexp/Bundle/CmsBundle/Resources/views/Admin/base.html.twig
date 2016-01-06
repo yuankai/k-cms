@@ -83,7 +83,14 @@
                                 <div class="flash_notice">{{ flashMessage | trans }}</div>
                             {% endfor %}
                         {% endif %}
-                    {% block content %}{% endblock %}
+                        <div class="ui breadcrumb">
+                            <a class="section" href="{{ path('admin_homepage') }}">{{ 'nav.home'|trans }}</a>
+                            <i class="right angle icon divider"></i>
+                            {% block breadcrumd %}{% endblock %}
+                        </div>
+                        <div class="ui content">
+                            {% block content %}{% endblock %}
+                        </div>
                     </div>
                 </div>
             </div>

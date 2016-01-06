@@ -4,7 +4,7 @@
         <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('photo')}}">{{ 'photo.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'photo.new'|trans }}</a></span>
 {% endblock %}
 {% block content %}
-<form action="{{ path('photo_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('photo_create') }}" method="post">
     <div class="form">
         {% form_theme form 'MyexpCmsBundle:Form:tabs.html.twig' %}
         {{ form_widget(form) }}

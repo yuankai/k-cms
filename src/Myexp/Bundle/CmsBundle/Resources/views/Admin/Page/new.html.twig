@@ -1,13 +1,12 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
 {% block title %}{{ 'page.new'|trans }}{% endblock %}
 {% block breadcrumd %}
-    <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> >
-    <a href="{{path('page')}}">{{ 'page.manage'|trans }}</a> >
-    <a href="{{app.request.getRequestUri()}}">{{ 'page.new'|trans }}</a>
+    <a class="section" href="{{ path('admin_page') }}">{{ 'page.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'page.new'|trans }}</div>
 {% endblock %}
 {% block content %}
-    {% form_theme form 'MyexpCmsBundle:Admin/Form:fields.html.twig' %}
-    {{ form_start(form, {action:path('page_create')}) }}
+    {{ form_start(form, {action:path('admin_page_create')}) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock %}

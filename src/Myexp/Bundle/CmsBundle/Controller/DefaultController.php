@@ -24,9 +24,6 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function indexAction(Request $request) {
-        
-        var_dump($request->getLocale());
-        
         //传值
         return array();
     }

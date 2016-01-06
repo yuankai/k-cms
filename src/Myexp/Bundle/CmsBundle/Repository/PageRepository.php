@@ -37,6 +37,18 @@ class PageRepository extends EntityRepository implements ContentModel {
 
         return $routes;
     }
+    
+    /**
+     * 获得分页查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function getPaginationQuery($params = null) {
+        $qb = $this->buildQuery($params);
+
+        return $qb->getQuery();
+    }
 
     public function getPageCount($params = null) {
 
@@ -44,26 +56,6 @@ class PageRepository extends EntityRepository implements ContentModel {
         $qb->select($qb->expr()->count('a'));
 
         return $qb->getQuery()->getSingleScalarResult();
-    }
-
-    public function getPagesWithPagination($params = null, $order_by = array(), $offset = 0, $limit = 0) {
-
-        $qb = $this->buildQuery($params);
-
-        if ((isset($offset)) && (isset($limit))) {
-            if ($limit > 0) {
-                $qb->setFirstResult($offset);
-                $qb->setMaxResults($limit);
-            }
-        }
-
-        foreach ($order_by as $key => $value) {
-            $qb->add('orderBy', $key . ' ' . $value);
-        }
-
-        $q = $qb->getQuery();
-
-        return $q->getResult();
     }
 
     private function buildQuery($params) {

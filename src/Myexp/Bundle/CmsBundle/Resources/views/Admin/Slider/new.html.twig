@@ -4,7 +4,7 @@
 <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('slider')}}">{{ 'slider.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'slider.new'|trans }}</a></span>
 {% endblock %}
 {% block content %}
-<form action="{{ path('slider_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('slider_create') }}" method="post">
     <div class="form">
         {{ form_widget(form) }}
         <div class="form-actions">

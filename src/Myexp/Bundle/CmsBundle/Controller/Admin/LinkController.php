@@ -16,7 +16,15 @@ use Myexp\Bundle\CmsBundle\Form\LinkType;
  *
  * @Route("/admin/link")
  */
-class LinkController extends Controller {
+class LinkController extends AdminController {
+
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_link';
 
     /**
      * Lists all Link entities.
@@ -32,9 +40,9 @@ class LinkController extends Controller {
 
         $entities = $em->getRepository('MyexpCmsBundle:Link')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
+        return $this->display(array(
+                    'entities' => $entities,
+        ));
     }
 
     /**
@@ -238,8 +246,8 @@ class LinkController extends Controller {
                         ->getForm()
         ;
     }
-    
-     /**
+
+    /**
      * Displays a form to create a new Link entity.
      *
      * @Route("/link/apply", name="link_apply")

@@ -1,0 +1,30 @@
+{% extends "form_div_layout.html.twig" %}
+
+{# 表单开始，增加ui form样式 #}
+{%- block form_start -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' ui form')|trim}) -%}
+    {{ parent() }}
+{%- endblock form_start -%}
+
+{# 增加字段样式field #}
+{% block form_row %}
+{% spaceless %}
+    <div class="{% if required %}required {% endif %}field">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{# 按钮增加ui button样式 #}
+{%- block button_attributes -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' ui button')|trim}) -%}
+    {{ parent() }}
+{%- endblock button_attributes -%}
+
+{# 复选框增加ui checkbox样式 #}
+{%- block choice_widget_expanded -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' ui checkbox')|trim}) -%}
+    {{ parent() }}
+{%- endblock choice_widget_expanded -%}

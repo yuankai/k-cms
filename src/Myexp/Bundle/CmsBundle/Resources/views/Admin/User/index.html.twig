@@ -1,18 +1,11 @@
 {% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
 {% block title %}{{ 'user.list'|trans }}{% endblock %}
 {% block breadcrumd %}
-    <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'user.manage'|trans }}</a></span>
+    <a class="section" href="{{ path('admin_homepage') }}">{{ 'nav.home'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'user.manage'|trans }}</div>
 {% endblock %}
 {% block content %}
-
-<div class="ui breadcrumb">
-  <a class="section">Home</a>
-  <i class="right angle icon divider"></i>
-  <a class="section">Store</a>
-  <i class="right angle icon divider"></i>
-  <div class="active section">T-Shirt</div>
-</div>
-
 <table class="ui green table">
     <thead>
         <tr>
@@ -44,15 +37,15 @@
     <tfoot>
         <tr>
             <th colspan="6">
-                <div class="ui left small button">
+                <button class="ui left small button">
                     Approve
-                </div>
-                <div class="ui left small button">
+                </button>
+                <button class="ui left small button">
                     Approve All
-                </div>
-                <div class="ui left small teal labeled icon button">
-                    <i class="user icon"></i> Add User
-                </div>
+                </button>
+                <a class="ui left small teal labeled icon button" href="{{ path('admin_user_new') }}">
+                    <i class="user icon"></i> {{ 'user.new'|trans }}
+                </a>
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>
@@ -69,5 +62,4 @@
         </tr>
     </tfoot>
 </table>
-
 {% endblock %}

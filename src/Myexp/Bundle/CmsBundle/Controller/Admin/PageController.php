@@ -33,36 +33,39 @@ class PageController extends AdminController {
      * @Method("GET")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
 
-        $pageRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Page');
+        $pageRepo = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('MyexpCmsBundle:Page');
 
         $params = array();
+        $query = $pageRepo->getPaginationQuery($params);
 
-        $pageTotal = $pageRepo->getPageCount($params);
-        $sorts = array('a.createDate' => 'DESC', 'a.id' => 'DESC');
-        $entities = $pageRepo->getPagesWithPagination(
-                $params, $sorts, 0,10
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query, $request->query->getInt('page', 1)
         );
 
         return $this->display(array(
-            'entities' => $entities,
+            'pagination' => $pagination
         ));
     }
 
     /**
      * Creates a new Page entity.
      *
-     * @Route("/", name="page_create")
+     * @Route("/", name="admin_page_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
-     * @Template("MyexpCmsBundle:Page:new.html.twig")
+     * @Template("MyexpCmsBundle:Admin/Page:new.html.twig")
      */
     public function createAction(Request $request) {
 
         $entity = new Page();
-        $form = $this->createForm(new PageType(), $entity);
-        $form->bind($request);
+        $form = $this->createForm(PageType::class, $entity);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
 
@@ -72,12 +75,12 @@ class PageController extends AdminController {
 
             $this->get('session')->getFlashBag()->add('notice', 'common.success');
 
-            return $this->redirect($this->generateUrl('page_show', array('name' => $entity->getName())));
+            return $this->redirect($this->generateUrl('admin_page'));
         }
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         );
     }
 
@@ -93,11 +96,11 @@ class PageController extends AdminController {
 
         $entity = new Page();
         
-        $form = $this->createForm(new PageType(), $entity);
+        $form = $this->createForm(PageType::class, $entity);
 
         return $this->display(array(
             'entity' => $entity,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ));
     }
 
@@ -105,7 +108,7 @@ class PageController extends AdminController {
     /**
      * Displays a form to edit an existing Page entity.
      *
-     * @Route("/{id}/edit", name="page_edit")
+     * @Route("/{id}/edit", name="admin_page_edit")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()

@@ -54,7 +54,7 @@ class MyexpCmsExtension extends Extension implements PrependExtensionInterface {
             $container->prependExtensionConfig(
                 'twig', array(
                     'form_theme' => array(
-                        'MyexpCmsBundle:layout:form-theme.html.twig'
+                        'MyexpCmsBundle:Theme:form.html.twig'
                     )
                 )
             );
@@ -64,8 +64,16 @@ class MyexpCmsExtension extends Extension implements PrependExtensionInterface {
         if (isset($bundles['KnpPaginatorBundle'])) {
             $container->prependExtensionConfig(
                 'knp_paginator', array(
+                    'page_range' => 5,
+                    'default_options' => array(
+                        'page_name'=> 'page',
+                        'sort_field_name' => 'sort',
+                        'sort_direction_name'=> 'direction',
+                        'distinct'=> true
+                    ),
                     'template' => array(
-                        'pagination' => 'MyexpCmsBundle:layout:form-theme.html.twig'
+                        'pagination' => 'MyexpCmsBundle:Theme:pagination.html.twig',
+                        'sortable'=> 'MyexpCmsBundle:Theme:sortable_link.html.twig'
                     )
                 )
             );

@@ -91,7 +91,7 @@ class ArticleController extends AdminController {
     /**
      * Creates a new Article entity.
      *
-     * @Route("/", name="article_create")
+     * @Route("/", name="admin_article_create")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Article:new.html.twig")
      */
@@ -121,7 +121,7 @@ class ArticleController extends AdminController {
     /**
      * Displays a form to create a new Article entity.
      *
-     * @Route("/new", name="article_new")
+     * @Route("/new", name="admin_article_new")
      * @Method("POST|GET")
      * @Template()
      */
@@ -131,7 +131,7 @@ class ArticleController extends AdminController {
 
         $entity->setIsActive(true);
         $entity->setPublishTime(new \DateTime());
-        $form = $this->createForm(new ArticleType(), $entity);
+        $form = $this->createForm(ArticleType::class, $entity);
 
         return array(
             'entity' => $entity,

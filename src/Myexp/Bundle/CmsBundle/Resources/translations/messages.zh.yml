@@ -51,7 +51,7 @@ user:
         new: 新密码
         confirm: 确认密码
     active: 是否可用
-    group: 用户组
+    role: 角色
 
 login:
     title: 用户登录

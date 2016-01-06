@@ -4,7 +4,7 @@
 <a href="{{ path('admin_homepage') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('admin_user')}}">{{ 'user.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'user.edit'|trans }}</a></span>
 {% endblock %}
 {% block content -%}
-<form action="{{ path('admin_user_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="ui form">
+<form action="{{ path('admin_user_update', { 'id': entity.id }) }}" method="post" class="ui form">
     <div class="form">
         <input type="hidden" name="_method" value="PUT" />
        {{ form_widget(edit_form) }}

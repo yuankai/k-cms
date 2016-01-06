@@ -4,7 +4,7 @@
         <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('category')}}">{{ 'category.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'category.new'|trans }}</a></span>
 {% endblock %}
 {% block content %}
-<form action="{{ path('category_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('category_create') }}" method="post">
         {% form_theme form 'MyexpCmsBundle:Form:tabs.html.twig' %}
         {{ form_widget(form) }}
         <div class="form-actions">

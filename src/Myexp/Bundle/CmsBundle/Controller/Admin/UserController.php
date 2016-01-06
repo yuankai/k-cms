@@ -160,10 +160,10 @@ class UserController extends AdminController {
         $entity = new User();
         $form = $this->createForm(UserType::class, $entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
