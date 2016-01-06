@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
 
 class PageType extends AbstractType {
 
@@ -18,7 +19,7 @@ class PageType extends AbstractType {
                 ->add('title', TextType::class, array(
                     'label' => 'page.title'
                 ))
-                ->add('content', TextareaType::class, array(
+                ->add('content', EditorType::class, array(
                     'label' => 'page.content',
                     'required' => false
                 ))
@@ -40,9 +41,4 @@ class PageType extends AbstractType {
             'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Page'
         ));
     }
-
-    public function getName() {
-        return 'myexp_bundle_cmsbundle_page';
-    }
-
 }

@@ -10,14 +10,3 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock %}
-{% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        //var editor_zh = CKEDITOR.replace('smt_cmsbundle_page_type_translations_zh_content');
-        //CKFinder.setupCKEditor(editor_zh, '/ckfinder/');
-    });
-</script>
-{% endblock %}

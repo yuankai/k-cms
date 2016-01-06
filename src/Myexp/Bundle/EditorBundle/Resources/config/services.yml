@@ -1,0 +1,5 @@
+services:
+    myexp_editor.form.editor_type:
+        class: Myexp\Bundle\EditorBundle\Form\Type\EditorType
+        tags:
+            - { name: form.type, alias: editor}

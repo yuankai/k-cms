@@ -1,3 +1,7 @@
-myexp_cms_bundle:
+myexp_editor:
+    resource: "@MyexpEditorBundle/Resources/config/routing.yml"
+    prefix:   /
+
+myexp_cms:
     resource: "@MyexpCmsBundle/Resources/config/routing.yml"
     prefix:   /
