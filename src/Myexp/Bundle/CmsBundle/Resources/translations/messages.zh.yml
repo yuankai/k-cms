@@ -1,8 +1,12 @@
-site:
-    name: 默认网站
+admin:
+    homepage: 管理首页
+    dashboard: 管理面板
+    settings: 系统设置
 
 common:
     submit: 提交
+    create: 创建
+    update: 更新
     reset: 重置
     yes: 是
     no: 否
@@ -20,7 +24,7 @@ common:
     success: 操作成功！
     down: 下载
     more: 更多
-    notice: 通知公告
+    notice: 操作提醒
 
 paginator:
     limit: 每页显示：
@@ -182,8 +186,8 @@ back:
 news: 
     manage: 新闻管理
     
-contentgroup:
-    manage: 栏目管理
+product:
+    manage: 产品管理
     
 sort:
     manage: 页面分类
@@ -233,4 +237,20 @@ slider:
     photo_add: 新增图片
     photo_delete: 删除图片
     
-    
+website:
+    homepage: 网站首页
+    manage: 网站管理
+    new: 新建站点
+    edit: 编辑站点
+    id: 编号
+    list: 站点列表
+    show: 查看站点
+    title: 标题
+    http_url: HTTP网址
+    https_url: HTTPS网址
+    icp_num: ICP备案号
+    address: 地址
+    zip_code: 邮编
+    email: 电子邮箱
+    tel: 电话
+    fax: 传真

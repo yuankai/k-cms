@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Myexp\Bundle\CmsBundle\Entity\Page;
 use Myexp\Bundle\CmsBundle\Form\PageType;
 
@@ -16,7 +18,7 @@ use Myexp\Bundle\CmsBundle\Form\PageType;
  * @Route("/admin/page")
  */
 class PageController extends AdminController {
-    
+
     /**
      *
      * 主菜单
@@ -49,7 +51,7 @@ class PageController extends AdminController {
         );
 
         return $this->display(array(
-            'pagination' => $pagination
+                    'pagination' => $pagination
         ));
     }
 
@@ -78,10 +80,10 @@ class PageController extends AdminController {
             return $this->redirect($this->generateUrl('admin_page'));
         }
 
-        return array(
-            'entity' => $entity,
-            'form' => $form->createView()
-        );
+        return $this->display(array(
+                    'entity' => $entity,
+                    'form' => $form->createView()
+        ));
     }
 
     /**
@@ -95,15 +97,14 @@ class PageController extends AdminController {
     public function newAction() {
 
         $entity = new Page();
-        
+
         $form = $this->createForm(PageType::class, $entity);
 
         return $this->display(array(
-            'entity' => $entity,
-            'form' => $form->createView()
+                    'entity' => $entity,
+                    'form' => $form->createView()
         ));
     }
-
 
     /**
      * Displays a form to edit an existing Page entity.
@@ -123,23 +124,23 @@ class PageController extends AdminController {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm = $this->createForm(new PageType(), $entity);
+        $editForm = $this->createForm(PageType::class, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return $this->display(array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView()
+        ));
     }
 
     /**
      * Edits an existing Page entity.
      *
-     * @Route("/{id}", name="page_update")
+     * @Route("/{id}", name="admin_page_update")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
-     * @Template("MyexpCmsBundle:Page:edit.html.twig")
+     * @Template("MyexpCmsBundle:Admin/Page:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
@@ -152,37 +153,33 @@ class PageController extends AdminController {
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new PageType(), $entity);
-        $editForm->bind($request);
+        $editForm = $this->createForm(PageType::class, $entity);
+        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-
-            $em->persist($entity);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('page_edit', array('id' => $id)));
+            return $this->redirectSuccess($this->generateUrl('admin_page'));
         }
 
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return $this->display(array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Deletes a Page entity.
      *
-     * @Route("/{id}", name="page_delete")
+     * @Route("/{id}", name="admin_page_delete")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
 
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -198,7 +195,7 @@ class PageController extends AdminController {
 
         $this->get('session')->getFlashBag()->add('notice', 'common.success');
 
-        return $this->redirect($this->generateUrl('page'));
+        return $this->redirect($this->generateUrl('admin_page'));
     }
 
     /**
@@ -211,25 +208,9 @@ class PageController extends AdminController {
     private function createDeleteForm($id) {
 
         return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
+                        ->add('id', HiddenType::class)
+                        ->add('delete', SubmitType::class, array('label' => 'common.delete'))
                         ->getForm();
-    }
-
-    /**
-     * Render current menu
-     *
-     * @Route("/upnew", name="page_upnew")
-     * @Method("GET")
-     * @Template()
-     */
-    public function upnewAction() {
-
-        //置顶新闻查询笼位剩余数量
-        $upnews = $this->getDoctrine()->getRepository('MyexpCmsBundle:Page')->findOneBy(array('name' => 'cage'));
-
-        return array(
-            'upnews' => $upnews
-        );
     }
 
 }

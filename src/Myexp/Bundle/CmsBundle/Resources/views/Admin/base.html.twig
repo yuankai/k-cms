@@ -11,11 +11,18 @@
     </head>
     <body>
         {% block body %}
-            
-            <div class="ui teal inverted menu fluid">
+            <div class="ui teal inverted fluid menu">
                 <div class="header item">K-CMS</div>
-                <div class="active item"><i class="home icon"></i>管理首页</div>
-                <a class="item" href="/"><i class="browser icon"></i>网站首页</a>
+                <div class="active item"><i class="home icon"></i>{{ 'admin.homepage'|trans }}</div>
+                <div class="ui dropdown item">
+                    <i class="linkify icon"></i>{{ 'website.homepage'|trans }}<i class="dropdown icon"></i>
+                    <div class="menu transition hidden" tabindex="-1">
+                        <div class="item">Action</div>
+                        <div class="item">Another Action</div>
+                        <div class="item">Something else here</div>
+                    </div>
+                </div>
+                <a class="sidebar item"><i class="sidebar icon"></i></a>
                 <div class="right menu">
                     <div class="item">
                         <div class="ui transparent inverted icon input">
@@ -30,59 +37,51 @@
                             <div class="item">Another Action</div>
                             <div class="item">Something else here</div>
                             <div class="divider"></div>
-                            <div class="item">Separated Link</div>
+                            <a class="item" href="{{ path('user_logout') }}">{{ 'user.password.change'|trans }}</a>
                             <div class="divider"></div>
-                            <a class="item" href="{{ path('user_logout') }}">退出</a>
+                            <a class="item" href="{{ path('user_logout') }}">{{ 'user.logout'|trans }}</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="container">
-                <div class="ui grid">
-                    <div class="three wide column">
-                        <div class="ui vertical pointing menu fluid">
-                            {% if primaryMenu is not defined %}
-                                {% set primaryMenu = "" %}
-                            {% endif %}
-                            <a class="{% if primaryMenu == "admin_homepage" %}active teal {% endif %}item" href="{{ path('admin_homepage') }}">
-                                <i class="dashboard icon"></i> 控制面板
-                            </a>
-                            <a class="{% if primaryMenu == "admin_article" %}active teal {% endif %}item" href="{{ path('admin_article') }}">
-                                <i class="archive icon"></i> 文章管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_page" %}active teal {% endif %}item" href="{{ path('admin_page') }}">
-                                <i class="file icon"></i> 页面管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_download" %}active teal {% endif %}item" href="{{ path('admin_download') }}">
-                                <i class="attach icon"></i> 下载管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_product" %}active teal {% endif %}item" href="{{ path('admin_product') }}">
-                                <i class="database icon"></i> 产品管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_album" %}active teal {% endif %}item" href="{{ path('admin_album') }}">
-                                <i class="photo icon"></i> 相册管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
-                                <i class="user icon"></i> 用户管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_link" %}active teal {% endif %}item" href="{{ path('admin_link') }}">
-                                <i class="linkify icon"></i> 链接管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
-                                <i class="home icon"></i> 网站管理
-                            </a>
-                            <a class="{% if primaryMenu == "admin_settings" %}active teal {% endif %}item" href="#">
-                                <i class="settings icon"></i> 系統设置
-                            </a>
-                        </div>
-                    </div>
-                    <div class="thirteen wide column">
-                        {% if app.session.started %}
-                            {% for flashMessage in app.session.flashbag.get('notice') %}
-                                <div class="flash_notice">{{ flashMessage | trans }}</div>
-                            {% endfor %}
-                        {% endif %}
+            <div class="ui segment pushable">
+                <div class="ui visible left vertical sidebar menu">
+                    {% if primaryMenu is not defined %}
+                        {% set primaryMenu = "" %}
+                    {% endif %}
+                    <a class="{% if primaryMenu == "admin_homepage" %}active teal {% endif %}item" href="{{ path('admin_homepage') }}">
+                        <i class="dashboard icon"></i> {{ 'admin.dashboard'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_article" %}active teal {% endif %}item" href="{{ path('admin_article') }}">
+                        <i class="archive icon"></i> {{ 'article.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_page" %}active teal {% endif %}item" href="{{ path('admin_page') }}">
+                        <i class="file icon"></i> {{ 'page.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_download" %}active teal {% endif %}item" href="{{ path('admin_download') }}">
+                        <i class="attach icon"></i> {{ 'download.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_product" %}active teal {% endif %}item" href="{{ path('admin_product') }}">
+                        <i class="database icon"></i> {{ 'product.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_album" %}active teal {% endif %}item" href="{{ path('admin_album') }}">
+                        <i class="photo icon"></i> {{ 'album.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
+                        <i class="user icon"></i> {{ 'user.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_link" %}active teal {% endif %}item" href="{{ path('admin_link') }}">
+                        <i class="linkify icon"></i> {{ 'link.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
+                        <i class="home icon"></i> {{ 'website.manage'|trans }}
+                    </a>
+                    <a class="{% if primaryMenu == "admin_settings" %}active teal {% endif %}item" href="#">
+                        <i class="settings icon"></i> {{ 'admin.settings'|trans }}
+                    </a>
+                </div>
+                <div class="ui pusher">
+                    <div class="ui basic segment">
                         <div class="ui breadcrumb">
                             <a class="section" href="{{ path('admin_homepage') }}">{{ 'nav.home'|trans }}</a>
                             <i class="right angle icon divider"></i>
@@ -91,14 +90,22 @@
                         <div class="ui content">
                             {% block content %}{% endblock %}
                         </div>
+                        {% if app.session.started %}
+                            <div class="ui positive message">
+                                <div class="header">{{ 'common.notice'|trans }}</div>
+                                <ul class="list">
+                                {% for flashMessage in app.session.flashbag.get('notice') %}
+                                <li>{{ flashMessage | trans }}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-
             <div id="footer-copyright">
                 <p>&copy; {{ 'now'|date('Y') }} - The K-CMS</p>
             </div>
-
         {% endblock %}
         {% block javascripts %}
         <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/jquery.min.js') }}"></script>
@@ -106,12 +113,16 @@
         <script type="text/javascript">
             var base_url = '{{ app.request.getBaseURL() }}';
             $(document).ready(function () {
-                $('.flash_notice').slideUp(2000);
+                //$('.message').slideUp(3000);
                 $('.ui.menu .ui.dropdown').dropdown({
                     on: 'hover'
                 });
-                $('.ui.menu a.item').on('click', function () {
-                    $(this).addClass('active').siblings().removeClass('active');
+                $('.sidebar.item').on('click', function () {
+                    $('.ui.segment .ui.sidebar').sidebar({
+                      context: '.ui.segment',
+                      closable: false,
+                      dimPage: false
+                    }).sidebar('toggle');
                 });
             });
         </script>

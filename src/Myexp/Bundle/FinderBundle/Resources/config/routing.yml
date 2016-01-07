@@ -1,0 +1,3 @@
+myexp_finder_homepage:
+    path:     /
+    defaults: { _controller: MyexpFinderBundle:Default:index }

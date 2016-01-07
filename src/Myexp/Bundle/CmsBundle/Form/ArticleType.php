@@ -4,7 +4,6 @@ namespace Myexp\Bundle\CmsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -12,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
 
 class ArticleType extends AbstractType {
 
@@ -21,7 +22,7 @@ class ArticleType extends AbstractType {
                     'label' => 'article.title',
                     'attr' => array('size' => 80)
                 ))
-                ->add('content', TextareaType::class, array(
+                ->add('content', EditorType::class, array(
                     'label' => 'article.content',
                     'required' => false
                 ))
