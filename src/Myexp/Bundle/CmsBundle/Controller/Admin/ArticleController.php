@@ -25,6 +25,12 @@ class ArticleController extends AdminController {
     protected $primaryMenu = 'admin_article';
 
     /**
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'MyexpCmsBundle:Article';
+
+    /**
      * Lists all Article entities.
      *
      * @Route("/", name="admin_article")
@@ -32,23 +38,7 @@ class ArticleController extends AdminController {
      * @Template()
      */
     public function indexAction(Request $request) {
-
-        $articleRepo = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('MyexpCmsBundle:Article');
-
-        $params = array();
-        $query = $articleRepo->getPaginationQuery($params);
-
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $query, $request->query->getInt('page', 1), 10
-        );
-
-        return $this->display(array(
-            'pagination' => $pagination
-        ));
+        return $this->index();
     }
 
     /**
@@ -133,10 +123,10 @@ class ArticleController extends AdminController {
         $entity->setPublishTime(new \DateTime());
         $form = $this->createForm(ArticleType::class, $entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**

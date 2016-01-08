@@ -3,7 +3,6 @@
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -35,14 +34,8 @@ class AlbumController extends AdminController {
      * @Method("GET")
      * @Template()
      */
-    public function indexAction() {
-
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('MyexpCmsBundle:Album')->findAll();
-
-        return $this->display(array(
-            'entities' => $entities,
-        ));
+    public function indexAction(Request $request) {
+        return $this->index($request, 'MyexpCmsBundle:Album');
     }
 
     /**

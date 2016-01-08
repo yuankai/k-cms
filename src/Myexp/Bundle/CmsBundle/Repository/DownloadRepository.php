@@ -9,5 +9,30 @@ namespace Myexp\Bundle\CmsBundle\Repository;
  * repository methods below.
  */
 class DownloadRepository extends \Doctrine\ORM\EntityRepository {
-    
+
+    /**
+     * 获得分页查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function getPaginationQuery($params = null) {
+        $qb = $this->buildQuery($params);
+
+        return $qb->getQuery();
+    }
+
+    /**
+     * 构造查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function buildQuery($params) {
+
+        $qb = $this->createQueryBuilder('d');
+
+        return $qb;
+    }
+
 }

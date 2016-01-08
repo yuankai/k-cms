@@ -69,20 +69,15 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getUsersWithPagination($order_by = array(), $offset = 0, $limit = 0) {
+    /**
+     * 获得分页查询
+     * 
+     * @param type $param
+     * @return type
+     */
+    public function getPaginationQuery($param) {
 
         $qb = $this->createQueryBuilder('u');
-
-        if ((isset($offset)) && (isset($limit))) {
-            if ($limit > 0) {
-                $qb->setFirstResult($offset);
-                $qb->setMaxResults($limit);
-            }
-        }
-
-        foreach ($order_by as $key => $value) {
-            $qb->add('orderBy', 'u.' . $key . ' ' . $value);
-        }
 
         $q = $qb->getQuery();
 

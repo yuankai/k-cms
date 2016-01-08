@@ -17,7 +17,7 @@ use Myexp\Bundle\CmsBundle\Form\WebsiteType;
  * @Route("/admin/website")
  */
 class WebsiteController extends AdminController {
-    
+
     /**
      *
      * 主菜单
@@ -27,6 +27,13 @@ class WebsiteController extends AdminController {
     protected $primaryMenu = 'admin_website';
 
     /**
+     *  主实体
+     * 
+     * @var type 
+     */
+    protected $primaryEntity = 'MyexpCmsBundle:Website';
+
+    /**
      * Lists all Website entities.
      *
      * @Route("/", name="admin_website")
@@ -34,13 +41,7 @@ class WebsiteController extends AdminController {
      * @Template()
      */
     public function indexAction() {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MyexpCmsBundle:Website')->findAll();
-
-        return $this->display(array(
-            'entities' => $entities,
-        ));
+        return $this->index();
     }
 
     /**
@@ -60,7 +61,7 @@ class WebsiteController extends AdminController {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirectSuccess($this->generateUrl('admin_website'));
+            return $this->redirectSucceed($this->generateUrl('admin_website'));
         }
 
         return array(
@@ -195,7 +196,7 @@ class WebsiteController extends AdminController {
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirectSuccess($this->generateUrl('admin_website'));
+            return $this->redirectSucceed($this->generateUrl('admin_website'));
         }
 
         return array(

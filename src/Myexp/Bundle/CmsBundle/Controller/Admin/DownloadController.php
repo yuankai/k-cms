@@ -26,6 +26,12 @@ class DownloadController extends AdminController {
      * @var type 
      */
     protected $primaryMenu = 'admin_download';
+    
+    /**
+     *主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'MyexpCmsBundle:Download';
 
 
     /**
@@ -37,19 +43,13 @@ class DownloadController extends AdminController {
      * @Template()
      */
     public function indexAction() {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MyexpCmsBundle:Download')->findAll();
-
-        return $this->display(array(
-            'entities' => $entities,
-        ));
+        return $this->index();
     }
 
     /**
      * Creates a new Download entity.
      *
-     * @Route("/", name="download_create")
+     * @Route("/", name="admin_download_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Download:new.html.twig")
@@ -76,7 +76,7 @@ class DownloadController extends AdminController {
     /**
      * Displays a form to create a new Download entity.
      *
-     * @Route("/new", name="download_new")
+     * @Route("/new", name="admin_download_new")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|POST")
      * @Template()
@@ -121,7 +121,7 @@ class DownloadController extends AdminController {
     /**
      * Displays a form to edit an existing Download entity.
      *
-     * @Route("/{id}/edit", name="download_edit")
+     * @Route("/{id}/edit", name="admin_download_edit")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
@@ -148,7 +148,7 @@ class DownloadController extends AdminController {
     /**
      * Edits an existing Download entity.
      *
-     * @Route("/{id}", name="download_update")
+     * @Route("/{id}", name="admin_download_update")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Download:edit.html.twig")
@@ -184,7 +184,7 @@ class DownloadController extends AdminController {
     /**
      * Deletes a Download entity.
      *
-     * @Route("/{id}", name="download_delete")
+     * @Route("/{id}", name="admin_download_delete")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */

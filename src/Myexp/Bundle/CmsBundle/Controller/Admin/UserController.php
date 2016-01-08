@@ -28,6 +28,12 @@ class UserController extends AdminController {
      * @var type 
      */
     public $primaryMenu = "admin_user";
+    
+    /**
+     *
+     * @var type 
+     */
+    public $primaryEntity = "MyexpCmsBundle:User";
 
     /**
      * Lists all User entities.
@@ -38,19 +44,7 @@ class UserController extends AdminController {
      * @Template()
      */
     public function indexAction() {
-
-        $user_repo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:User');
-
-        $user_total = $user_repo->getUserCount();
-        //$paginator = new Paginator($user_total);
-
-        $entities = $user_repo->getUsersWithPagination(
-                array('id' => 'DESC'), 0, 5
-        );
-
-        return $this->display(array(
-            'entities' => $entities
-        ));
+        return $this->index();
     }
 
     /**

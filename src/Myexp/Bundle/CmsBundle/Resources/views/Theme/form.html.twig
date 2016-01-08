@@ -19,7 +19,7 @@
 
 {# 按钮增加ui button样式 #}
 {%- block button_attributes -%}
-    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' ui button')|trim}) -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' ui teal button')|trim}) -%}
     {{ parent() }}
 {%- endblock button_attributes -%}
 

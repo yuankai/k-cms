@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %} - {{ 'admin.title'|trans }}{% endblock %}</title>
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('bundles/myexpcms/css/semantic.min.css') }}" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('bundles/myexpcms/css/admin.css') }}" rel="stylesheet" type="text/css"/>
@@ -12,7 +12,7 @@
     <body>
         {% block body %}
             <div class="ui teal inverted fluid menu">
-                <div class="header item">K-CMS</div>
+                <div class="header item">K-WEB</div>
                 <div class="active item"><i class="home icon"></i>{{ 'admin.homepage'|trans }}</div>
                 <div class="ui dropdown item">
                     <i class="linkify icon"></i>{{ 'website.homepage'|trans }}<i class="dropdown icon"></i>
@@ -22,7 +22,7 @@
                         <div class="item">Something else here</div>
                     </div>
                 </div>
-                <a class="sidebar item"><i class="sidebar icon"></i></a>
+                <a class="sidebar item"><i class="sidebar icon"></i>{{ 'admin.menu'|trans }}</a>
                 <div class="right menu">
                     <div class="item">
                         <div class="ui transparent inverted icon input">
@@ -44,44 +44,46 @@
                     </div>
                 </div>
             </div>
-            <div class="ui segment pushable">
-                <div class="ui visible left vertical sidebar menu">
-                    {% if primaryMenu is not defined %}
-                        {% set primaryMenu = "" %}
-                    {% endif %}
-                    <a class="{% if primaryMenu == "admin_homepage" %}active teal {% endif %}item" href="{{ path('admin_homepage') }}">
-                        <i class="dashboard icon"></i> {{ 'admin.dashboard'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_article" %}active teal {% endif %}item" href="{{ path('admin_article') }}">
-                        <i class="archive icon"></i> {{ 'article.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_page" %}active teal {% endif %}item" href="{{ path('admin_page') }}">
-                        <i class="file icon"></i> {{ 'page.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_download" %}active teal {% endif %}item" href="{{ path('admin_download') }}">
-                        <i class="attach icon"></i> {{ 'download.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_product" %}active teal {% endif %}item" href="{{ path('admin_product') }}">
-                        <i class="database icon"></i> {{ 'product.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_album" %}active teal {% endif %}item" href="{{ path('admin_album') }}">
-                        <i class="photo icon"></i> {{ 'album.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
-                        <i class="user icon"></i> {{ 'user.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_link" %}active teal {% endif %}item" href="{{ path('admin_link') }}">
-                        <i class="linkify icon"></i> {{ 'link.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
-                        <i class="home icon"></i> {{ 'website.manage'|trans }}
-                    </a>
-                    <a class="{% if primaryMenu == "admin_settings" %}active teal {% endif %}item" href="#">
-                        <i class="settings icon"></i> {{ 'admin.settings'|trans }}
-                    </a>
-                </div>
-                <div class="ui pusher">
-                    <div class="ui basic segment">
+            <div class="container">
+                <div class="ui grid">
+                    <div class="three wide column">
+                        <div class="ui vertical pointing fluid menu">
+                            {% if primaryMenu is not defined %}
+                                {% set primaryMenu = "" %}
+                            {% endif %}
+                            <a class="{% if primaryMenu == "admin_homepage" %}active teal {% endif %}item" href="{{ path('admin_homepage') }}">
+                                <i class="dashboard icon"></i> {{ 'admin.dashboard'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_article" %}active teal {% endif %}item" href="{{ path('admin_article') }}">
+                                <i class="archive icon"></i> {{ 'article.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_page" %}active teal {% endif %}item" href="{{ path('admin_page') }}">
+                                <i class="file icon"></i> {{ 'page.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_download" %}active teal {% endif %}item" href="{{ path('admin_download') }}">
+                                <i class="attach icon"></i> {{ 'download.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_product" %}active teal {% endif %}item" href="{{ path('admin_product') }}">
+                                <i class="database icon"></i> {{ 'product.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_album" %}active teal {% endif %}item" href="{{ path('admin_album') }}">
+                                <i class="photo icon"></i> {{ 'album.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_link" %}active teal {% endif %}item" href="{{ path('admin_link') }}">
+                                <i class="linkify icon"></i> {{ 'link.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
+                                <i class="home icon"></i> {{ 'website.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
+                                <i class="user icon"></i> {{ 'user.manage'|trans }}
+                            </a>
+                            <a class="{% if primaryMenu == "admin_settings" %}active teal {% endif %}item" href="#">
+                                <i class="settings icon"></i> {{ 'admin.settings'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="thirteen wide column">
                         <div class="ui breadcrumb">
                             <a class="section" href="{{ path('admin_homepage') }}">{{ 'nav.home'|trans }}</a>
                             <i class="right angle icon divider"></i>
@@ -90,12 +92,20 @@
                         <div class="ui content">
                             {% block content %}{% endblock %}
                         </div>
-                        {% if app.session.started %}
-                            <div class="ui positive message">
-                                <div class="header">{{ 'common.notice'|trans }}</div>
+                        {% if app.session.flashbag.has('notice') %}
+                            <div class="ui success message">
                                 <ul class="list">
                                 {% for flashMessage in app.session.flashbag.get('notice') %}
-                                <li>{{ flashMessage | trans }}</li>
+                                    <li>{{ flashMessage | trans }}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if app.session.flashbag.has('error') %}
+                            <div class="ui warning message">
+                                <ul class="list">
+                                {% for flashMessage in app.session.flashbag.get('error') %}
+                                    <li>{{ flashMessage | trans }}</li>
                                 {% endfor %}
                                 </ul>
                             </div>
@@ -104,7 +114,7 @@
                 </div>
             </div>
             <div id="footer-copyright">
-                <p>&copy; {{ 'now'|date('Y') }} - The K-CMS</p>
+                <p>&copy; {{ 'now'|date('Y') }} - The K-WEB</p>
             </div>
         {% endblock %}
         {% block javascripts %}
@@ -113,16 +123,18 @@
         <script type="text/javascript">
             var base_url = '{{ app.request.getBaseURL() }}';
             $(document).ready(function () {
-                //$('.message').slideUp(3000);
+                $('.message').fadeOut(2000);
                 $('.ui.menu .ui.dropdown').dropdown({
                     on: 'hover'
                 });
                 $('.sidebar.item').on('click', function () {
-                    $('.ui.segment .ui.sidebar').sidebar({
-                      context: '.ui.segment',
-                      closable: false,
-                      dimPage: false
-                    }).sidebar('toggle');
+                    if($('.three.wide.column').is(":hidden")){
+                        $('.three.wide.column').show();
+                        $('.sixteen.wide.column').attr('class', 'thirteen wide column');
+                    } else {
+                        $('.three.wide.column').hide();
+                        $('.thirteen.wide.column').attr('class', 'sixteen wide column');
+                    }
                 });
             });
         </script>
