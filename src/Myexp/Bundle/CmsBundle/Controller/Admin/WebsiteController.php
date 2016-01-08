@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Myexp\Bundle\CmsBundle\Entity\Website;
 use Myexp\Bundle\CmsBundle\Form\WebsiteType;
 
@@ -45,9 +46,9 @@ class WebsiteController extends AdminController {
     /**
      * Creates a new Website entity.
      *
-     * @Route("/", name="website_create")
+     * @Route("/", name="admin_website_create")
      * @Method("POST")
-     * @Template("MyexpCmsBundle:Website:new.html.twig")
+     * @Template("MyexpCmsBundle:Admin/Website:new.html.twig")
      */
     public function createAction(Request $request) {
         $entity = new Website();
@@ -59,12 +60,12 @@ class WebsiteController extends AdminController {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('website_show', array('id' => $entity->getId())));
+            return $this->redirectSuccess($this->generateUrl('admin_website'));
         }
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         );
     }
 
@@ -76,12 +77,12 @@ class WebsiteController extends AdminController {
      * @return \Symfony\Component\Form\Form The form
      */
     private function createCreateForm(Website $entity) {
-        $form = $this->createForm(new WebsiteType(), $entity, array(
-            'action' => $this->generateUrl('website_create'),
+        $form = $this->createForm(WebsiteType::class, $entity, array(
+            'action' => $this->generateUrl('admin_website_create'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', SubmitType::class, array('label' => 'common.create'));
 
         return $form;
     }
@@ -89,7 +90,7 @@ class WebsiteController extends AdminController {
     /**
      * Displays a form to create a new Website entity.
      *
-     * @Route("/new", name="website_new")
+     * @Route("/new", name="admin_website_new")
      * @Method("GET")
      * @Template()
      */
@@ -130,7 +131,7 @@ class WebsiteController extends AdminController {
     /**
      * Displays a form to edit an existing Website entity.
      *
-     * @Route("/{id}/edit", name="website_edit")
+     * @Route("/{id}/edit", name="admin_website_edit")
      * @Method("GET")
      * @Template()
      */
@@ -161,12 +162,12 @@ class WebsiteController extends AdminController {
      * @return \Symfony\Component\Form\Form The form
      */
     private function createEditForm(Website $entity) {
-        $form = $this->createForm(new WebsiteType(), $entity, array(
-            'action' => $this->generateUrl('website_update', array('id' => $entity->getId())),
+        $form = $this->createForm(WebsiteType::class, $entity, array(
+            'action' => $this->generateUrl('admin_website_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, array('label' => 'common.update'));
 
         return $form;
     }
@@ -174,9 +175,9 @@ class WebsiteController extends AdminController {
     /**
      * Edits an existing Website entity.
      *
-     * @Route("/{id}", name="website_update")
+     * @Route("/{id}", name="admin_website_update")
      * @Method("PUT")
-     * @Template("MyexpCmsBundle:Website:edit.html.twig")
+     * @Template("MyexpCmsBundle:Admin/Website:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
@@ -194,7 +195,7 @@ class WebsiteController extends AdminController {
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('website_edit', array('id' => $id)));
+            return $this->redirectSuccess($this->generateUrl('admin_website'));
         }
 
         return array(
@@ -207,7 +208,7 @@ class WebsiteController extends AdminController {
     /**
      * Deletes a Website entity.
      *
-     * @Route("/{id}", name="website_delete")
+     * @Route("/{id}", name="admin_website_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
@@ -238,9 +239,9 @@ class WebsiteController extends AdminController {
      */
     private function createDeleteForm($id) {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('website_delete', array('id' => $id)))
+                        ->setAction($this->generateUrl('admin_website_delete', array('id' => $id)))
                         ->setMethod('DELETE')
-                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->add('submit', SubmitType::class, array('label' => 'common.delete'))
                         ->getForm()
         ;
     }

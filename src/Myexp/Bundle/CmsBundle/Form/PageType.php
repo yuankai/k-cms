@@ -4,16 +4,22 @@ namespace Myexp\Bundle\CmsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
 
 class PageType extends AbstractType {
 
+    /**
+     * 
+     * 创建form
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('title', TextType::class, array(
@@ -30,15 +36,21 @@ class PageType extends AbstractType {
                     'required' => false,
                     'attr' => array('class' => 'number')
                 ))
-                 ->add('save', SubmitType::class, array(
-                    'label'=> 'common.submit'
+                ->add('save', SubmitType::class, array(
+                    'label' => 'common.submit'
                 ))
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    /**
+     * 默认配置
+     * 
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Page'
         ));
     }
+
 }

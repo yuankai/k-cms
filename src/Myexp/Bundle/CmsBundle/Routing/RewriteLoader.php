@@ -81,7 +81,7 @@ class RewriteLoader extends Loader {
         $contentModels = $this->contentModels;
         if ($contentModels) {
 
-            $em = $this->registry->getEntityManager();
+            $em = $this->registry->getManager();
             foreach ($contentModels as $contentModel) {
                 $rep = $em->getRepository('MyexpCmsBundle:' . $contentModel);
 

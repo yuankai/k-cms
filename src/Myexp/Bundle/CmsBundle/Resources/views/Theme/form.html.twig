@@ -11,8 +11,8 @@
 {% spaceless %}
     <div class="{% if required %}required {% endif %}field">
         {{ form_label(form) }}
+        {{ form_widget(form) }} 
         {{ form_errors(form) }}
-        {{ form_widget(form) }}
     </div>
 {% endspaceless %}
 {% endblock form_row %}

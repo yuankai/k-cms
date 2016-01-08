@@ -1,0 +1,5 @@
+services:
+    myexp_editor.form.finder_type:
+        class: Myexp\Bundle\FinderBundle\Form\Type\FinderType
+        tags:
+            - { name: form.type, alias: finder}

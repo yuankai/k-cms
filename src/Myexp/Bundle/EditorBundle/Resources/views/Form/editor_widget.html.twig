@@ -18,8 +18,8 @@
               {% for key, val in options %}
                 '{{ key }}': [{{ val | json_encode | raw }}],
               {% endfor %}
-              filebrowserImageBrowseUrl: '{{ asset('bundles/myexpeditor/elfinder/elfinder.html') }}',
-              skin: 'moono',
+              filebrowserImageBrowseUrl: '{{ asset('bundles/myexpfinder/elfinder/elfinder.html') }}',
+              skin: 'moono'
             });
         {% endautoescape %}
     </script>

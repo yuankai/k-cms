@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Myexp\Bundle\CmsBundle\MyexpCmsBundle(),
             new Myexp\Bundle\EditorBundle\MyexpEditorBundle(),
+            new Myexp\Bundle\FinderBundle\MyexpFinderBundle(),
+            new Myexp\Bundle\AdminBundle\MyexpAdminBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
