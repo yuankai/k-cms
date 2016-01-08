@@ -48,13 +48,25 @@ class ArticleRepository extends EntityRepository implements ContentModel {
         return $routes;
     }
 
+    /**
+     * 获得分页查询
+     * 
+     * @param type $params
+     * @return type
+     */
     public function getPaginationQuery($params = null) {
         $qb = $this->buildQuery($params);
 
         return $qb->getQuery();
     }
 
-    private function buildQuery($params) {
+    /**
+     * 构造查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function buildQuery($params) {
 
         $qb = $this->createQueryBuilder('a');
 
@@ -74,66 +86,4 @@ class ArticleRepository extends EntityRepository implements ContentModel {
 
         return $qb;
     }
-
-    public function getPictitles($category, $limit) {
-        $qb = $this->createQueryBuilder('p')
-                ->where('p.category = :category', 'p.picurl != :picurl')
-                ->setParameters(array(
-                    'category' => $category,
-                    'picurl' => 'NULL'
-                ))
-                ->orderBy('p.id', 'DESC')
-                ->setMaxResults($limit)
-                ->getQuery();
-
-        return $qb->getResult();
-    }
-
-    //搜索文章标题
-    public function getTitles($categoryId, $limit) {
-
-        $cateRepo = $this->getEntityManager()->getRepository('MyexpCmsBundle:Category');
-
-        $category = $cateRepo->find($categoryId);
-        $allChildren = $category->getAllChildren();
-
-        $qb = $this->createQueryBuilder('p');
-        $q = $qb
-                ->where($qb->expr()->in('p.category', ':category'))
-                ->setParameters(array('category' => $allChildren))
-                ->orderBy('p.id', 'DESC')
-                ->setMaxResults($limit)
-                ->getQuery()
-        ;
-
-        return $q->getResult();
-    }
-
-    //根据id查询category的pid
-    public function getCagetoryid($id) {
-        $qb = $this->createQueryBuilder('c')
-                ->where('c.id = :id ')
-                ->setParameter('id', $id)
-                ->getQuery();
-        return $qb->getResult();
-    }
-
-    //搜索结果
-    public function getResult1s($keyword) {
-        $qb = $this->createQueryBuilder('p');
-        $qb->where($qb->expr()->like('p.trans.title', "%$keyword%"));
-
-        $q = $qb->getQuery();
-        return $q;
-    }
-
-    public function getResults($keyword) {
-        $result = $this->createQueryBuilder('o')
-                ->andWhere('o.author LIKE :product')
-                ->setParameter('product', '%' . $keyword . '%')
-                ->getQuery()
-                ->getResult();
-        return $result;
-    }
-
 }
