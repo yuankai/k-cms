@@ -1,11 +1,11 @@
 {% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
-{% block title %}{{ 'link.list'|trans }}{% endblock %}
+{% block title %}{{ 'link.manage'|trans }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'link.manage'|trans }}</a></span>
+    <div class="active section">{{ 'link.manage'|trans }}</div>
 {% endblock %}
 {% block content %}
-<form action="{{ path('link_status') }}" method="post">
-    <table class="table table-striped table-bordered bootstrap-datatable datatable">
+    
+    <table class="ui green table">
         <thead>
             <tr>
                 <th class="id">{{ 'link.id'|trans }}</th>
@@ -16,8 +16,8 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
-                <tr>
+        {% for entity in pagination %}
+            <tr>
                     <td>
                         <a href="{{ path('link_show', { 'id': entity.id }) }}">{{ entity.id }}</a>
                         <input type="hidden" name="ids[]" value="{{ entity.id }}" />
@@ -26,17 +26,26 @@
                     <td><input type="text" name="paths[{{ entity.id }}]" value="{{ entity.path }}" /></td>
                     <td><input type="number" name="orders[{{ entity.id }}]" value="{{ entity.sortOrder }}" class="number" /></td>
                     <td class="actions">
-                        <a href="{{ path('link_show', { 'id': entity.id }) }}" class="btn btn-success">{{ 'common.show'|trans }}</a>
                         <a href="{{ path('link_edit', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'common.edit'|trans }}</a>
                     </td>
                 </tr>
         {% endfor %}
-            </tbody>
-        </table>
-        <div class="form-actions">
-            <input class="btn btn-primary" type="submit" value="{{ 'link.new'|trans }}"  onclick="saveToDraft(this, '{{ path('link_new') }}');" />
-            <input type="submit" class="btn" value="{{ 'common.submit'|trans }}" />
-            <input type="hidden" class="btn" name="url" value="{{ app.request.uri }}" />
-        </div>
-    </form>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="8">
+                    <div class="ui left small button">
+                        Approve
+                    </div>
+                    <div class="ui left small button">
+                        Approve All
+                    </div>
+                    <a class="ui left small teal labeled icon button" href="{{ path('admin_link_new') }}">
+                        <i class="archive icon"></i> {{ 'link.new'|trans }}
+                    </a>
+                    {{ knp_pagination_render(pagination) }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
 {% endblock %}

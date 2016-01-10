@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Myexp\Bundle\CmsBundle\Form\ChangePasswordType;
 use Myexp\Bundle\CmsBundle\Form\UserType;
 use Myexp\Bundle\CmsBundle\Form\UserEditType;
@@ -23,17 +22,24 @@ use Symfony\Component\Security\Core\SecurityContext;
  * @Route("/admin/user")
  */
 class UserController extends AdminController {
-    
+
     /**
      * @var type 
      */
     public $primaryMenu = "admin_user";
-    
+
     /**
      *
      * @var type 
      */
-    public $primaryEntity = "MyexpCmsBundle:User";
+    public $primaryEntity = "User";
+
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = UserType::class;
 
     /**
      * Lists all User entities.
@@ -109,14 +115,14 @@ class UserController extends AdminController {
      * Creates a new User entity.
      *
      * @Route("/create", name="admin_user_create")
-     * 
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:User:new.html.twig")
      */
     public function createAction(Request $request) {
 
         $entity = new User();
-        $form = $this->createForm(new UserType(), $entity);
+        $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -130,9 +136,7 @@ class UserController extends AdminController {
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+            return $this->redirectSucceed();
         }
 
         return array(
@@ -152,11 +156,11 @@ class UserController extends AdminController {
     public function newAction() {
 
         $entity = new User();
-        $form = $this->createForm(UserType::class, $entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->display(array(
-            'entity' => $entity,
-            'form' => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -202,7 +206,7 @@ class UserController extends AdminController {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $editForm = $this->createForm(new UserEditType(), $entity);
+        $editForm = $this->createEditForm(new UserEditType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -275,24 +279,7 @@ class UserController extends AdminController {
             $em->flush();
         }
 
-        $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-        return $this->redirect($this->generateUrl('user'));
+        return $this->redirectSucceed();
     }
-
-    /**
-     * Creates a form to delete a User entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
-                        ->getForm();
-    }
-    
 
 }

@@ -15,7 +15,7 @@ common:
     actions: 操作
     edit: 编辑
     delete: 删除
-    active: 通过审核
+    approve: 通过审核
     deny: 取消审核
     delete_confirm: 你确定要删除吗？
     show: 查看 
@@ -27,16 +27,17 @@ common:
     down: 下载
     more: 更多
     notice: 操作提醒
+    or: 或者
 
 paginator:
     limit: 每页显示：
     all: 所有
-    
+
 nav:
     home: 首页
     back: 返回
     location: 现在位置
-    
+
 user:
     welcome: 欢迎您，%name%
     login: 登录
@@ -70,7 +71,7 @@ register:
     email: 邮箱
     password: 密码
     password_confirm: 确认密码
-    
+
 article:
     list: 文章列表
     manage: 文章管理
@@ -88,7 +89,7 @@ article:
     publish_time: 发表时间
     is_active: 通过审核
     source: 来源
-    
+
 page:
     list: 页面列表
     manage: 页面管理
@@ -103,7 +104,7 @@ page:
     order: 栏目排序
     level: 栏目级别
     path: 标题图片
-    
+
 category:
     manage: 栏目管理
     new: 新建栏目
@@ -117,7 +118,7 @@ category:
     list: 分类列表
     show: 分类详细
     is_active: 侧边栏是否显示
-    
+
 menu:
     list: 菜单列表
     id: 菜单编号
@@ -131,7 +132,7 @@ menu:
     order: 菜单排序
     isIndex: 主页中部显示
     show: 查看菜单
-    
+
 link:
     list: 链接列表
     manage: 链接管理
@@ -155,7 +156,7 @@ album:
     new: 创建相册
     list: 相册列表
     edit: 修改相册
-    
+
 photo:
     manage: 图片管理
     album: 所属相册
@@ -172,7 +173,7 @@ photo:
     new: 新建图片
     edit: 修改图片
     show: 查看图片
-    
+
 back:
     main: 网站内容
     dashboard: 控制台
@@ -184,13 +185,14 @@ back:
     login: 请输入账号和密码
     lanuage: 切换页面语言
     current: 当前页
-    
+
 news: 
     manage: 新闻管理
-    
+
 product:
     manage: 产品管理
-    
+    new: 新建产品
+
 sort:
     manage: 页面分类
     new: 新建分类
@@ -199,10 +201,10 @@ sort:
     name: 分类名称
     list: 分类列表
     show: 分类详细
-    
+
 search:
     no_result: 该搜索词未找到结果
-    
+
 download:
     manage: 下载管理
     new: 新建下载页面
@@ -217,7 +219,7 @@ download:
     category: 栏目
     title: 标题名称
     url: 下载文件
-    
+
 slider:
     id: 幻灯编号
     manage: 幻灯管理
@@ -238,7 +240,7 @@ slider:
     photo_order: 图片排序
     photo_add: 新增图片
     photo_delete: 删除图片
-    
+
 website:
     homepage: 网站首页
     manage: 网站管理

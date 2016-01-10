@@ -39,7 +39,9 @@
                             <div class="divider"></div>
                             <a class="item" href="{{ path('user_logout') }}">{{ 'user.password.change'|trans }}</a>
                             <div class="divider"></div>
-                            <a class="item" href="{{ path('user_logout') }}">{{ 'user.logout'|trans }}</a>
+                            <a class="item" href="{{ path('user_logout') }}">
+                                <i class="sign out icon"></i>{{ 'user.logout'|trans }}
+                            </a>
                         </div>
                     </div>
                 </div>

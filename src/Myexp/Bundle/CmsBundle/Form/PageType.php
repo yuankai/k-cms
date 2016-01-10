@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
@@ -35,9 +34,6 @@ class PageType extends AbstractType {
                     'label' => 'category.order',
                     'required' => false,
                     'attr' => array('class' => 'number')
-                ))
-                ->add('save', SubmitType::class, array(
-                    'label' => 'common.submit'
                 ))
         ;
     }

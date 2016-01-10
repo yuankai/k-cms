@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Album;
-use Myexp\Bundle\CmsBundle\Entity\AlbumTranslation;
 use Myexp\Bundle\CmsBundle\Form\AlbumType;
 
 /**
@@ -17,14 +16,27 @@ use Myexp\Bundle\CmsBundle\Form\AlbumType;
  * @Route("/admin/album")
  */
 class AlbumController extends AdminController {
-    
-     /**
+
+    /**
      *
      * 主菜单
      * 
      * @var type 
      */
     protected $primaryMenu = 'admin_album';
+
+    /**
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'Album';
+
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = AlbumType::class;
 
     /**
      * Lists all Album entities.
@@ -34,14 +46,14 @@ class AlbumController extends AdminController {
      * @Method("GET")
      * @Template()
      */
-    public function indexAction(Request $request) {
-        return $this->index($request, 'MyexpCmsBundle:Album');
+    public function indexAction() {
+        return $this->index();
     }
 
     /**
      * Creates a new Album entity.
      *
-     * @Route("/", name="album_create")
+     * @Route("/", name="admin_album_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Album:new.html.twig")
@@ -49,8 +61,8 @@ class AlbumController extends AdminController {
     public function createAction(Request $request) {
 
         $entity = new Album();
-        $form = $this->createForm(new AlbumType(), $entity);
-        $form->bind($request);
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
 
@@ -58,9 +70,7 @@ class AlbumController extends AdminController {
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('album_show', array('name' => $entity->getName())));
+            return $this->redirectSucceed();
         }
 
         return array(
@@ -72,7 +82,7 @@ class AlbumController extends AdminController {
     /**
      * Displays a form to create a new Album entity.
      *
-     * @Route("/new", name="album_new")
+     * @Route("/new", name="admin_album_new")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
@@ -80,17 +90,8 @@ class AlbumController extends AdminController {
     public function newAction() {
 
         $entity = new Album();
-        $languages = $this->container->getParameter('languages');
 
-        foreach (array_keys($languages) as $lang) {
-
-            $translation = new AlbumTranslation();
-            $translation->setLang($lang);
-
-            $entity->addTranslation($translation);
-        }
-
-        $form = $this->createForm(new AlbumType(), $entity);
+        $form = $this->createCreateForm($entity);
 
         return array(
             'entity' => $entity,
@@ -99,33 +100,9 @@ class AlbumController extends AdminController {
     }
 
     /**
-     * Finds and displays a Album entity.
-     *
-     * @Route("/{name}.html", name="album_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($name) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Album')->findOneBy(array(
-            'name' => $name
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Album entity.');
-        }
-
-        return array(
-            'entity' => $entity
-        );
-    }
-
-    /**
      * Displays a form to edit an existing Album entity.
      *
-     * @Route("/{id}/edit", name="album_edit")
+     * @Route("/{id}/edit", name="admin_album_edit")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
@@ -140,7 +117,7 @@ class AlbumController extends AdminController {
             throw $this->createNotFoundException('Unable to find Album entity.');
         }
 
-        $editForm = $this->createForm(new AlbumType(), $entity);
+        $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -153,7 +130,7 @@ class AlbumController extends AdminController {
     /**
      * Edits an existing Album entity.
      *
-     * @Route("/{id}", name="album_update")
+     * @Route("/{id}", name="admin_album_update")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Album:edit.html.twig")
@@ -169,16 +146,14 @@ class AlbumController extends AdminController {
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new AlbumType(), $entity);
-        $editForm->bind($request);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('album_edit', array('id' => $id)));
+            return $this->redirectSucceed();
         }
 
         return array(
@@ -191,15 +166,17 @@ class AlbumController extends AdminController {
     /**
      * Deletes a Album entity.
      *
-     * @Route("/{id}", name="album_delete")
+     * @Route("/{id}", name="admin_album_delete")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
+
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('MyexpCmsBundle:Album')->find($id);
 
@@ -211,21 +188,7 @@ class AlbumController extends AdminController {
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('album'));
-    }
-
-    /**
-     * Creates a form to delete a Album entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
-                        ->getForm()
-        ;
+        return $this->redirectSucceed();
     }
 
 }

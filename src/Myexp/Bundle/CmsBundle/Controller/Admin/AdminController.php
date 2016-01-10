@@ -2,6 +2,7 @@
 
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -16,13 +17,20 @@ abstract class AdminController extends Controller {
      * @var type 
      */
     protected $primaryMenu = '';
-    
+
     /**
      * 主实体
      * 
      * @var type
      */
     protected $primaryEntity = '';
+
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = '';
 
     /**
      * 默认列表
@@ -33,8 +41,8 @@ abstract class AdminController extends Controller {
      * @return type
      */
     public function index($params = array()) {
-        
-        if(empty($this->primaryEntity)){
+
+        if (empty($this->primaryEntity)) {
             return $this->display(array());
         }
 
@@ -43,7 +51,7 @@ abstract class AdminController extends Controller {
         $repo = $this
                 ->getDoctrine()
                 ->getManager()
-                ->getRepository($this->primaryEntity);
+                ->getRepository($this->getFullEntityName());
 
         $query = $repo->getPaginationQuery($params);
 
@@ -55,6 +63,69 @@ abstract class AdminController extends Controller {
         return $this->display(array(
                     'pagination' => $pagination
         ));
+    }
+
+    /**
+     * Creates a form to create a Node entity.
+     *
+     * @param Node $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createCreateForm($entity) {
+
+        $route = $this->getRouteByAction('create');
+
+        $form = $this->createForm($this->primaryFormType, $entity, array(
+            'action' => $this->generateUrl($route),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', SubmitType::class, array('label' => 'common.create'));
+
+        return $form;
+    }
+
+    /**
+     * Creates a form to edit a Node entity.
+     *
+     * @param Node $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createEditForm($entity) {
+
+        $route = $this->getRouteByAction('edit');
+
+        $form = $this->createForm($this->primaryFormType, $entity, array(
+            'action' => $this->generateUrl($route, array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', SubmitType::class, array('label' => 'common.update'));
+
+        return $form;
+    }
+
+    /**
+     * Creates a form to delete a Node entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createDeleteForm($id) {
+
+        $route = $this->getRouteByAction('delete');
+
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl($route, array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', SubmitType::class, array(
+                            'label' => 'common.delete',
+                            'attr' => array('class' => 'ui red button')))
+                        ->getForm()
+        ;
     }
 
     /**
@@ -82,7 +153,36 @@ abstract class AdminController extends Controller {
 
         $this->get('session')->getFlashBag()->add('notice', 'common.success');
 
+        if (empty($url)) {
+            $url = $this->generateUrl($this->getRouteByAction());
+        }
+
         return parent::redirect($url, $status);
+    }
+
+    /**
+     * 根据action获得路由
+     * 
+     * @param type $action
+     */
+    private function getRouteByAction($action) {
+
+        $route = 'admin_' . strtolower($this->primaryEntity);
+
+        if (empty($action)) {
+            return $route;
+        }
+
+        return $route . '_' . $action;
+    }
+
+    /**
+     * 获得完整实体名称
+     * 
+     * @return type
+     */
+    private function getFullEntityName() {
+        return 'MyexpCmsBundle:' . $this->primaryEntity;
     }
 
 }

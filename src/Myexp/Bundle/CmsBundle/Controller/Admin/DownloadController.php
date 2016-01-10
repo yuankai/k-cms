@@ -18,7 +18,7 @@ use Myexp\Bundle\CmsBundle\Form\DownloadType;
  * @Route("/admin/download")
  */
 class DownloadController extends AdminController {
-    
+
     /**
      *
      * 主菜单
@@ -26,13 +26,19 @@ class DownloadController extends AdminController {
      * @var type 
      */
     protected $primaryMenu = 'admin_download';
-    
+
     /**
-     *主实体
+     * 主实体
      * @var type 
      */
-    protected $primaryEntity = 'MyexpCmsBundle:Download';
+    protected $primaryEntity = 'Download';
 
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = DownloadType::class;
 
     /**
      * Lists all Download entities.
@@ -55,16 +61,17 @@ class DownloadController extends AdminController {
      * @Template("MyexpCmsBundle:Download:new.html.twig")
      */
     public function createAction(Request $request) {
+
         $entity = new Download();
-        $form = $this->createForm(new DownloadType(), $entity);
-        $form->bind($request);
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('download_show', array('id' => $entity->getId())));
+            return $this->redirect();
         }
 
         return array(
@@ -82,39 +89,16 @@ class DownloadController extends AdminController {
      * @Template()
      */
     public function newAction() {
+
         $entity = new Download();
 
         $entity->setIsActive(true);
         $entity->setPublishTime(new \DateTime());
-        $form = $this->createForm(new DownloadType(), $entity);
+        $form = $this->createCreateForm($entity);
 
         return array(
             'entity' => $entity,
             'form' => $form->createView()
-        );
-    }
-
-    /**
-     * Finds and displays a Download entity.
-     * @Route("/view-{id}.html", name="download_show", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id) {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Download')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Download entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -127,15 +111,15 @@ class DownloadController extends AdminController {
      * @Template()
      */
     public function editAction($id) {
-        $em = $this->getDoctrine()->getManager();
 
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('MyexpCmsBundle:Download')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Download entity.');
         }
 
-        $editForm = $this->createForm(new DownloadType(), $entity);
+        $editForm = $this->createCreateForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -154,6 +138,7 @@ class DownloadController extends AdminController {
      * @Template("MyexpCmsBundle:Download:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('MyexpCmsBundle:Download')->find($id);
@@ -163,15 +148,14 @@ class DownloadController extends AdminController {
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new DownloadType(), $entity);
+        $editForm = $this->createEditForm($entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
 
-            return $this->redirect($this->generateUrl('download_edit', array('id' => $id)));
+            return $this->redirectSucceed();
         }
 
         return array(
@@ -189,10 +173,12 @@ class DownloadController extends AdminController {
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
+
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('MyexpCmsBundle:Download')->find($id);
 
@@ -203,133 +189,8 @@ class DownloadController extends AdminController {
             $em->remove($entity);
             $em->flush();
         }
-        $this->get('session')->getFlashBag()->add('notice', 'common.success');
 
-        return $this->redirect($this->generateUrl('download'));
-    }
-
-    /**
-     * Creates a form to delete a Download entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
-                        ->getForm();
-    }
-
-    /**
-     * Change download status , active or delete.
-     *
-     * @Route("/status", name="download_status")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Method("POST")
-     */
-    public function statusAction() {
-
-        $ids = $this->getRequest()->get('ids', array());
-        $url = $this->getRequest()->get('url');
-
-        $active = $this->getRequest()->get('active', null);
-        $deny = $this->getRequest()->get('deny', null);
-        $delete = $this->getRequest()->get('delete', null);
-
-        $em = $this->getDoctrine()->getManager();
-        $ep = $this->getDoctrine()->getRepository('MyexpCmsBundle:Download');
-
-        foreach ($ids as $id) {
-            $download = $ep->find($id);
-
-            if ($active) {
-                $download->setIsActive(true);
-                $em->persist($download);
-            } elseif ($deny) {
-                $download->setIsActive(false);
-                $em->persist($download);
-            } elseif ($delete) {
-                $em->remove($download);
-            }
-            $em->flush();
-        }
-        $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-        return $this->redirect($url);
-    }
-
-    /**
-     * Finds and display download entities by category.
-     *
-     * @Route("/{name}.html", name="download_list")
-     * @Method("GET")
-     * @Template()
-     */
-    public function listAction($name) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Category')->findOneBy(array(
-            'name' => $name
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Download entity.');
-        }
-
-        //当前列表的顶级分类
-        $topCategory = $entity->getTopCategory();
-
-        //处理该分类下的下载
-        $articleRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Download');
-        $params = array(
-            'category' => $entity,
-            'isActive' => true
-        );
-
-        $articleTotal = $articleRepo->getDownloadCount($params);
-        $paginator = new Paginator($articleTotal);
-        $paginator->setShowLimit(false);
-
-        $sorts = array('a.publishTime' => 'DESC');
-        $entities = $articleRepo->getDownloadsWithPagination(
-                $params, $sorts, $paginator->getOffset(), $paginator->getLimit()
-        );
-
-        return array(
-            'entities' => $entities,
-            'paginator' => $paginator,
-            'category' => $entity,
-            'topCategory' => $topCategory,
-        );
-    }
-
-    /**
-     * Finds and display download entities by category.
-     *
-     * @Route("/down/{id}.html", name="download_down")
-     * @Method("GET")
-     * @Template()
-     */
-    public function downAction($id) {
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository('MyexpCmsBundle:Download')
-                ->findOneBy(array('id' => $id));
-        $filename = $query->geturl();
-
-        //下载的文件重新命名
-        list($name, $format) = explode('.', $filename);
-        $names = $query->getTitle();
-        $time = date('ymdhis');
-        $response = new Response();
-
-        $d = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $names . '.' . $format, $time);
-
-        $response->setContent(file_get_contents('../web/upload/download/' . $filename));
-        $response->headers->set('Content-Disposition', $d);
-        return $response;
+        return $this->redirectSucceed();
     }
 
 }

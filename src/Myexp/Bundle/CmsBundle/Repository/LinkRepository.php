@@ -12,28 +12,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class LinkRepository extends EntityRepository {
 
-    public function getLinks($limit) {
+    /**
+     * 获得分页查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function getPaginationQuery($params = null) {
+        $qb = $this->buildQuery($params);
 
-        $qb = $this
-                ->createQueryBuilder('l')
-                ->add('orderBy', 'l.sortOrder ASC')
-                ->setMaxResults($limit)
-        ;
-
-        $q = $qb->getQuery();
-
-        return $q->getResult();
+        return $qb->getQuery();
     }
-    
-    public function getAlllinks() {
-        $qb = $this
-                ->createQueryBuilder('s')
-                ->where('s.isActive = :isActive')
-                ->setParameter('isActive', true)
-                ->orderBy('s.sortOrder','ASC')
-                ->getQuery()
-        ;
-        return $qb->getResult();
+
+    /**
+     * 构造查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function buildQuery($params) {
+
+        $qb = $this->createQueryBuilder('l');
+
+        return $qb;
     }
 
 }

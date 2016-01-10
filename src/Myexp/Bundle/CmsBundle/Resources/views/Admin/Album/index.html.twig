@@ -1,7 +1,7 @@
 {% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
-{% block title %}{{ 'album.list'|trans }}{% endblock %}
+{% block title %}{{ 'album.manage'|trans }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'album.manage'|trans }}</a></span>
+    <div class="active section">{{ 'album.manage'|trans }}</div>
 {% endblock %}
 {% block content %}
 <table class="ui green table">
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for entity in entities %}
+        {% for entity in pagination %}
         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
             <td class="id"><a href="{{ path('album_show', { 'name': entity.name }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.trans.title }}</td>
@@ -28,5 +28,21 @@
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="8">
+                <div class="ui left small button">
+                    Approve
+                </div>
+                <div class="ui left small button">
+                    Approve All
+                </div>
+                <a class="ui left small teal labeled icon button" href="{{ path('admin_album_new') }}">
+                    <i class="archive icon"></i> {{ 'album.new'|trans }}
+                </a>
+                {{ knp_pagination_render(pagination) }}
+            </th>
+        </tr>
+    </tfoot>
 </table>
 {% endblock %}

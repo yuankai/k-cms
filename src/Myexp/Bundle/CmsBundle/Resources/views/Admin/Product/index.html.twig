@@ -1,30 +1,57 @@
 {% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
-{% block title %}{{ 'product.list'|trans }}{% endblock %}
+{% block title %}{{ 'product.manage'|trans }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'page.manage'|trans }}</a></span>
+    <div class="active section">{{ 'product.manage'|trans }}</div>
 {% endblock %}
 {% block content %}
 <table class="ui green table">
     <thead>
         <tr>
-            <th class="id">{{ 'page.id'|trans }}</th>
-            <th>{{ 'page.name'|trans }}</th>
-            <th>{{ 'page.title'|trans }}</th>
-            <th class="actions">{{ 'common.actions'|trans }}</th>
+            <th>
+                <input class="ui checkbox" type="checkbox" onclick="check_all(this, 'ids');" title="{{ 'common.select'|trans }}" />
+                {{ 'common.select'|trans }}
+            </th>
+            <th>{{ 'product.name'|trans }}</th>
+            <th>{{ 'product.title'|trans }}</th>
+            <th>{{ 'common.actions'|trans }}</th>
         </tr>
     </thead>
     <tbody>
-        {% for entity in entities %}
+        {% for entity in pagination %}
         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-            <td class="id"><a href="{{ path('page_show', { 'name': entity.name }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.name }}</td>
-            <td>{{ entity.trans.title }}</td>
             <td>
-                <a href="{{ path('page_show', { 'name': entity.name }) }}" class="btn btn-success">{{ 'common.show'|trans }}</a>
-                <a href="{{ path('page_edit', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'common.edit'|trans }}</a>
+                <input class="ui checkbox" type="checkbox" title="{{ 'common.select'|trans }}" />
+            </td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.title }}</td>
+            <td>
+                <div class="ui icon buttons">
+                    <a class="ui button" href="{{ path('product_show', { 'id': entity.id }) }}"  title="{{ 'common.view'|trans }}" target="_blank">
+                        <i class="external icon"></i>
+                    </a>
+                    <a class="ui button" href="{{ path('admin_product_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                        <i class="edit icon"></i>
+                    </a>
+                </div>
             </td>
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="8">
+                <button class="ui left small olive button">
+                    {{ 'common.approve'|trans }}
+                </button>
+                <button class="ui left small red button">
+                    {{ 'common.deny'|trans }}
+                </button>
+                <a class="ui left small teal labeled icon button" href="{{ path('admin_product_new') }}">
+                    <i class="file icon"></i> {{ 'product.new'|trans }}
+                </a>
+                {{ knp_pagination_render(pagination) }}
+            </th>
+        </tr>
+    </tfoot>
 </table>
-    {% endblock %}
+{% endblock %}

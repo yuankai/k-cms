@@ -39,12 +39,12 @@
         <tfoot>
             <tr>
                 <th colspan="8">
-                    <div class="ui left small button">
-                        Approve
-                    </div>
-                    <div class="ui left small button">
-                        Approve All
-                    </div>
+                    <button class="ui left small olive button">
+                        {{ 'common.approve'|trans }}
+                    </button>
+                    <button class="ui left small red button">
+                        {{ 'common.deny'|trans }}
+                    </button>
                     <a class="ui left small teal labeled icon button" href="{{ path('admin_article_new') }}">
                         <i class="archive icon"></i> {{ 'article.new'|trans }}
                     </a>

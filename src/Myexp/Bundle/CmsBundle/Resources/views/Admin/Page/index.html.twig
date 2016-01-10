@@ -7,7 +7,10 @@
 <table class="ui green table">
     <thead>
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'page.id'|trans, 'a.id') }}</th>
+            <th>
+                <input class="ui checkbox" type="checkbox" onclick="check_all(this, 'ids');" title="{{ 'common.select'|trans }}" />
+                {{ 'common.select'|trans }}
+            </th>
             <th>{{ 'page.name'|trans }}</th>
             <th>{{ 'page.title'|trans }}</th>
             <th>{{ 'common.actions'|trans }}</th>
@@ -16,12 +19,20 @@
     <tbody>
         {% for entity in pagination %}
         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-            <td><a href="{{ path('page_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>
+                <input class="ui checkbox" type="checkbox" title="{{ 'common.select'|trans }}" />
+            </td>
             <td>{{ entity.name }}</td>
             <td>{{ entity.title }}</td>
             <td>
-                <a href="{{ path('page_show', { 'id': entity.id }) }}" class="btn btn-success">{{ 'common.show'|trans }}</a>
-                <a href="{{ path('admin_page_edit', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'common.edit'|trans }}</a>
+                <div class="ui icon buttons">
+                    <a class="ui button" href="{{ path('page_show', { 'id': entity.id }) }}"  title="{{ 'common.view'|trans }}" target="_blank">
+                        <i class="external icon"></i>
+                    </a>
+                    <a class="ui button" href="{{ path('admin_page_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                        <i class="edit icon"></i>
+                    </a>
+                </div>
             </td>
         </tr>
         {% endfor %}
@@ -29,12 +40,12 @@
     <tfoot>
         <tr>
             <th colspan="8">
-                <div class="ui left small button">
-                    Approve
-                </div>
-                <div class="ui left small button">
-                    Approve All
-                </div>
+                <button class="ui left small olive button">
+                    {{ 'common.approve'|trans }}
+                </button>
+                <button class="ui left small red button">
+                    {{ 'common.deny'|trans }}
+                </button>
                 <a class="ui left small teal labeled icon button" href="{{ path('admin_page_new') }}">
                     <i class="file icon"></i> {{ 'page.new'|trans }}
                 </a>

@@ -7,8 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Myexp\Bundle\CmsBundle\Entity\Page;
 use Myexp\Bundle\CmsBundle\Form\PageType;
 
@@ -28,6 +26,20 @@ class PageController extends AdminController {
     protected $primaryMenu = 'admin_page';
 
     /**
+     * 主实体
+     * 
+     * @var type 
+     */
+    protected $primaryEntity = 'Page';
+    
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = PageType::class;
+
+    /**
      * Lists all Page entities.
      *
      * @Route("/", name="admin_page")
@@ -35,24 +47,8 @@ class PageController extends AdminController {
      * @Method("GET")
      * @Template()
      */
-    public function indexAction(Request $request) {
-
-        $pageRepo = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('MyexpCmsBundle:Page');
-
-        $params = array();
-        $query = $pageRepo->getPaginationQuery($params);
-
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $query, $request->query->getInt('page', 1)
-        );
-
-        return $this->display(array(
-                    'pagination' => $pagination
-        ));
+    public function indexAction() {
+        return $this->index();
     }
 
     /**
@@ -66,7 +62,7 @@ class PageController extends AdminController {
     public function createAction(Request $request) {
 
         $entity = new Page();
-        $form = $this->createForm(PageType::class, $entity);
+        $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -75,9 +71,7 @@ class PageController extends AdminController {
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('admin_page'));
+            return $this->redirectSucceed();
         }
 
         return $this->display(array(
@@ -98,7 +92,7 @@ class PageController extends AdminController {
 
         $entity = new Page();
 
-        $form = $this->createForm(PageType::class, $entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->display(array(
                     'entity' => $entity,
@@ -124,7 +118,7 @@ class PageController extends AdminController {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm = $this->createForm(PageType::class, $entity);
+        $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->display(array(
@@ -153,13 +147,13 @@ class PageController extends AdminController {
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(PageType::class, $entity);
+        $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em->flush();
 
-            return $this->redirectSuccess($this->generateUrl('admin_page'));
+            return $this->redirectSuccess();
         }
 
         return $this->display(array(
@@ -193,24 +187,7 @@ class PageController extends AdminController {
             $em->flush();
         }
 
-        $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-        return $this->redirect($this->generateUrl('admin_page'));
-    }
-
-    /**
-     * Creates a form to delete a Page entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', HiddenType::class)
-                        ->add('delete', SubmitType::class, array('label' => 'common.delete'))
-                        ->getForm();
+        return $this->redirectSucceed();
     }
 
 }
