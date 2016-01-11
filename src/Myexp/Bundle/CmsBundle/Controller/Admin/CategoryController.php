@@ -1,40 +1,67 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Category;
-use Myexp\Bundle\CmsBundle\Entity\CategoryTranslation;
 use Myexp\Bundle\CmsBundle\Form\CategoryType;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Category controller.
  *
- * @Route("/category")
+ * @Route("/admin/category")
  */
-class CategoryController extends Controller {
+class CategoryController extends AdminController {
+
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_category';
+
+    /**
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'Category';
+
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = CategoryType::class;
 
     /**
      * Lists all Category entities.
      *
-     * @Route("/", name="category")
-     * @Secure(roles="ROLE_ADMIN_USER")
-     * @Method("GET|DELETE")
+     * @Route("/", name="admin_category")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("GET")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
 
-        $entities = array();
-        $this->getCategoryByRecursive($entities);
+        $em = $this->getDoctrine()->getManager();
 
-        return array(
-            'entities' => $entities,
-        );
+        $websites = $em->getRepository('MyexpCmsBundle:Website')->findAll();
+        $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
+
+        $websiteId = $request->get('websiteId', $websites[0]->getId());
+        $contentModelId = $request->get('contentModelId', $contentModels[0]->getId());
+
+        return $this->display(array(
+                    'websites' => $websites,
+                    'contentModels' => $contentModels,
+                    'websiteId' => $websiteId,
+                    'contentModelId' => $contentModelId
+        ));
     }
 
     /**
@@ -66,7 +93,7 @@ class CategoryController extends Controller {
      * Creates a new Category entity.
      *
      * @Route("/", name="category_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Category:new.html.twig")
      */
@@ -97,7 +124,7 @@ class CategoryController extends Controller {
      * Displays a form to create a new Category entity.
      *
      * @Route("/new", name="category_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -126,7 +153,7 @@ class CategoryController extends Controller {
      * Finds and displays a Category entity.
      *
      * @Route("/{id}", name="category_show")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -152,7 +179,7 @@ class CategoryController extends Controller {
      * Displays a form to edit an existing Category entity.
      *
      * @Route("/{id}/edit", name="category_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -180,7 +207,7 @@ class CategoryController extends Controller {
      * Edits an existing Category entity.
      *
      * @Route("/{id}", name="category_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Category:edit.html.twig")
      */
@@ -218,7 +245,7 @@ class CategoryController extends Controller {
      * Deletes a Category entity.
      *
      * @Route("/{id}", name="category_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
@@ -238,20 +265,6 @@ class CategoryController extends Controller {
         }
 
         return $this->redirect($this->generateUrl('category'));
-    }
-
-    /**
-     * Creates a form to delete a Category entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
-                        ->getForm()
-        ;
     }
 
 }

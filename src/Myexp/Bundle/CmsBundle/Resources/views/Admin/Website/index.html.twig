@@ -9,10 +9,7 @@
             <tr>
                 <th>{{ 'website.id'|trans }}</th>
                 <th>{{ 'website.title'|trans }}</th>
-                <th>{{ 'website.http_url'|trans }}</th>
-                <th>{{ 'website.https_url'|trans }}</th>
                 <th>{{ 'website.icp_num'|trans }}</th>
-                <th>{{ 'website.address'|trans }}</th>
                 <th>{{ 'website.zip_code'|trans }}</th>
                 <th>{{ 'website.email'|trans }}</th>
                 <th>{{ 'website.tel'|trans }}</th>
@@ -23,32 +20,29 @@
         <tbody>
         {% for entity in pagination %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td><a href="{{ path('website_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.id }}</td>
                 <td>{{ entity.title }}</td>
-                <td>{{ entity.httpUrl }}</td>
-                <td>{{ entity.httpsUrl }}</td>
                 <td>{{ entity.icpNum }}</td>
-                <td>{{ entity.address }}</td>
                 <td>{{ entity.zipCode }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.tel }}</td>
                 <td>{{ entity.fax }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{  entity.httpUrl }}" target="_blank">{{ 'common.show'|trans }}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_website_edit', { 'id': entity.id }) }}">{{ 'common.edit'|trans }}</a>
-                    </li>
-                </ul>
+                    <div class="ui icon buttons">
+                        <a class="ui button" href="{{ entity.httpUrl }}"  title="{{ 'common.view'|trans }}" target="_blank">
+                            <i class="external icon"></i>
+                        </a>
+                        <a class="ui button" href="{{ path('admin_website_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                            <i class="edit icon"></i>
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="11">
+                <th colspan="8">
                     <a class="ui left small teal labeled icon button" href="{{ path('admin_website_new') }}">
                         <i class="home icon"></i> {{ 'website.new'|trans }}
                     </a>

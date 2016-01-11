@@ -95,7 +95,7 @@ abstract class AdminController extends Controller {
      */
     protected function createEditForm($entity) {
 
-        $route = $this->getRouteByAction('edit');
+        $route = $this->getRouteByAction('update');
 
         $form = $this->createForm($this->primaryFormType, $entity, array(
             'action' => $this->generateUrl($route, array('id' => $entity->getId())),
@@ -149,7 +149,7 @@ abstract class AdminController extends Controller {
      * @param type $url
      * @param type $status
      */
-    public function redirectSucceed($url, $status = 302) {
+    public function redirectSucceed($url = '', $status = 302) {
 
         $this->get('session')->getFlashBag()->add('notice', 'common.success');
 
@@ -165,7 +165,7 @@ abstract class AdminController extends Controller {
      * 
      * @param type $action
      */
-    private function getRouteByAction($action) {
+    private function getRouteByAction($action = '') {
 
         $route = 'admin_' . strtolower($this->primaryEntity);
 

@@ -42,6 +42,7 @@ class ArticleController extends AdminController {
      * Lists all Article entities.
      *
      * @Route("/", name="admin_article")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */

@@ -4,6 +4,8 @@ admin:
     dashboard: 管理面板
     settings: 系统设置
     menu: 菜单
+    content: 网站内容
+    other: 其他管理
 
 common:
     submit: 提交
@@ -106,7 +108,7 @@ page:
     path: 标题图片
 
 category:
-    manage: 栏目管理
+    manage: 内容分类
     new: 新建栏目
     edit: 编辑栏目
     id: 栏目编号

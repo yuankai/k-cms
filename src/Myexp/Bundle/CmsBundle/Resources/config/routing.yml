@@ -16,9 +16,7 @@ user:
     resource: "@MyexpCmsBundle/Controller/UserController.php"
     type: annotation
     
-#category:
-#    resource: "@MyexpCmsBundle/Controller/CategoryController.php"
-#    type: annotation
+
     
 #page:
 #    resource: "@MyexpCmsBundle/Controller/PageController.php"
@@ -43,9 +41,7 @@ user:
 #    type: annotation
    
     
-#slider:
-#    resource: "@MyexpCmsBundle/Controller/SliderController.php"
-#    type: annotation
+
 
 #product:
 #    resource: "@MyexpCmsBundle/Controller/ProductController.php"
@@ -85,4 +81,12 @@ admin_link:
 
 admin_website:
     resource: "@MyexpCmsBundle/Controller/Admin/WebsiteController.php"
+    type: annotation
+    
+admin_category:
+    resource: "@MyexpCmsBundle/Controller/Admin/CategoryController.php"
+    type: annotation
+    
+admin_slider:
+    resource: "@MyexpCmsBundle/Controller/Admin/SliderController.php"
     type: annotation

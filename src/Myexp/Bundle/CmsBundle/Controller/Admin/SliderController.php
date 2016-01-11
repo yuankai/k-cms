@@ -1,48 +1,62 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Slider;
 use Myexp\Bundle\CmsBundle\Entity\SliderPhoto;
 use Myexp\Bundle\CmsBundle\Form\SliderType;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Slider controller.
  *
- * @Route("/slider")
+ * @Route("/admin/slider")
  */
-class SliderController extends Controller {
+class SliderController extends AdminController {
+    
+    
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_slider';
+
+    /**
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'Slider';
+    
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = SliderType::class;
 
     /**
      * Lists all Slider entities.
      *
-     * @Route("/", name="slider")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Route("/", name="admin_slider")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|DELETE")
      * @Template()
      */
     public function indexAction() {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MyexpCmsBundle:Slider')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
+        return $this->index();
     }
 
     /**
      * Creates a new Slider entity.
      *
      * @Route("/", name="slider_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Slider:new.html.twig")
      */
@@ -71,7 +85,7 @@ class SliderController extends Controller {
      * Displays a form to create a new Slider entity.
      *
      * @Route("/new", name="slider_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -91,7 +105,7 @@ class SliderController extends Controller {
      * Finds and displays a Slider entity.
      *
      * @Route("/{id}", name="slider_show")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -117,7 +131,7 @@ class SliderController extends Controller {
      * Displays a form to edit an existing Slider entity.
      *
      * @Route("/{id}/edit", name="slider_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -145,7 +159,7 @@ class SliderController extends Controller {
      * Edits an existing Slider entity.
      *
      * @Route("/{id}", name="slider_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Slider:edit.html.twig")
      */
@@ -202,7 +216,7 @@ class SliderController extends Controller {
      * Deletes a Slider entity.
      *
      * @Route("/{id}", name="slider_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {
@@ -249,18 +263,5 @@ class SliderController extends Controller {
         );
     }
 
-    /**
-     * Creates a form to delete a Slider entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
-                        ->getForm()
-        ;
-    }
 
 }
