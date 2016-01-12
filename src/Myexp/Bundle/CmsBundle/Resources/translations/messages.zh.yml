@@ -17,6 +17,10 @@ common:
     actions: 操作
     edit: 编辑
     delete: 删除
+    cut: 剪切
+    copy: 复制
+    paste: 粘贴
+    rename: 重命名
     approve: 通过审核
     deny: 取消审核
     delete_confirm: 你确定要删除吗？
@@ -115,7 +119,7 @@ category:
     title: 栏目标题
     name: 栏目名称
     order: 栏目排序
-    articles: 文章数量
+    root_node: 根节点
     parent: 上级菜单
     list: 分类列表
     show: 分类详细

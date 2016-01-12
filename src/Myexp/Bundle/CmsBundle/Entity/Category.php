@@ -19,16 +19,15 @@ class Category {
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
-     */
-    private $name;
-
-    /**
      * @ORM\Column(name="title", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
     private $title;
+
+    /**
+     * @ORM\Column(name="keywords", type="string", length=255)
+     */
+    private $keywords;
 
     /**
      * @var int
@@ -36,12 +35,6 @@ class Category {
      * @ORM\Column(name="sort_order", type="integer", nullable=true)
      */
     private $sortOrder;
-
-    /**
-     * @ORM\Column(name="type", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
-     */
-    private $type;
 
     /**
      * @var boolean
@@ -65,29 +58,30 @@ class Category {
     private $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category", cascade={"remove"})
+     * @var Myexp\Bundle\CmsBundle\Entity\Website
+     *
+     * @ORM\ManyToOne(targetEntity="Website")
+     * @ORM\JoinColumn(name="websiteId", referencedColumnName="id", onDelete="SET NULL")
+     * @Assert\NotBlank()
      */
-    private $articles;
+    private $website;
 
     /**
-     * @ORM\OneToMany(targetEntity="Download", mappedBy="category", cascade={"remove"})
+     * @var Myexp\Bundle\CmsBundle\Entity\ContentModel
+     *
+     * @ORM\ManyToOne(targetEntity="ContentModel")
+     * @ORM\JoinColumn(name="contentModelId", referencedColumnName="id", onDelete="SET NULL")
+     * @Assert\NotBlank()
      */
-    private $downloads;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"remove"})
-     */
-    private $products;
+    private $contentModel;
 
     /**
      * Constructor
      */
     public function __construct() {
-        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
     /**
      * Get id
      *
@@ -95,27 +89,6 @@ class Category {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Page
-     */
-    public function setName($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName() {
-        return $this->name;
     }
 
     /**
@@ -140,6 +113,27 @@ class Category {
     }
 
     /**
+     * Set keywords
+     *
+     * @param string $keywords
+     * @return Category
+     */
+    public function setKeywords($keywords) {
+        $this->keywords = $keywords;
+
+        return $this;
+    }
+
+    /**
+     * Get keywords
+     *
+     * @return string 
+     */
+    public function getKeywords() {
+        return $this->keywords;
+    }
+
+    /**
      * Set sortOrder
      *
      * @param int $sortOrder
@@ -158,27 +152,6 @@ class Category {
      */
     public function getSortOrder() {
         return $this->sortOrder;
-    }
-
-    /**
-     * Set type
-     *
-     * @param int $type
-     * @return Category
-     */
-    public function setType($type) {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string 
-     */
-    public function getType() {
-        return $this->type;
     }
 
     /**
@@ -223,7 +196,6 @@ class Category {
         return $this->parent;
     }
 
-
     /**
      * Add categoryChild
      *
@@ -256,93 +228,45 @@ class Category {
     }
 
     /**
-     * Add article
+     * Set website
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Article $article
+     * @param \Myexp\Bundle\CmsBundle\Entity\Website $website
      * @return Category
      */
-    public function addArticle(\Myexp\Bundle\CmsBundle\Entity\Article $article) {
-        $this->articles[] = $article;
+    public function setWebsite($website) {
+        $this->website = $website;
 
         return $this;
     }
 
     /**
-     * Remove article
+     * Get website
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Article $article
+     * @return \Myexp\Bundle\CmsBundle\Entity\Website 
      */
-    public function removeArticle(\Myexp\Bundle\CmsBundle\Entity\Article $article) {
-        $this->articles->removeElement($article);
+    public function getWebsite() {
+        return $this->website;
     }
 
     /**
-     * Get articles
+     * Set contentModel
      *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getArticles() {
-        return $this->articles;
-    }
-
-    /**
-     * Add download
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Download $download
+     * @param \Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel
      * @return Category
      */
-    public function addDownload(\Myexp\Bundle\CmsBundle\Entity\Download $download) {
-        $this->downloads[] = $download;
+    public function setContentModel($contentModel) {
+        $this->contentModel = $contentModel;
 
         return $this;
     }
 
     /**
-     * Remove download
+     * Get contentModel
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Download $download
+     * @return string 
      */
-    public function removeDownload(\Myexp\Bundle\CmsBundle\Entity\Download $download) {
-        $this->downloads->removeElement($download);
-    }
-
-    /**
-     * Get downloads
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDownloads() {
-        return $this->downloads;
-    }
-
-    /**
-     * Add product
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Product $product
-     * @return Category
-     */
-    public function addPage(\Myexp\Bundle\CmsBundle\Entity\Product $product) {
-        $this->products[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Page $page
-     */
-    public function removePage(\Myexp\Bundle\CmsBundle\Entity\Product $product) {
-        $this->products->removeElement($product);
-    }
-
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProducts() {
-        return $this->products;
+    public function getContentModel() {
+        return $this->contentModel;
     }
 
     /**
@@ -367,6 +291,7 @@ class Category {
      * @return array all children
      */
     public function getAllChildren() {
+
         $children = array($this);
 
         $currChildren = $this->getChildren();

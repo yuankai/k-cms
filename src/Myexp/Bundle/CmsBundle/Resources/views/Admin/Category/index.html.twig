@@ -7,27 +7,42 @@
 {% block breadcrumd %}
     <div class="active section">{{ 'category.manage'|trans }}</div>
 {% endblock %}
+{# 树状显示 #}
+{% macro categoryNode(category) %}
+    {% import _self as forms %}
+    {% if category.children is not empty %}
+        <ul>
+            {% for tmp in category.children %}
+                <li>{{ tmp.title }}{{ forms.categoryNode(tmp) }}</li>
+                {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
 {% block content %}
     <div class="ui teal pointing secondary menu">
         {% for website in websites %}
-        <a class="item{% if websiteId == website.id %} active{% endif %}" href="{{ path('admin_category',{'websiteId': website.id}) }}">{{ website.title }}</a>
+            <a class="item{% if websiteId == website.id %} active{% endif %}" href="{{ path('admin_category',{'websiteId': website.id}) }}">{{ website.title }}</a>
         {% endfor %}
     </div>
     <div class="ui top attached tabular menu">
         {% for contentModel in contentModels %}
-        <a class="{% if contentModelId == contentModel.id %}active {% endif %}item" href="{{ path('admin_category',{'websiteId': websiteId, 'contentModelId':contentModel.id}) }}">{{ contentModel.title }}</a>
+            <a class="{% if contentModelId == contentModel.id %}active {% endif %}item" href="{{ path('admin_category',{'websiteId': websiteId, 'contentModelId':contentModel.id}) }}">{{ contentModel.title }}</a>
         {% endfor %}
     </div>
     <div class="ui bottom attached active tab segment" data-tab="first/a">
         <div id="jstree_category_div">
             <ul>
-                <li>Root node
-                  <ul>
-                    <li>Child node 1</li>
-                    <li>Child node 2</li>
-                  </ul>
+                <li id="node_0">{{ 'category.root_node'|trans }}
+                    {% import _self as forms %}
+                    {% if topCategories is not empty %}
+                        <ul>
+                            {% for category in topCategories %}
+                                <li id="node_{{ category.id }}}">{{ category.title }}{{ forms.categoryNode(category) }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </li>
-              </ul>
+            </ul>
         </div>
     </div>
 {% endblock %}
@@ -35,8 +50,82 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/myexpcms/jstree/jstree.min.js') }}"></script>
     <script type="text/javascript">
+        
+        // 参数及路径
+        var websiteId = {{ websiteId }};
+        var contentModelId = {{ contentModelId }};
+        var createUrl = '{{ path('admin_category_create') }}';
+        var updateUrl = '{{ path('admin_category_update') }}';
+        var deleteUrl = '{{ path('admin_category_delete') }}';
+        var pasteUrl = '{{ path('admin_category_paste') }}';
+        
+        // 获得ID
+        function getId(nodeId){
+            return nodeId.replace('node_', '');
+        }
+        
+        //构建表单
+        function buildFormData(params){
+            var newParams = {};
+            for(var key in params){
+                newParams['category['+key+']'] = params[key];
+            }
+            return newParams;
+        }
+        
+        // 自动执行
         $(function () {
-            $('#jstree_category_div').jstree();
+
+            $('#jstree_category_div').on("create_node.jstree", function (e, data) {
+                var node = data.node;
+                var param = {
+                    parent: getId(data.parent), 
+                    title: node.text, 
+                    websiteId: websiteId, 
+                    contentModelId:contentModelId
+                };
+                $.post(createUrl, buildFormData(param), function(data){
+                    
+                });
+            }).on("rename_node.jstree", function(e, data){
+                var node = data.node;
+                var param = {
+                    id: getId(node.id), 
+                    title: data.text
+                };
+                $.post(updateUrl, param, function(data){
+                    
+                });
+            }).on("delete_node.jstree", function(e, data){
+                var param = {id: getId(data.node.id)};
+                $.post(deleteUrl, param, function(data){
+                    
+                });
+            }).on("move_node.jstree", function(e, data){
+                var param = {
+                    id: getId(data.node.id), 
+                    parent: data.parent
+                };
+                $.post(updateUrl, param, function(data){
+                    
+                });
+            }).on("paste_node.jstree", function(e, data){
+                var param = {
+                    id: getId(data.node.id), 
+                    parent: data.parent,
+                    mode: data.mode
+                };
+                $.post(pasteUrl, param, function(data){
+                    
+                });
+            });
+
+            $('#jstree_category_div').jstree({
+                core: {
+                    check_callback: true
+                },
+                plugins: ['contextmenu', 'dnd', 'sort', 'state']
+            });
         });
     </script>
 {% endblock %}

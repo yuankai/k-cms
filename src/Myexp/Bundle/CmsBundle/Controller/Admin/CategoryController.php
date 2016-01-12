@@ -3,6 +3,7 @@
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -53,202 +54,133 @@ class CategoryController extends AdminController {
         $websites = $em->getRepository('MyexpCmsBundle:Website')->findAll();
         $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
 
-        $websiteId = $request->get('websiteId', $websites[0]->getId());
-        $contentModelId = $request->get('contentModelId', $contentModels[0]->getId());
+        $websiteId = $contentModelId = 0;
+
+        if (!empty($websites)) {
+            $websiteId = $request->get('websiteId', $websites[0]->getId());
+        }
+
+        if (!empty($contentModels)) {
+            $contentModelId = $request->get('contentModelId', $contentModels[0]->getId());
+        }
+
+        $topCategories = $em->getRepository('MyexpCmsBundle:Category')->findBy(array(
+            'contentModel' => $contentModelId,
+            'parent' => null
+        ));
 
         return $this->display(array(
                     'websites' => $websites,
                     'contentModels' => $contentModels,
                     'websiteId' => $websiteId,
-                    'contentModelId' => $contentModelId
+                    'contentModelId' => $contentModelId,
+                    'topCategories' => $topCategories
         ));
-    }
-
-    /**
-     * Get menus recursively
-     * 
-     * @access private
-     */
-    private function getCategoryByRecursive(&$result, $parent = null, $depth = 0) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        if ($parent instanceof Category) {
-            $prefix = '';
-            for ($i = 1; $i < $depth; $i++) {
-                $prefix .= '|------';
-            }
-            $parent->getTrans()->setTitle($prefix . ' ' . $parent->getTrans()->getTitle());
-            $result[] = $parent;
-        }
-
-        $entities = $em->getRepository('MyexpCmsBundle:Category')->getChildren($parent);
-
-        foreach ($entities as $menu) {
-            $this->getCategoryByRecursive($result, $menu, $depth + 1);
-        }
     }
 
     /**
      * Creates a new Category entity.
      *
-     * @Route("/", name="category_create")
+     * @Route("/create", name="admin_category_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
-     * @Template("MyexpCmsBundle:Category:new.html.twig")
      */
     public function createAction(Request $request) {
 
         $entity = new Category();
-        $form = $this->createForm(new CategoryType(), $entity);
-        $form->bind($request);
 
+        $form = $this->createForm($this->primaryFormType, $entity);
+        $form->handleRequest($request);
+        
         if ($form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('category'));
+            return new Response('yes');
         }
 
-        return array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to create a new Category entity.
-     *
-     * @Route("/new", name="category_new")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction() {
-
-        $entity = new Category();
-        $languages = $this->container->getParameter('languages');
-
-        foreach (array_keys($languages) as $lang) {
-
-            $translation = new CategoryTranslation();
-            $translation->setLang($lang);
-
-            $entity->addTranslation($translation);
+        $errors = $form->getErrors();
+        
+        foreach($errors as $error){
+            echo $error->getMessage();
         }
-
-        $form = $this->createForm(new CategoryType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Category entity.
-     *
-     * @Route("/{id}", name="category_show")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to edit an existing Category entity.
-     *
-     * @Route("/{id}/edit", name="category_edit")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Method("GET|DELETE")
-     * @Template()
-     */
-    public function editAction($id) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
-        }
-
-        $editForm = $this->createForm(new CategoryType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        
+        return new Response($errors);
     }
 
     /**
      * Edits an existing Category entity.
      *
-     * @Route("/{id}", name="category_update")
+     * @Route("/update", name="admin_category_update")
      * @Security("has_role('ROLE_ADMIN')")
-     * @Method("PUT")
-     * @Template("MyexpCmsBundle:Category:edit.html.twig")
+     * @Method("POST")
      */
-    public function updateAction(Request $request, $id) {
+    public function updateAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
-
+        $id = $request->get('id');
+        
         $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new CategoryType(), $entity);
-        $editForm->bind($request);
+        $editForm = $this->createForm($this->primaryFormType, $entity);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            
             $em->persist($entity);
             $em->flush();
-
-            $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-            return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
+            
+            return new Response();
         }
 
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return new Response($entity->getTitle());
     }
 
     /**
      * Deletes a Category entity.
      *
-     * @Route("/{id}", name="category_delete")
+     * @Route("/delete", name="admin_category_delete")
      * @Security("has_role('ROLE_ADMIN')")
-     * @Method("DELETE")
+     * @Method("POST")
      */
-    public function deleteAction(Request $request, $id) {
+    public function deleteAction(Request $request) {
+        
+        $id = $request->get('id');
+        
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Category entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('category'));
+    }
+
+    /**
+     * Copy and paste a Category entity.
+     *
+     * @Route("/paste", name="admin_category_paste")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("POST")
+     */
+    public function pasteAction(Request $request, $id) {
+        
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
