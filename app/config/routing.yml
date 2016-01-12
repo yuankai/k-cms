@@ -1,3 +1,15 @@
+myexp_cms_content_model:
+    resource: "@MyexpCmsBundle/Controller/ContentModelController.php"
+    type:     annotation
+
+myexp_cms_content_model:
+    resource: "@MyexpCmsBundle/Controller/ContentModelController.php"
+    type:     annotation
+
+myexp_cms_content_model:
+    resource: "@MyexpCmsBundle/Controller/ContentModelController.php"
+    type:     annotation
+
 myexp_admin:
     resource: "@MyexpAdminBundle/Resources/config/routing.yml"
     prefix:   /

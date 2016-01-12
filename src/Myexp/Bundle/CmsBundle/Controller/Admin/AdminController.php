@@ -2,6 +2,7 @@
 
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -183,6 +184,24 @@ abstract class AdminController extends Controller {
      */
     private function getFullEntityName() {
         return 'MyexpCmsBundle:' . $this->primaryEntity;
+    }
+    
+    /**
+     * Ajax 方式显示数据
+     * 
+     * @param type $data
+     */
+    protected function ajaxDisplay($data = array()){
+        
+        $result = array('code'=>'ok');
+        
+        if(!empty($data['errors'])){
+            $result['code'] = 'error';
+        }
+        
+        $finalResult = array_merge($result, $data);
+        
+        return new Response(json_encode($finalResult));
     }
 
 }

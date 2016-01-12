@@ -91,23 +91,46 @@ class CategoryController extends AdminController {
 
         $form = $this->createForm($this->primaryFormType, $entity);
         $form->handleRequest($request);
-        
-        if ($form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return new Response('yes');
+            return $this->ajaxDisplay(array('id' => $entity->getId()));
         }
 
-        $errors = $form->getErrors();
-        
-        foreach($errors as $error){
-            echo $error->getMessage();
+        $errors = $form->getErrors(true);
+
+        return $this->ajaxDisplay(array('errors' => $errors));
+    }
+
+    /**
+     * Rename an existing Category entity.
+     *
+     * @Route("/rename", name="admin_category_rename")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("POST")
+     */
+    public function renameAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Category entity.');
         }
-        
-        return new Response($errors);
+
+        $title = $request->get('title');
+        $entity->setTitle($title);
+
+        $em->persist($entity);
+        $em->flush();
+
+        return $this->ajaxDisplay();
     }
 
     /**
@@ -121,7 +144,7 @@ class CategoryController extends AdminController {
 
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
-        
+
         $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
         if (!$entity) {
@@ -132,14 +155,16 @@ class CategoryController extends AdminController {
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            
+
             $em->persist($entity);
             $em->flush();
-            
-            return new Response();
+
+            return $this->ajaxDisplay();
         }
 
-        return new Response($entity->getTitle());
+        $errors = $editForm->getErrors(true);
+
+        return $this->ajaxDisplay(array('errors' => $errors));
     }
 
     /**
@@ -150,26 +175,20 @@ class CategoryController extends AdminController {
      * @Method("POST")
      */
     public function deleteAction(Request $request) {
-        
+
         $id = $request->get('id');
-        
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Category entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        return $this->redirect($this->generateUrl('category'));
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->ajaxDisplay();
     }
 
     /**
@@ -180,7 +199,7 @@ class CategoryController extends AdminController {
      * @Method("POST")
      */
     public function pasteAction(Request $request, $id) {
-        
+
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 

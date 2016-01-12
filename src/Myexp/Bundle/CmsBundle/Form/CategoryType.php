@@ -15,7 +15,7 @@ class CategoryType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('title', TextType::class, array(
-                    'label' => false,
+                    'label' => 'category.title',
                     'attr' => array('size' => 80)
                 ))
                 ->add('keywords', TextType::class, array(
@@ -26,7 +26,7 @@ class CategoryType extends AbstractType {
                 ->add('parent', EntityType::class, array(
                     'label' => 'category.parent',
                     'class' => 'MyexpCmsBundle:Category',
-                    'choice_label' => 'trans.title',
+                    'choice_label' => 'title',
                     'required' => false
                 ))
                 ->add('sortOrder', IntegerType::class, array(
@@ -37,6 +37,16 @@ class CategoryType extends AbstractType {
                 ->add('isActive', CheckboxType::class, array(
                     'label' => 'category.is_active',
                     'required' => false
+                ))
+                ->add('website', EntityType::class, array(
+                    'class'=>'MyexpCmsBundle:Website',
+                    'label'=>false,
+                    'required'=>true
+                ))
+                ->add('contentModel', EntityType::class, array(
+                    'class'=>'MyexpCmsBundle:ContentModel',
+                    'label'=>false,
+                    'required'=>true
                 ))
         ;
     }

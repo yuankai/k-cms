@@ -29,7 +29,7 @@ class ArticleType extends AbstractType {
                 ->add('category', EntityType::class, array(
                     'label' => 'article.category',
                     'class' => 'MyexpCmsBundle:Category',
-                    'choice_label' => 'trans.title',
+                    'choice_label' => 'title',
                     'required' => true
                 ))
                 ->add('filePhoto', FileType::class, array('label' => 'article.pic', 'required' => false))
@@ -50,9 +50,6 @@ class ArticleType extends AbstractType {
                     'label' => 'article.is_active',
                     'required' => false
                 ))
-                ->add('save', SubmitType::class, array(
-                    'label'=> 'common.submit'
-                ))
         ;
     }
 
@@ -60,10 +57,6 @@ class ArticleType extends AbstractType {
         $resolver->setDefaults(array(
             'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Article'
         ));
-    }
-
-    public function getName() {
-        return 'myexp_bundle_cmsbundle_article';
     }
 
 }

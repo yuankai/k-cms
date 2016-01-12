@@ -13,8 +13,8 @@
     {% if category.children is not empty %}
         <ul>
             {% for tmp in category.children %}
-                <li>{{ tmp.title }}{{ forms.categoryNode(tmp) }}</li>
-                {% endfor %}
+                <li id="node_{{ tmp.id }}">{{ tmp.title }}{{ forms.categoryNode(tmp) }}</li>
+            {% endfor %}
         </ul>
     {% endif %}
 {% endmacro %}
@@ -37,7 +37,7 @@
                     {% if topCategories is not empty %}
                         <ul>
                             {% for category in topCategories %}
-                                <li id="node_{{ category.id }}}">{{ category.title }}{{ forms.categoryNode(category) }}</li>
+                                <li id="node_{{ category.id }}">{{ category.title }}{{ forms.categoryNode(category) }}</li>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -55,7 +55,7 @@
         var websiteId = {{ websiteId }};
         var contentModelId = {{ contentModelId }};
         var createUrl = '{{ path('admin_category_create') }}';
-        var updateUrl = '{{ path('admin_category_update') }}';
+        var renameUrl = '{{ path('admin_category_rename') }}';
         var deleteUrl = '{{ path('admin_category_delete') }}';
         var pasteUrl = '{{ path('admin_category_paste') }}';
         
@@ -78,29 +78,38 @@
 
             $('#jstree_category_div').on("create_node.jstree", function (e, data) {
                 var node = data.node;
+                var pid = getId(data.parent);
                 var param = {
-                    parent: getId(data.parent), 
+                    parent: pid === '0' ? null : pid, 
                     title: node.text, 
-                    websiteId: websiteId, 
-                    contentModelId:contentModelId
+                    website: websiteId, 
+                    contentModel:contentModelId
                 };
                 $.post(createUrl, buildFormData(param), function(data){
-                    
-                });
+                    if(data.code === 'ok'){
+                        node.id = data.id;
+                    } else {
+                        alert(data.errors);
+                    }
+                },'json');
             }).on("rename_node.jstree", function(e, data){
                 var node = data.node;
                 var param = {
-                    id: getId(node.id), 
+                    id: getId(node.id),
                     title: data.text
                 };
-                $.post(updateUrl, param, function(data){
-                    
-                });
+                $.post(renameUrl, param, function(data){
+                    if(data.code !== 'ok'){
+                        alert(data.errors);
+                    }
+                },'json');
             }).on("delete_node.jstree", function(e, data){
                 var param = {id: getId(data.node.id)};
                 $.post(deleteUrl, param, function(data){
-                    
-                });
+                    if(data.code !== 'ok'){
+                        alert(data.errors);
+                    }
+                },'json');
             }).on("move_node.jstree", function(e, data){
                 var param = {
                     id: getId(data.node.id), 
@@ -108,7 +117,7 @@
                 };
                 $.post(updateUrl, param, function(data){
                     
-                });
+                },'json');
             }).on("paste_node.jstree", function(e, data){
                 var param = {
                     id: getId(data.node.id), 
@@ -117,7 +126,7 @@
                 };
                 $.post(pasteUrl, param, function(data){
                     
-                });
+                },'json');
             });
 
             $('#jstree_category_div').jstree({

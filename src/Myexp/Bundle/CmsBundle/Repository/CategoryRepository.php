@@ -12,28 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends EntityRepository {
 
-    public function getChildren($parent = null) {
-        $qb = $this->createQueryBuilder('c');
-
-        if ($parent === null) {
-            $qb->where('c.parent IS NULL');
-        } else {
-            $qb
-                    ->where('c.parent = ?1')
-                    ->setParameter('1', $parent)
-            ;
-        }
-        $qb->add('orderBy', 'c.sortOrder ASC');
-        return $qb->getQuery()->getResult();
-    }
-
-    public function setIsactive() {
-        $qb = $this->createQueryBuilder('i')
-                ->where('i.isActive != :isActive')
-                ->setParameter('isActive', NULL)
-                ->getQuery();
-
-        return $qb->getResult();
-    }
-
 }

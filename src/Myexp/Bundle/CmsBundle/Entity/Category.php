@@ -25,7 +25,7 @@ class Category {
     private $title;
 
     /**
-     * @ORM\Column(name="keywords", type="string", length=255)
+     * @ORM\Column(name="keywords", type="string", length=255, nullable=true)
      */
     private $keywords;
 
@@ -233,7 +233,7 @@ class Category {
      * @param \Myexp\Bundle\CmsBundle\Entity\Website $website
      * @return Category
      */
-    public function setWebsite($website) {
+    public function setWebsite(\Myexp\Bundle\CmsBundle\Entity\Website $website) {
         $this->website = $website;
 
         return $this;
@@ -254,7 +254,7 @@ class Category {
      * @param \Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel
      * @return Category
      */
-    public function setContentModel($contentModel) {
+    public function setContentModel(\Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel) {
         $this->contentModel = $contentModel;
 
         return $this;
