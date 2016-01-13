@@ -1,26 +1,17 @@
 {# 文件选择器 #}
 {% block finder_widget %}
 {% spaceless %}
-    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <div>
+        <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}"/>
+    </div>
+        <button class="ui button" type="button">新增</button>
     <script type="text/javascript">
         {% autoescape true js %}
-            var CKEDITOR_BASEPATH = '{{ asset('bundles/myexpeditor/ckeditor/') }}';
         {% endautoescape %}
     </script>
-    <script type="text/javascript" src="{{ asset('bundles/myexpeditor/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpfinder/elfinder/jquery/jquery-ui.min.css') }}"></script>
     <script type="text/javascript">
         {% autoescape true js %}
-            var instance = CKEDITOR.instances['{{ id }}'];
-            if (instance) {
-                instance.destroy(true);
-            }
-            CKEDITOR.replace("{{ id }}",{
-              {% for key, val in options %}
-                '{{ key }}': [{{ val | json_encode | raw }}],
-              {% endfor %}
-              filebrowserImageBrowseUrl: '{{ asset('bundles/myexpeditor/elfinder/elfinder.html') }}',
-              skin: 'moono',
-            });
         {% endautoescape %}
     </script>
 {% endspaceless %}

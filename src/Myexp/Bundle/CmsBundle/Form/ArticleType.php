@@ -9,9 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
+use Myexp\Bundle\FinderBundle\Form\Type\FinderType;
 
 class ArticleType extends AbstractType {
 
@@ -31,7 +32,10 @@ class ArticleType extends AbstractType {
                     'choice_label' => 'title',
                     'required' => true
                 ))
-                ->add('filePhoto', FileType::class, array('label' => 'article.pic', 'required' => false))
+                ->add('filePhoto', FinderType::class, array(
+                    'label' => 'article.pic', 
+                    'required' => false
+                ))
                 ->add('author', TextType::class, array(
                     'label' => 'article.author',
                     'required' => false
@@ -52,7 +56,7 @@ class ArticleType extends AbstractType {
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Article'
         ));
