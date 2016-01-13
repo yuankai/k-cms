@@ -6,19 +6,5 @@
     <div class="active section">{{ 'article.new'|trans }}</div>
 {% endblock %}
 {% block content %}
-{{ form_start(form, {'action': path('admin_article_create')}) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
-{% endblock %}
-{% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.tabs').tabs();
-        var editor_zh = CKEDITOR.replace('smt_cmsbundle_article_type_translations_zh_content');
-        CKFinder.setupCKEditor(editor_zh, '/ckfinder/');
-    });
-</script>
+{{ form(form) }}
 {% endblock %}

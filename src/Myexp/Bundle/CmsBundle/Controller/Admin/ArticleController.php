@@ -30,7 +30,7 @@ class ArticleController extends AdminController {
      * @var type 
      */
     protected $primaryEntity = 'Article';
-    
+
     /**
      * 主表单类型
      *
@@ -73,10 +73,10 @@ class ArticleController extends AdminController {
             return $this->redirectSucceed();
         }
 
-        return array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        );
+        return $this->display(array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
     }
 
     /**
@@ -172,7 +172,7 @@ class ArticleController extends AdminController {
     /**
      * Deletes a Article entity.
      *
-     * @Route("/{id}", name="article_delete")
+     * @Route("/{id}", name="admin_article_delete")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */

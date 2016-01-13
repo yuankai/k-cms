@@ -198,6 +198,8 @@ news:
 product:
     manage: 产品管理
     new: 新建产品
+    title: 标题
+    category: 所属分类
 
 sort:
     manage: 页面分类

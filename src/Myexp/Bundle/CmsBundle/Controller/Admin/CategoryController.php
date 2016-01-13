@@ -132,6 +132,35 @@ class CategoryController extends AdminController {
 
         return $this->ajaxDisplay();
     }
+    
+     /**
+     * Rename an existing Category entity.
+     *
+     * @Route("/move", name="admin_category_move")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("POST")
+     */
+    public function moveAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Category entity.');
+        }
+
+        $parentId = $request->get('parent');
+        $parent = $em->getRepository('MyexpCmsBundle:Category')->find($parentId);
+        
+        $entity->setParent($parent);
+
+        $em->persist($entity);
+        $em->flush();
+
+        return $this->ajaxDisplay();
+    }
 
     /**
      * Edits an existing Category entity.
@@ -198,24 +227,28 @@ class CategoryController extends AdminController {
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      */
-    public function pasteAction(Request $request, $id) {
+    public function pasteAction(Request $request) {
 
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        
+        $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Category entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        return $this->redirect($this->generateUrl('category'));
+        $parentId = $request->get('parent');
+        $parent = $em->getRepository('MyexpCmsBundle:Category')->find($parentId);
+        
+        $mode = $request->get('mode');
+        
+        $entity->setParent($parent);
+
+        $em->persist($entity);
+        $em->flush();
+
+        return $this->ajaxDisplay();
     }
 
 }

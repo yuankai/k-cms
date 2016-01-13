@@ -16,28 +16,35 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in pagination %}
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td class="id"><input type="checkbox" name="ids[]" value="{{ entity.id }}" /></td>
-                <td><a href="{{ path('download_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.title }}</td>
-                <td>{% if entity.isActive %}{{ 'common.yes'|trans }}{% else %}{{ 'common.no'|trans }}{% endif %}</td>
-                <td>{{ entity.category.trans.title }}</td>
-                <td>
-                    <a href="{{ path('admin_download_edit', { 'id': entity.id }) }}" class="ui button">{{ 'common.edit'|trans }}</a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for entity in pagination %}
+                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td class="id"><input type="checkbox" name="ids[]" value="{{ entity.id }}" /></td>
+                    <td><a href="{{ path('download_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                    <td>{{ entity.title }}</td>
+                    <td>{% if entity.isActive %}{{ 'common.yes'|trans }}{% else %}{{ 'common.no'|trans }}{% endif %}</td>
+                    <td>{{ entity.category.title }}</td>
+                    <td>
+                        <div class="ui icon buttons">
+                            <a class="ui button" href="{{ path('download_show', { 'id': entity.id }) }}"  title="{{ 'common.view'|trans }}" target="_blank">
+                                <i class="external icon"></i>
+                            </a>
+                            <a class="ui button" href="{{ path('admin_download_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                                <i class="edit icon"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <th colspan="8">
-                    <div class="ui left small button">
-                        Approve
-                    </div>
-                    <div class="ui left small button">
-                        Approve All
-                    </div>
+                    <button class="ui left small olive button">
+                        {{ 'common.approve'|trans }}
+                    </button>
+                    <button class="ui left small red button">
+                        {{ 'common.deny'|trans }}
+                    </button>
                     <a class="ui left small teal labeled icon button" href="{{ path('admin_download_new') }}">
                         <i class="archive icon"></i> {{ 'download.new'|trans }}
                     </a>
@@ -46,7 +53,7 @@
             </tr>
         </tfoot>
     </table>
-    {% endblock %}
+{% endblock %}
 
 
 

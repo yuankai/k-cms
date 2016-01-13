@@ -46,7 +46,7 @@ class Category {
     /**
      * @var Myexp\Bundle\CmsBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
      * @ORM\JoinColumn(name="pid", referencedColumnName="id", onDelete="SET NULL")
      */
     private $parent;

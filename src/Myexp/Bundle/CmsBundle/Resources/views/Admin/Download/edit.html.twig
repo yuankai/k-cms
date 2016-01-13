@@ -1,27 +1,14 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
 {% block title %}{{ 'download.edit'|trans }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('download')}}">{{ 'download.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'download.edit'|trans }}</a></span>
+    <a class="section" href="{{ path('admin_download') }}">{{ 'download.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'download.edit'|trans }}</div>
 {% endblock %}
 {% block content %}
-<form action="{{ path('download_update', { 'id': entity.id }) }}" method="post">
-
-        <input type="hidden" name="_method" value="PUT" />
-        {{ form_widget(edit_form) }}
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="{{ 'common.submit'|trans }}" />
-            <input type="reset" class="btn btn-danger" value="{{ 'common.reset'|trans }}" />
-        </div>
-
-</form>
-<form action="{{ path('download_delete', { 'id': entity.id }) }}" method="post">
-    <div class="form-actions">
-        <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-        <button type="submit" class="btn btn-warning" onclick="return confirm('{{ 'common.delete_confirm'|trans }}');">{{ 'common.delete'|trans }}</button>
-        <input class="btn btn-primary" type="submit" value="{{ 'common.back_list'|trans }}"  onclick="saveToDraft(this, '{{ path('download') }}');" />
-        
+    {{ form(edit_form) }}
+    <div class="ui horizontal divider"> {{ 'common.or'|trans }} </div>
+    <div class="ui delete form">
+    {{ form(delete_form) }}
     </div>
-</form>
-   {% endblock %}
-
+{% endblock %}

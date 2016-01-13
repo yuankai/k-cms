@@ -2,6 +2,7 @@
 
 namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -71,10 +72,10 @@ class ProductController extends AdminController {
             return $this->redirectSucceed();
         }
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -82,7 +83,7 @@ class ProductController extends AdminController {
      *
      * @Route("/new", name="admin_product_new")
      * @Security("has_role('ROLE_ADMIN')")
-     * @Method("GET|POST")
+     * @Method("GET")
      * @Template()
      */
     public function newAction() {
@@ -90,10 +91,10 @@ class ProductController extends AdminController {
         $entity = new Product();
         $form = $this->createCreateForm($entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**

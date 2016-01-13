@@ -71,13 +71,13 @@ class DownloadController extends AdminController {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect();
+            return $this->redirectSucceed();
         }
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -96,10 +96,10 @@ class DownloadController extends AdminController {
         $entity->setPublishTime(new \DateTime());
         $form = $this->createCreateForm($entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView()
-        );
+        ));
     }
 
     /**

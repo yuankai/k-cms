@@ -43,9 +43,7 @@ user:
     
 
 
-#product:
-#    resource: "@MyexpCmsBundle/Controller/ProductController.php"
-#    type: annotation
+# 管理路由
 
 admin_default:
     resource: "@MyexpCmsBundle/Controller/Admin/DefaultController.php"
@@ -89,4 +87,14 @@ admin_category:
     
 admin_slider:
     resource: "@MyexpCmsBundle/Controller/Admin/SliderController.php"
+    type: annotation
+    
+# 前台路由
+
+download:
+    resource: "@MyexpCmsBundle/Controller/DownloadController.php"
+    type: annotation
+    
+product:
+    resource: "@MyexpCmsBundle/Controller/ProductController.php"
     type: annotation
