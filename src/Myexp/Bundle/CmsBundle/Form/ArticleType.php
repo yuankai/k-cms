@@ -13,11 +13,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
 use Myexp\Bundle\FinderBundle\Form\Type\FinderType;
+use Myexp\Bundle\CmsBundle\Form\Type\CategoryType;
 
 class ArticleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('category', CategoryType::class, array(
+                    'label' => 'article.category',
+                    'model'=>'article'
+                ))
                 ->add('title', TextType::class, array(
                     'label' => 'article.title',
                     'attr' => array('size' => 80)
@@ -26,16 +31,11 @@ class ArticleType extends AbstractType {
                     'label' => 'article.content',
                     'required' => false
                 ))
-                ->add('category', EntityType::class, array(
-                    'label' => 'article.category',
-                    'class' => 'MyexpCmsBundle:Category',
-                    'choice_label' => 'title',
-                    'required' => true
-                ))
+                /*
                 ->add('filePhoto', FinderType::class, array(
                     'label' => 'article.pic', 
                     'required' => false
-                ))
+                ))*/
                 ->add('author', TextType::class, array(
                     'label' => 'article.author',
                     'required' => false

@@ -32,6 +32,13 @@ services:
     # 自定义路由加载器，加载内容类型默认路由以及URL别名
     myexp_cms.routing_loader:
         class: 'Myexp\Bundle\CmsBundle\Routing\RewriteLoader'
-        arguments: ['@doctrine', %myexp_cms.url_rewrite%, %myexp_cms.content_models%]
+        arguments: ['@doctrine', %myexp_cms.url_rewrite%]
         tags:
             - { name: routing.loader }
+            
+    # 分类选择器
+    myexp_cms.form.category_type:
+        class: Myexp\Bundle\CmsBundle\Form\Type\CategoryType
+        arguments: ['@doctrine']
+        tags:
+            - { name: form.type, alias: category}

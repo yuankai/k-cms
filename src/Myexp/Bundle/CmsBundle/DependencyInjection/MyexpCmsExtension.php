@@ -36,9 +36,15 @@ class MyexpCmsExtension extends Extension implements PrependExtensionInterface {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
         
+        // 导入配置
         $container->setParameter('myexp_cms.enabled_locales', $config['enabled_locales']);
-        $container->setParameter('myexp_cms.content_models', $config['content_models']);
         $container->setParameter('myexp_cms.url_rewrite', $config['url_rewrite']);
+        
+        // 导入分类字段类型
+        $container->setParameter('twig.form.resources', array_merge(
+                $container->getParameter('twig.form.resources'), 
+                array('MyexpCmsBundle:Admin/Form:category_widget.html.twig')
+        ));
     }
 
     /**
@@ -55,7 +61,8 @@ class MyexpCmsExtension extends Extension implements PrependExtensionInterface {
                 'twig', array(
                     'form_theme' => array(
                         'MyexpCmsBundle:Theme:form.html.twig'
-                    )
+                    ),
+                    
                 )
             );
         }

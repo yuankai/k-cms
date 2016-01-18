@@ -34,20 +34,13 @@ class RewriteLoader extends Loader {
     protected $rewriteConfig;
 
     /**
-     *
-     * @var type 
-     */
-    protected $contentModels;
-
-    /**
      * 
      * @param RegistryInterface $registry
-     * @param type $rewrite
+     * @param type $rewriteConfig
      */
-    public function __construct(RegistryInterface $registry, $rewriteConfig, $contentModels) {
+    public function __construct(RegistryInterface $registry, $rewriteConfig) {
         $this->registry = $registry;
         $this->rewriteConfig = $rewriteConfig;
-        $this->contentModels = $contentModels;
     }
 
     /**
@@ -78,12 +71,13 @@ class RewriteLoader extends Loader {
      */
     private function loadContentModelDefaultRoute(RouteCollection $routes) {
 
-        $contentModels = $this->contentModels;
+        $em = $this->registry->getManager();
+        $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
+        
         if ($contentModels) {
-
-            $em = $this->registry->getManager();
             foreach ($contentModels as $contentModel) {
-                $rep = $em->getRepository('MyexpCmsBundle:' . $contentModel);
+                $entityName = $contentModel->getEntityName();
+                $rep = $em->getRepository('MyexpCmsBundle:' . $entityName);
 
                 if ($rep instanceof ContentModel) {
                     $defaultRoutes = $rep->getDefaultRoute($this->rewriteConfig['url_suffix']);

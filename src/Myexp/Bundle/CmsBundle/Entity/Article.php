@@ -33,7 +33,7 @@ class Article {
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $category;
@@ -84,7 +84,7 @@ class Article {
     private $picurl;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $user;
