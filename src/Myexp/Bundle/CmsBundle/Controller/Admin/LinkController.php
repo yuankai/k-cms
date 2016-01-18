@@ -73,10 +73,10 @@ class LinkController extends AdminController {
             return $this->redirectSucceed();
         }
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -92,10 +92,10 @@ class LinkController extends AdminController {
         $entity = new Link();
         $form = $this->createCreateForm($entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -119,11 +119,11 @@ class LinkController extends AdminController {
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -156,11 +156,11 @@ class LinkController extends AdminController {
             return $this->redirectSucceed();
         }
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

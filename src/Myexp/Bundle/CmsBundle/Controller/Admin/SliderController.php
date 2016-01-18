@@ -55,7 +55,7 @@ class SliderController extends AdminController {
     /**
      * Creates a new Slider entity.
      *
-     * @Route("/", name="slider_create")
+     * @Route("/", name="admin_slider_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Slider:new.html.twig")
@@ -84,7 +84,7 @@ class SliderController extends AdminController {
     /**
      * Displays a form to create a new Slider entity.
      *
-     * @Route("/new", name="slider_new")
+     * @Route("/new", name="admin_slider_new")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
@@ -104,7 +104,7 @@ class SliderController extends AdminController {
     /**
      * Finds and displays a Slider entity.
      *
-     * @Route("/{id}", name="slider_show")
+     * @Route("/{id}", name="admin_slider_show")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
@@ -130,7 +130,7 @@ class SliderController extends AdminController {
     /**
      * Displays a form to edit an existing Slider entity.
      *
-     * @Route("/{id}/edit", name="slider_edit")
+     * @Route("/{id}/edit", name="admin_slider_edit")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|DELETE")
      * @Template()
@@ -158,7 +158,7 @@ class SliderController extends AdminController {
     /**
      * Edits an existing Slider entity.
      *
-     * @Route("/{id}", name="slider_update")
+     * @Route("/{id}", name="admin_slider_update")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Slider:edit.html.twig")
@@ -215,7 +215,7 @@ class SliderController extends AdminController {
     /**
      * Deletes a Slider entity.
      *
-     * @Route("/{id}", name="slider_delete")
+     * @Route("/{id}", name="admin_slider_delete")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
@@ -238,30 +238,4 @@ class SliderController extends AdminController {
 
         return $this->redirect($this->generateUrl('slider'));
     }
-
-    /**
-     * Render a Slider entity.
-     *
-     * @Route("/render/{name}", name="slider_render")
-     * @Method("GET")
-     * @Template()
-     */
-    public function renderAction($name) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MyexpCmsBundle:Slider')->findOneBy(array(
-            'name' => $name
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Page entity.');
-        }
-
-        return array(
-            'slider' => $entity
-        );
-    }
-
-
 }

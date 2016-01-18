@@ -1,38 +1,10 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
-{% block title %}{{ 'link.new'|trans }}{% endblock %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
+{% block title %}{{ 'link.new'|trans }} - {{ 'link.manage'|trans }}{{ parent() }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('link')}}">{{ 'link.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'link.new'|trans }}</a></span>
+    <a class="section" href="{{ path('admin_link') }}">{{ 'link.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'link.new'|trans }}</div>
 {% endblock %}
 {% block content %}
-<form action="{{ path('link_create') }}" method="post">
-    <div class="form">
-        {% form_theme form 'MyexpCmsBundle:Form:tabs.html.twig' %}
-        {{ form_widget(form) }}
-        <div class="form-actions">
-            <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />
-            <input class="btn btn-danger" type="reset" value="{{ 'common.reset'|trans }}" />
-        </div>
-    </div>
-</form>
-<form>
-    <div class="form-actions">
-        <input class="btn btn-primary" type="submit" value="{{ 'common.back_list'|trans }}"  onclick="saveToDraft(this, '{{ path('link') }}');" />
-    </div>
-</form>
-{% endblock %}
-{% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.tabs').tabs();
-        var editor_zh = CKEDITOR.replace('smt_cmsbundle_page_type_translations_zh_content');
-        var editor_en = CKEDITOR.replace('smt_cmsbundle_page_type_translations_en_content');
-        var editor_en = CKEDITOR.replace('smt_cmsbundle_page_type_translations_ge_content');
-        CKFinder.setupCKEditor(editor_zh, '/ckfinder/');
-        CKFinder.setupCKEditor(editor_en, '/ckfinder/');
-        CKFinder.setupCKEditor(editor_ge, '/ckfinder/');
-    });
-</script>
+    {{ form(form) }}
 {% endblock %}

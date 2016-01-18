@@ -12,4 +12,28 @@ use Doctrine\ORM\EntityRepository;
  */
 class SliderRepository extends EntityRepository {
     
+    /**
+     * 获得分页查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function getPaginationQuery($params = null) {
+        $qb = $this->buildQuery($params);
+
+        return $qb->getQuery();
+    }
+
+    /**
+     * 构造查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function buildQuery($params) {
+
+        $qb = $this->createQueryBuilder('s');
+
+        return $qb;
+    }
 }

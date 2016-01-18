@@ -122,11 +122,11 @@ class DownloadController extends AdminController {
         $editForm = $this->createCreateForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

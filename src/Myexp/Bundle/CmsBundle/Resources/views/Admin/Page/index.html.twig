@@ -1,5 +1,5 @@
 {% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
-{% block title %}{{ 'page.list'|trans }}{% endblock %}
+{% block title %}{{ 'page.list'|trans }}{{ parent() }}{% endblock %}
 {% block breadcrumd %}
     <div class="active section">{{ 'page.manage'|trans }}</div>
 {% endblock %}
