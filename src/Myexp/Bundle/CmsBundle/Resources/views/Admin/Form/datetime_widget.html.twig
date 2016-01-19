@@ -1,0 +1,10 @@
+{# 日期时间选择器 #}
+{%- block datetime_widget -%}
+<div class="ui action input">
+    {%- set attr = attr|merge({class: (attr.class|default('datetime-picker'))|trim}) -%}
+    <input type="text" {{ block('widget_attributes') }}/>
+    <button class="ui icon button" type="button">
+        <i class="calendar icon"></i>
+    </button>
+</div>
+{%- endblock datetime_widget -%}

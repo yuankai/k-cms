@@ -34,6 +34,18 @@ abstract class AdminController extends Controller {
     protected $primaryFormType = '';
 
     /**
+     * 所有站点
+     * @var type 
+     */
+    protected $allWebsites = array();
+
+    /**
+     * 当前站点
+     * @var type
+     */
+    protected $currentWebsite;
+
+    /**
      * 默认列表
      * 
      * @param \Myexp\Bundle\CmsBundle\Controller\Admin\Request $request
@@ -130,6 +142,27 @@ abstract class AdminController extends Controller {
     }
 
     /**
+     * 前置操作
+     */
+    public function before() {
+        
+        $em = $this->getDoctrine()->getManager();
+        $allWebsites = $em->getRepository('MyexpCmsBundle:Website')->findAll();
+
+        // 保存当前网站到session
+        $session = $this->get('session');
+        $currentWebsite = $session->get('currentWebsite');
+
+        if (!$currentWebsite) {
+            $currentWebsite = $allWebsites[0];
+            $session->set('currentWebsite', $currentWebsite);
+        }
+        
+        $this->allWebsites = $allWebsites;
+        $this->currentWebsite = $currentWebsite;
+    }
+
+    /**
      * 显示界面
      * 
      * @param type $data
@@ -137,8 +170,15 @@ abstract class AdminController extends Controller {
      */
     public function display($data) {
 
+        // 主菜单
         if ($this->primaryMenu) {
             $data['primaryMenu'] = $this->primaryMenu;
+        }
+
+        //站点信息
+        if ($this->currentWebsite) {
+            $data['currentWebsite'] = $this->currentWebsite;
+            $data['allWebsites'] = $this->allWebsites;
         }
 
         return $data;
@@ -185,22 +225,22 @@ abstract class AdminController extends Controller {
     private function getFullEntityName() {
         return 'MyexpCmsBundle:' . $this->primaryEntity;
     }
-    
+
     /**
      * Ajax 方式显示数据
      * 
      * @param type $data
      */
-    protected function ajaxDisplay($data = array()){
-        
-        $result = array('code'=>'ok');
-        
-        if(!empty($data['errors'])){
+    protected function ajaxDisplay($data = array()) {
+
+        $result = array('code' => 'ok');
+
+        if (!empty($data['errors'])) {
             $result['code'] = 'error';
         }
-        
+
         $finalResult = array_merge($result, $data);
-        
+
         return new Response(json_encode($finalResult));
     }
 

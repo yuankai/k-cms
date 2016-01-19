@@ -18,6 +18,10 @@ class CategoryType extends AbstractType {
     
     protected $registry;
 
+    /**
+     * 
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry) {
         $this->registry = $registry;
     }

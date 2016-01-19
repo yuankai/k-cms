@@ -5,6 +5,7 @@ admin:
     settings: 系统设置
     menu: 菜单
     content: 网站内容
+    website: 网站配置
     other: 其他管理
 
 common:
@@ -120,9 +121,10 @@ category:
     name: 栏目名称
     order: 栏目排序
     root_node: 根节点
-    parent: 上级菜单
+    parent: 上级分类
     list: 分类列表
     show: 分类详细
+    choose: 选择分类
     is_active: 侧边栏是否显示
 
 menu:
@@ -255,6 +257,7 @@ website:
     new: 新建站点
     edit: 编辑站点
     id: 编号
+    name: 网站名称
     list: 站点列表
     show: 查看站点
     title: 标题
@@ -266,3 +269,7 @@ website:
     email: 电子邮箱
     tel: 电话
     fax: 传真
+
+node:
+    manage: 网站结构
+    

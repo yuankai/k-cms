@@ -1,30 +1,30 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Menu;
 use Myexp\Bundle\CmsBundle\Entity\MenuTranslation;
 use Myexp\Bundle\CmsBundle\Form\MenuType;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Menu controller.
  *
- * @Route("/menu")
+ * @Route("/admin/menu")
  */
 class MenuController extends Controller {
 
     /**
      * Lists all Menu entities.
      *
-     * @Route("/", name="menu")
-     * @Secure(roles="ROLE_ADMIN_USER")
-     * @Method("GET|DELETE")
+     * @Route("/", name="admin_menu")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("GET")
      * @Template()
      */
     public function indexAction() {
@@ -38,61 +38,10 @@ class MenuController extends Controller {
     }
 
     /**
-     * Get menus recursively
-     * 
-     * @access private
-     */
-    private function getMenuByRecursive(&$result, $parent = null, $depth = 0) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        if ($parent instanceof Menu) {
-            $prefix = '';
-            for ($i = 1; $i < $depth; $i++) {
-                $prefix .= '|------';
-            }
-            $parent->getTrans()->setTitle($prefix . ' ' . $parent->getTrans()->getTitle());
-            $result[] = $parent;
-        }
-
-        $entities = $em->getRepository('MyexpCmsBundle:Menu')->getChildren($parent);
-
-        foreach ($entities as $menu) {
-            $this->getMenuByRecursive($result, $menu, $depth + 1);
-        }
-    }
-
-    /**
-     * Save menu orders.
-     *
-     * @Route("/order", name="menu_order")
-     * @Secure(roles="ROLE_ADMIN_USER")
-     * @Method("POST")
-     */
-    public function sortOrderAction() {
-
-        $em = $this->getDoctrine()->getManager();
-        $menuRepo = $em->getRepository('MyexpCmsBundle:menu');
-
-        $orders = $this->getRequest()->request->get('orders');
-
-        foreach ($orders as $id => $order) {
-            $menu = $menuRepo->find($id);
-            $menu->setSortOrder($order);
-            $em->persist($menu);
-            $em->flush();
-        }
-
-        $this->get('session')->getFlashBag()->add('notice', 'common.success');
-
-        return $this->redirect($this->generateUrl('menu'));
-    }
-
-    /**
      * Creates a new Menu entity.
      *
      * @Route("/", name="menu_create")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @Template("MyexpCmsBundle:Menu:new.html.twig")
      */
@@ -123,7 +72,7 @@ class MenuController extends Controller {
      * Displays a form to create a new Menu entity.
      *
      * @Route("/new", name="menu_new")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|POST")
      * @Template()
      */
@@ -152,7 +101,7 @@ class MenuController extends Controller {
      * Finds and displays a Menu entity.
      *
      * @Route("/{id}", name="menu_show")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
@@ -178,7 +127,7 @@ class MenuController extends Controller {
      * Displays a form to edit an existing Menu entity.
      *
      * @Route("/{id}/edit", name="menu_edit")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET|DELETE")
      * @Template()
      */
@@ -205,7 +154,7 @@ class MenuController extends Controller {
      * Edits an existing Menu entity.
      *
      * @Route("/{id}", name="menu_update")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
      * @Template("MyexpCmsBundle:Menu:edit.html.twig")
      */
@@ -244,7 +193,7 @@ class MenuController extends Controller {
      * Deletes a Menu entity.
      *
      * @Route("/{id}", name="menu_delete")
-     * @Secure(roles="ROLE_ADMIN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id) {

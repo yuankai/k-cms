@@ -18,19 +18,14 @@ user:
     
 
     
-#page:
-#    resource: "@MyexpCmsBundle/Controller/PageController.php"
-#    type: annotation
+
     
 #album:
 #    resource: "@MyexpCmsBundle/Controller/AlbumController.php"
 #    type: annotation
      
 
-    
-#menu:
-#    resource: "@MyexpCmsBundle/Controller/MenuController.php"
-#    type: annotation
+
     
 #photo:
 #    resource: "@MyexpCmsBundle/Controller/PhotoController.php"
@@ -89,6 +84,14 @@ admin_slider:
     resource: "@MyexpCmsBundle/Controller/Admin/SliderController.php"
     type: annotation
     
+admin_menu:
+    resource: "@MyexpCmsBundle/Controller/Admin/MenuController.php"
+    type: annotation
+    
+admin_node:
+    resource: "@MyexpCmsBundle/Controller/Admin/NodeController.php"
+    type: annotation
+
 # 前台路由
 
 download:
@@ -97,4 +100,8 @@ download:
     
 product:
     resource: "@MyexpCmsBundle/Controller/ProductController.php"
+    type: annotation
+    
+page:
+    resource: "@MyexpCmsBundle/Controller/PageController.php"
     type: annotation

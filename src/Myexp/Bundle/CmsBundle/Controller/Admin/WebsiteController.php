@@ -90,10 +90,10 @@ class WebsiteController extends AdminController {
         $entity = new Website();
         $form = $this->createCreateForm($entity);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -141,11 +141,11 @@ class WebsiteController extends AdminController {
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

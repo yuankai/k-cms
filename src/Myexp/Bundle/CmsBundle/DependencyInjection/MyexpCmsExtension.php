@@ -43,7 +43,10 @@ class MyexpCmsExtension extends Extension implements PrependExtensionInterface {
         // 导入分类字段类型
         $container->setParameter('twig.form.resources', array_merge(
                 $container->getParameter('twig.form.resources'), 
-                array('MyexpCmsBundle:Admin/Form:category_widget.html.twig')
+                array(
+                    'MyexpCmsBundle:Admin/Form:category_widget.html.twig',
+                    'MyexpCmsBundle:Admin/Form:datetime_widget.html.twig'
+                )
         ));
     }
 

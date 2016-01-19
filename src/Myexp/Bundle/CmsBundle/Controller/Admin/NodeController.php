@@ -1,6 +1,6 @@
 <?php
 
-namespace Myexp\Bundle\CmsBundle\Controller;
+namespace Myexp\Bundle\CmsBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,14 +13,14 @@ use Myexp\Bundle\CmsBundle\Form\NodeType;
 /**
  * Node controller.
  *
- * @Route("/node")
+ * @Route("/admin/node")
  */
 class NodeController extends Controller {
 
     /**
      * Lists all Node entities.
      *
-     * @Route("/", name="node")
+     * @Route("/", name="admin_node")
      * @Method("GET")
      * @Template()
      */

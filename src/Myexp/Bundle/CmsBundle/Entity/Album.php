@@ -19,16 +19,26 @@ class Album {
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="keywords", type="string", length=255, nullable=false)
      */
-    private $name;
+    private $keywords;
 
     /**
      * @ORM\Column(name="title", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
     private $title;
+
+    /**
+     * @ORM\Column(name="content", type="text", nullable=true)
+     */
+    private $content;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $category;
 
     /**
      * @var int
@@ -41,6 +51,12 @@ class Album {
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="album", cascade={"remove"})
      */
     private $photos;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Website")
+     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $website;
 
     /**
      * Get id

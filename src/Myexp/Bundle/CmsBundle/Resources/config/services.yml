@@ -20,6 +20,7 @@ services:
         arguments: ['@doctrine', %myexp_cms.url_rewrite%]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
             - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
             
     # 注册实体ID转换表单类型
@@ -42,3 +43,10 @@ services:
         arguments: ['@doctrine']
         tags:
             - { name: form.type, alias: category}
+            
+    # 日期时间选择器
+    myexp_cms.form.datetime_type:
+        class: Myexp\Bundle\CmsBundle\Form\Type\DateTimeType
+        arguments: [%locale%]
+        tags:
+            - { name: form.type, alias: datetime}

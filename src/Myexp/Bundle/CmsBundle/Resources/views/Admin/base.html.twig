@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <title>{% block title %} - {{ 'admin.title'|trans }}{% endblock %}</title>
         {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/myexpcms/css/jquery.datetimepicker.css') }}" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('bundles/myexpcms/semantic-ui/semantic.min.css') }}" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('bundles/myexpcms/css/admin.css') }}" rel="stylesheet" type="text/css"/>
         {% endblock %}
@@ -15,11 +16,11 @@
                 <div class="header item">K-WEB</div>
                 <div class="active item"><i class="home icon"></i>{{ 'admin.homepage'|trans }}</div>
                 <div class="ui dropdown item">
-                    <i class="linkify icon"></i>{{ 'website.homepage'|trans }}<i class="dropdown icon"></i>
+                    <i class="linkify icon"></i>{{ currentWebsite.title }}<i class="dropdown icon"></i>
                     <div class="menu transition hidden" tabindex="-1">
-                        <div class="item">Action</div>
-                        <div class="item">Another Action</div>
-                        <div class="item">Something else here</div>
+                        {% for website in allWebsites %}
+                        <a class="item" href="{{ path('admin_homepage') }}?websiteId={{ website.id }}">{{ website.title }}</a>
+                        {% endfor %}
                     </div>
                 </div>
                 <a class="sidebar item"><i class="sidebar icon"></i>{{ 'admin.menu'|trans }}</a>
@@ -76,11 +77,25 @@
                                     <a class="{% if primaryMenu == "admin_album" %}active teal {% endif %}item" href="{{ path('admin_album') }}">
                                         <i class="photo icon"></i> {{ 'album.manage'|trans }}
                                     </a>
+                                    <a class="{% if primaryMenu == "admin_category" %}active teal {% endif %}item" href="{{ path('admin_category') }}">
+                                        <i class="folder icon"></i> {{ 'category.manage'|trans }}
+                                    </a>
                                 </div>
                             </div>
-                            <a class="{% if primaryMenu == "admin_category" %}active teal {% endif %}item" href="{{ path('admin_category') }}">
-                                <i class="folder icon"></i> {{ 'category.manage'|trans }}
-                            </a>
+                            <div class="item">
+                                <div class="header">{{ 'admin.website'|trans }}</div>
+                                <div class="menu">
+                                    <a class="{% if primaryMenu == "admin_menu" %}active teal {% endif %}item" href="{{ path('admin_menu') }}">
+                                        <i class="sidebar icon"></i> {{ 'menu.manage'|trans }}
+                                    </a>
+                                    <a class="{% if primaryMenu == "admin_node" %}active teal {% endif %}item" href="{{ path('admin_node') }}">
+                                        <i class="sitemap icon"></i> {{ 'node.manage'|trans }}
+                                    </a>
+                                    <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
+                                        <i class="home icon"></i> {{ 'website.manage'|trans }}
+                                    </a>
+                                </div>
+                            </div>
                             <div class="item">
                                 <div class="header">{{ 'admin.other'|trans }}</div>
                                 <div class="menu">
@@ -94,9 +109,6 @@
                             </div>
                             <a class="{% if primaryMenu == "admin_user" %}active teal {% endif %}item" href="{{ path('admin_user') }}">
                                 <i class="user icon"></i> {{ 'user.manage'|trans }}
-                            </a>
-                            <a class="{% if primaryMenu == "admin_website" %}active teal {% endif %}item" href="{{ path('admin_website') }}">
-                                <i class="home icon"></i> {{ 'website.manage'|trans }}
                             </a>
                         </div>
                     </div>
@@ -136,25 +148,10 @@
         {% endblock %}
         {% block javascripts %}
         <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/jquery.datetimepicker.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/myexpcms/semantic-ui/semantic.min.js') }}"></script>
-        <script type="text/javascript">
-            var base_url = '{{ app.request.getBaseURL() }}';
-            $(function () {
-                $('.message').fadeOut(2000);
-                $('.ui.menu .ui.dropdown').dropdown({
-                    on: 'hover'
-                });
-                $('.sidebar.item').on('click', function () {
-                    if($('.three.wide.column').is(":hidden")){
-                        $('.three.wide.column').show();
-                        $('.sixteen.wide.column').attr('class', 'thirteen wide column');
-                    } else {
-                        $('.three.wide.column').hide();
-                        $('.thirteen.wide.column').attr('class', 'sixteen wide column');
-                    }
-                });
-            });
-        </script>
+        <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/admin.js') }}"></script>
+        <script type="text/javascript">var base_url = '{{ app.request.getBaseURL() }}';</script>
         {% endblock %}
     </body>
 </html>

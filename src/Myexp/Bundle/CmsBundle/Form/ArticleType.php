@@ -31,11 +31,10 @@ class ArticleType extends AbstractType {
                     'label' => 'article.content',
                     'required' => false
                 ))
-                /*
                 ->add('filePhoto', FinderType::class, array(
                     'label' => 'article.pic', 
                     'required' => false
-                ))*/
+                ))
                 ->add('author', TextType::class, array(
                     'label' => 'article.author',
                     'required' => false

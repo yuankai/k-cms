@@ -21,7 +21,7 @@
 {%- block category_widget -%}
 <div class="ui category box">
     <div class="ui fluid selection dropdown">
-        <input type="hidden" {{ block('widget_attributes') }}>
+        <input type="hidden" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value.id }}" {% endif %} />
         <i class="dropdown icon"></i>
         <div class="default text">{{ 'category.choose'|trans }}</div>
         <div class="menu">

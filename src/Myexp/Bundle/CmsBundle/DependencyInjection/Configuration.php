@@ -55,16 +55,6 @@ class Configuration implements ConfigurationInterface {
                     ->end()
                 ->end()
         ;
-        
-        $rootNode
-                ->children()
-                    ->arrayNode('content_models')
-                        ->defaultValue($this->models)
-                        ->prototype('scalar')
-                    ->end()
-                ->end()
-        ;
-       
       
         $rootNode
                 ->children()
