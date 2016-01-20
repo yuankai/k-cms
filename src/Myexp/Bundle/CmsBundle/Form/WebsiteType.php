@@ -19,31 +19,40 @@ class WebsiteType extends AbstractType {
                     'label' => 'website.name'
                 ))
                 ->add('title', TextType::class, array(
-                    'label' => 'website.title'
+                    'label' => 'website.title',
+                    'required'=>false
                 ))
                 ->add('httpUrl', TextType::class, array(
-                    'label' => 'website.http_url'
+                    'label' => 'website.http_url',
+                    'required'=>false
                 ))
                 ->add('httpsUrl', TextType::class, array(
-                    'label' => 'website.https_url'
+                    'label' => 'website.https_url',
+                    'required'=>false
                 ))
                 ->add('icpNum', TextType::class, array(
-                    'label' => 'website.icp_num'
+                    'label' => 'website.icp_num',
+                    'required'=>false
                 ))
                 ->add('address', TextType::class, array(
-                    'label' => 'website.address'
+                    'label' => 'website.address',
+                    'required'=>false
                 ))
                 ->add('zipCode', TextType::class, array(
-                    'label' => 'website.zip_code'
+                    'label' => 'website.zip_code',
+                    'required'=>false
                 ))
                 ->add('email', TextType::class, array(
-                    'label' => 'website.email'
+                    'label' => 'website.email',
+                    'required'=>false
                 ))
                 ->add('tel', TextType::class, array(
-                    'label' => 'website.tel'
+                    'label' => 'website.tel',
+                    'required'=>false
                 ))
                 ->add('fax', TextType::class, array(
-                    'label' => 'website.fax'
+                    'label' => 'website.fax',
+                    'required'=>false
                 ))
         ;
     }

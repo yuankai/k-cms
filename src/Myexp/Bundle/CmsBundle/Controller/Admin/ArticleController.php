@@ -57,19 +57,19 @@ class ArticleController extends AdminController {
      * @Route("/", name="admin_article_create")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
-     * @Template("MyexpCmsBundle:Article:new.html.twig")
+     * @Template("MyexpCmsBundle:Admin/Article:new.html.twig")
      */
     public function createAction(Request $request) {
 
         $entity = new Article();
-        $content = new Content();
-        $entity->setContent($content);
         
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
+            
+            $this->saveContentInstance($entity->getContent());
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -94,9 +94,7 @@ class ArticleController extends AdminController {
     public function newAction() {
 
         $entity = new Article();
-        
-        $content = new Content();
-        $content->setIsActive(true);
+        $content = $this->newContentInstance('article');
         
         $entity->setPublishTime(new \DateTime());
         $entity->setContent($content);
@@ -143,7 +141,7 @@ class ArticleController extends AdminController {
      * @Route("/{id}", name="admin_article_update")
      * @Security("has_role('ROLE_ADMIN')")
      * @Method("PUT")
-     * @Template("MyexpCmsBundle:Article:edit.html.twig")
+     * @Template("MyexpCmsBundle:Admin/Article:edit.html.twig")
      */
     public function updateAction(Request $request, $id) {
 
@@ -161,9 +159,10 @@ class ArticleController extends AdminController {
 
         if ($editForm->isValid()) {
 
-            //更新时间
-            $entity->setUpdateTime(new \Datetime());
+            //更新内容信息
+            $this->saveContentInstance($entity->getContent());
 
+            //保存文章
             $em->persist($entity);
             $em->flush();
 

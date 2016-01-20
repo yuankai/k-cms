@@ -25,12 +25,6 @@ class Configuration implements ConfigurationInterface {
     private $locales = array('zh', 'en');
     
     /**
-     *
-     * @var type 
-     */
-    private $models = array('Page', 'Article');
-
-    /**
      * 
      * @param type $debug
      */

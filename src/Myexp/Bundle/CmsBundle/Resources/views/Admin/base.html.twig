@@ -16,10 +16,10 @@
                 <div class="header item">K-WEB</div>
                 <div class="active item"><i class="home icon"></i>{{ 'admin.homepage'|trans }}</div>
                 <div class="ui dropdown item">
-                    <i class="linkify icon"></i>{{ currentWebsite.title }}<i class="dropdown icon"></i>
+                    <i class="linkify icon"></i>{{ currentWebsite.name }}<i class="dropdown icon"></i>
                     <div class="menu transition hidden" tabindex="-1">
                         {% for website in allWebsites %}
-                        <a class="item" href="{{ path('admin_homepage') }}?websiteId={{ website.id }}">{{ website.title }}</a>
+                        <a class="item" href="{{ path('admin_homepage') }}?websiteId={{ website.id }}">{{ website.name }}</a>
                         {% endfor %}
                     </div>
                 </div>

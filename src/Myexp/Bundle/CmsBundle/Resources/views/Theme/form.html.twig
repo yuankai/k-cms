@@ -28,3 +28,14 @@
     {%- set attr = attr|merge({class: (attr.class|default('ui checkbox'))|trim}) -%}
     {{ parent() }}
 {%- endblock choice_widget_expanded -%}
+
+{# 日期时间选择器 #}
+{%- block datetime_widget -%}
+<div class="ui action input">
+    {%- set attr = attr|merge({class: (attr.class|default('datetime-picker'))|trim}) -%}
+    <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <button class="ui icon button" type="button">
+        <i class="calendar icon"></i>
+    </button>
+</div>
+{%- endblock datetime_widget -%}

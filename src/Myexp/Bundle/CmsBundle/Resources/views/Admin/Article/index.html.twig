@@ -23,12 +23,12 @@
         {% for entity in pagination %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="id"><input type="checkbox" name="ids[]" value="{{ entity.id }}" /></td>
-                <td>{{ entity.title }}</td>
-                <td>{{ entity.category.title }}</td>
-                <td>{{ entity.createTime|date('Y-m-d H:i') }}</td>
-                <td>{{ entity.updateTime|date('Y-m-d H:i') }}</td>
+                <td>{{ entity.content.title }}</td>
+                <td>{{ entity.content.category.title }}</td>
+                <td>{{ entity.content.createTime|date('Y-m-d H:i') }}</td>
+                <td>{{ entity.content.updateTime|date('Y-m-d H:i') }}</td>
                 <td>{{ entity.source }}</td>
-                <td>{% if entity.isActive %}{{ 'common.yes'|trans }}{% else %}{{ 'common.no'|trans }}{% endif %}</td>
+                <td>{{ entity.content.contentStatus.title }}</td>
                 <td>
                     <div class="ui icon buttons">
                         <a class="ui button" href="{{ path('article_show', { 'id': entity.id }) }}"  title="{{ 'common.view'|trans }}" target="_blank">

@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Myexp\Bundle\CmsBundle\Entity\Content;
+
 /**
  * Admin base controller.
  */
@@ -53,7 +55,7 @@ abstract class AdminController extends Controller {
      * @param type $params
      * @return type
      */
-    public function index($params = array()) {
+    protected function index($params = array()) {
 
         if (empty($this->primaryEntity)) {
             return $this->display(array());
@@ -91,7 +93,7 @@ abstract class AdminController extends Controller {
 
         $form = $this->createForm($this->primaryFormType, $entity, array(
             'action' => $this->generateUrl($route),
-            'method' => 'POST',
+            'method' => 'POST'
         ));
 
         $form->add('submit', SubmitType::class, array('label' => 'common.create'));
@@ -145,7 +147,7 @@ abstract class AdminController extends Controller {
      * 前置操作
      */
     public function before() {
-        
+
         $em = $this->getDoctrine()->getManager();
         $allWebsites = $em->getRepository('MyexpCmsBundle:Website')->findAll();
 
@@ -157,9 +159,53 @@ abstract class AdminController extends Controller {
             $currentWebsite = $allWebsites[0];
             $session->set('currentWebsite', $currentWebsite);
         }
-        
+
         $this->allWebsites = $allWebsites;
         $this->currentWebsite = $currentWebsite;
+    }
+
+    /**
+     * 获得默认内容实体
+     * 
+     * @param type $contentModelName
+     * @return type
+     */
+    protected function newContentInstance($contentModelName) {
+
+        $content = new Content();
+        $content->setWebsite($this->currentWebsite);
+
+        $contentModel = $this->getDoctrine()->getManager()
+                ->getRepository('MyexpCmsBundle:ContentModel')
+                ->findOneBy(array('name' => $contentModelName));
+
+        $content->setContentModel($contentModel);
+
+        return $content;
+    }
+    
+    /**
+     * 保存内容实体
+     * 
+     * @param type $content
+     * @return type
+     */
+    protected function saveContentInstance($content) {
+
+        //创建及更新时间
+        if(!$content->getCreateTime()){
+            $content->setCreateTime(new \DateTime());
+        }
+        
+        $content->setUpdateTime(new \DateTime());
+        
+        //创建及更新者
+        if(!$content->getCreatedBy()){
+            $content->setCreatedBy($this->getUser());
+        }
+        $content->setUpdateBy($this->getUser());
+
+        return $content;
     }
 
     /**
@@ -168,7 +214,7 @@ abstract class AdminController extends Controller {
      * @param type $data
      * @return type
      */
-    public function display($data) {
+    protected function display($data) {
 
         // 主菜单
         if ($this->primaryMenu) {
@@ -190,7 +236,7 @@ abstract class AdminController extends Controller {
      * @param type $url
      * @param type $status
      */
-    public function redirectSucceed($url = '', $status = 302) {
+    protected function redirectSucceed($url = '', $status = 302) {
 
         $this->get('session')->getFlashBag()->add('notice', 'common.success');
 

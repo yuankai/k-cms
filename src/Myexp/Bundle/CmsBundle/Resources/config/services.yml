@@ -23,13 +23,6 @@ services:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
             - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
             
-    # 注册实体ID转换表单类型
-    myexp_cms.form.entity_id_type:
-        class: 'Myexp\Bundle\CmsBundle\Form\Type\EntityIdType'
-        arguments: ['@doctrine']
-        tags:
-            - { name: form.type, alias: entity_id }
-    
     # 自定义路由加载器，加载内容类型默认路由以及URL别名
     myexp_cms.routing_loader:
         class: 'Myexp\Bundle\CmsBundle\Routing\RewriteLoader'
@@ -37,16 +30,17 @@ services:
         tags:
             - { name: routing.loader }
             
+    # 注册实体ID转换表单类型
+    myexp_cms.form.entity_id_type:
+        class: 'Myexp\Bundle\CmsBundle\Form\Type\EntityIdType'
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: entity_id }
+            
     # 分类选择器
     myexp_cms.form.category_type:
         class: Myexp\Bundle\CmsBundle\Form\Type\CategoryType
-        arguments: ['@doctrine']
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type, alias: category}
             
-    # 日期时间选择器
-    myexp_cms.form.datetime_type:
-        class: Myexp\Bundle\CmsBundle\Form\Type\DateTimeType
-        arguments: [%locale%]
-        tags:
-            - { name: form.type, alias: datetime}

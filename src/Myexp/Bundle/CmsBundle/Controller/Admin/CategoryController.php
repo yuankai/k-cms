@@ -51,28 +51,21 @@ class CategoryController extends AdminController {
 
         $em = $this->getDoctrine()->getManager();
 
-        $websites = $em->getRepository('MyexpCmsBundle:Website')->findAll();
         $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
-
-        $websiteId = $contentModelId = 0;
-
-        if (!empty($websites)) {
-            $websiteId = $request->get('websiteId', $websites[0]->getId());
-        }
+        $contentModelId = 0;
 
         if (!empty($contentModels)) {
             $contentModelId = $request->get('contentModelId', $contentModels[0]->getId());
         }
 
         $topCategories = $em->getRepository('MyexpCmsBundle:Category')->findBy(array(
+            'website'=>  $this->currentWebsite,
             'contentModel' => $contentModelId,
             'parent' => null
         ));
 
         return $this->display(array(
-                    'websites' => $websites,
                     'contentModels' => $contentModels,
-                    'websiteId' => $websiteId,
                     'contentModelId' => $contentModelId,
                     'topCategories' => $topCategories
         ));
@@ -88,6 +81,7 @@ class CategoryController extends AdminController {
     public function createAction(Request $request) {
 
         $entity = new Category();
+        $entity->setWebsite($this->currentWebsite);
 
         $form = $this->createForm($this->primaryFormType, $entity);
         $form->handleRequest($request);

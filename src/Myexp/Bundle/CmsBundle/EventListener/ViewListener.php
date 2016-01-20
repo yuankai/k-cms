@@ -51,6 +51,8 @@ class ViewListener {
             return;
         }
 
+//        echo $controllerObj->getNamespaceName();
+        
         $parentClassName = $parentClass->getShortName();
         if ($parentClassName !== 'AdminController') {
             return;

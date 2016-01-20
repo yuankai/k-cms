@@ -1,5 +1,5 @@
 {% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
-{% block title %}{{ 'article.edit'|trans }}{% endblock %}
+{% block title %}{{ 'article.edit'|trans }} - {{ 'article.manage'|trans }}{{ parent() }}{% endblock %}
 {% block breadcrumd %}
     <a class="section" href="{{ path('admin_article') }}">{{ 'article.manage'|trans }}</a>
     <i class="right angle icon divider"></i>

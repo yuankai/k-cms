@@ -31,63 +31,63 @@ class Website {
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="httpUrl", type="string", length=255)
+     * @ORM\Column(name="http_url", type="string", length=255, nullable=true)
      */
     private $httpUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="httpsUrl", type="string", length=255)
+     * @ORM\Column(name="https_url", type="string", length=255, nullable=true)
      */
     private $httpsUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="icpNum", type="string", length=255)
+     * @ORM\Column(name="icp_num", type="string", length=255, nullable=true)
      */
     private $icpNum;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="address", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
      */
     private $address;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zipCode", type="string", length=255)
+     * @ORM\Column(name="zip_code", type="string", length=255, nullable=true)
      */
     private $zipCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255)
+     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
      */
     private $tel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fax", type="string", length=255)
+     * @ORM\Column(name="fax", type="string", length=255, nullable=true)
      */
     private $fax;
 

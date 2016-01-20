@@ -19,14 +19,9 @@
     {% endif %}
 {% endmacro %}
 {% block content %}
-    <div class="ui teal pointing secondary menu">
-        {% for website in websites %}
-            <a class="item{% if websiteId == website.id %} active{% endif %}" href="{{ path('admin_category',{'websiteId': website.id}) }}">{{ website.title }}</a>
-        {% endfor %}
-    </div>
     <div class="ui top attached tabular menu">
         {% for contentModel in contentModels %}
-            <a class="{% if contentModelId == contentModel.id %}active {% endif %}item" href="{{ path('admin_category',{'websiteId': websiteId, 'contentModelId':contentModel.id}) }}">{{ contentModel.title }}</a>
+            <a class="{% if contentModelId == contentModel.id %}active {% endif %}item" href="{{ path('admin_category',{'contentModelId':contentModel.id}) }}">{{ contentModel.title }}</a>
         {% endfor %}
     </div>
     <div class="ui bottom attached active tab segment">
@@ -52,7 +47,6 @@
     <script type="text/javascript">
         
         // 参数及路径
-        var websiteId = {{ websiteId }};
         var contentModelId = {{ contentModelId }};
         var createUrl = '{{ path('admin_category_create') }}';
         var renameUrl = '{{ path('admin_category_rename') }}';
@@ -88,7 +82,6 @@
                 var param = {
                     parent: getPid(data.parent), 
                     title: node.text, 
-                    website: websiteId, 
                     contentModel:contentModelId
                 };
                 $.post(createUrl, buildFormData(param), function(data){

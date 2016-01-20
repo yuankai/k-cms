@@ -5,9 +5,12 @@ namespace Myexp\Bundle\CmsBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+
+use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
 
 /**
  * 分类选择器字段类型
@@ -16,14 +19,25 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CategoryType extends AbstractType {
     
-    protected $registry;
+    protected $manager;
 
     /**
      * 
-     * @param RegistryInterface $registry
+     * @param ObjectManager $manager
      */
-    public function __construct(RegistryInterface $registry) {
-        $this->registry = $registry;
+    public function __construct(ObjectManager $manager) {
+        $this->manager = $manager;
+    }
+    
+    /**
+     * 构建form
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->addModelTransformer(new EntityToIdTransformer($this->manager, 'MyexpCmsBundle:Category'));
+        parent::buildForm($builder, $options);
     }
 
     /**
@@ -36,15 +50,14 @@ class CategoryType extends AbstractType {
     public function buildView(FormView $view, FormInterface $form, array $options) {
         
         $model = $options['model'];
-        $em = $this->registry->getManager();
         
         $topCategories = array();
      
-        $contentModel = $em->getRepository('MyexpCmsBundle:ContentModel')
+        $contentModel = $this->manager->getRepository('MyexpCmsBundle:ContentModel')
                 ->findOneBy(array('name'=>$model));
         
         if($contentModel){
-            $topCategories = $em->getRepository('MyexpCmsBundle:Category')
+            $topCategories = $this->manager->getRepository('MyexpCmsBundle:Category')
                     ->findBy(array('contentModel'=>$contentModel));
         }
         

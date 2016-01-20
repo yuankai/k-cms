@@ -44,8 +44,7 @@ class MyexpCmsExtension extends Extension implements PrependExtensionInterface {
         $container->setParameter('twig.form.resources', array_merge(
                 $container->getParameter('twig.form.resources'), 
                 array(
-                    'MyexpCmsBundle:Admin/Form:category_widget.html.twig',
-                    'MyexpCmsBundle:Admin/Form:datetime_widget.html.twig'
+                    'MyexpCmsBundle:Admin/Form:category_widget.html.twig'
                 )
         ));
     }

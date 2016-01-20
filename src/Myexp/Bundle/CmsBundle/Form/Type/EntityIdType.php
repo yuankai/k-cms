@@ -3,40 +3,46 @@
 namespace Myexp\Bundle\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Myexp\Bundle\CmsBundle\Form\Transformer\EntityToIdTransformer;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Doctrine\Common\Persistence\ObjectManager;
 
+use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
+
+/**
+ * 实体ID类型
+ */
 class EntityIdType extends AbstractType {
 
-    protected $registry;
+    /**
+     *
+     * @var type 
+     */
+    protected $manager;
 
-    public function __construct(RegistryInterface $registry) {
-        $this->registry = $registry;
+    /**
+     * 
+     * @param ObjectManager $manager
+     */
+    public function __construct(ObjectManager $manager) {
+        $this->manager = $manager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $em = $this->registry->getManager($options['em']);
 
         $builder->addModelTransformer(new EntityToIdTransformer(
-                $em, $options['class'], $options['property'], $options['query_builder'], $options['multiple']
+                $this->manager, $options['class']
         ));
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setRequired(array(
-            'class',
-        ));
-
-        $resolver->setDefaults(array(
-            'em' => null,
-            'property' => null,
-            'query_builder' => null,
-            'hidden' => true,
-            'multiple' => false,
+            'class'
+        ))->setDefaults(array(
+            'hidden' => true
         ));
     }
 
@@ -47,11 +53,7 @@ class EntityIdType extends AbstractType {
     }
 
     public function getParent() {
-        return 'text';
-    }
-
-    public function getName() {
-        return 'entity_id';
+        return HiddenType::class;
     }
 
 }
