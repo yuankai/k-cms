@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="albums")
- * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\AlbumRepository")
+ * @ORM\Table(name="contents")
+ * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\ContentRepository")
  */
-class Album {
+class Content {
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -25,9 +25,9 @@ class Album {
     private $title;
 
     /**
-     * @ORM\Column(name="content", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $content;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category")
@@ -47,30 +47,22 @@ class Album {
     private $urlAlias;
 
     /**
-     * @var int
-     * 
-     * @ORM\Column(name="sort_order", type="integer", nullable=true)
-     */
-    private $sortOrder;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Photo")
-     * @ORM\JoinTable(name="albums_photos")
-     */
-    private $photos;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_active", type="boolean", nullable=true)
-     */
-    private $isActive;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Website")
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $website;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ContentModel")
+     * @ORM\JoinColumn(name="content_model_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $contentModel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ContentStatus")
+     * @ORM\JoinColumn(name="content_status_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $contentStatus;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -96,40 +88,28 @@ class Album {
     private $updateTime;
 
     /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->setCreateTime(new \DateTime());
+        $this->setUpdateTime($this->getCreateTime());
+    }
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId() {
         return $this->id;
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return Page
-     */
-    public function setName($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
      * Set title
      *
      * @param string $title
-     * @return Page
+     *
+     * @return Content
      */
     public function setTitle($title) {
         $this->title = $title;
@@ -140,90 +120,32 @@ class Album {
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle() {
         return $this->title;
     }
 
     /**
-     * Set sortOrder
+     * Set description
      *
-     * @param int $sortOrder
-     * @return Album
+     * @param string $description
+     *
+     * @return Content
      */
-    public function setSortOrder($sortOrder) {
-        $this->sortOrder = $sortOrder;
+    public function setDescription($description) {
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get sortOrder
-     *
-     * @return int 
-     */
-    public function getSortOrder() {
-        return $this->sortOrder;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add album
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Photo $photo
-     * @return Photo
-     */
-    public function addPhoto(\Myexp\Bundle\CmsBundle\Entity\Photo $photo) {
-        $this->photos[] = $photo;
-
-        return $this;
-    }
-
-    /**
-     * Remove album
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Album $album
-     */
-    public function removePhoto(\Myexp\Bundle\CmsBundle\Entity\Photo $photo) {
-        $this->photos->removeElement($photo);
-    }
-
-    /**
-     * Get photos
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPhotos() {
-        return $this->photos;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Album
-     */
-    public function setContent($content) {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
+     * Get description
      *
      * @return string
      */
-    public function getContent() {
-        return $this->content;
+    public function getDescription() {
+        return $this->description;
     }
 
     /**
@@ -231,7 +153,7 @@ class Album {
      *
      * @param string $keywords
      *
-     * @return Album
+     * @return Content
      */
     public function setKeywords($keywords) {
         $this->keywords = $keywords;
@@ -249,77 +171,11 @@ class Album {
     }
 
     /**
-     * Set category
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Category $category
-     *
-     * @return Album
-     */
-    public function setCategory(\Myexp\Bundle\CmsBundle\Entity\Category $category = null) {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Category
-     */
-    public function getCategory() {
-        return $this->category;
-    }
-
-    /**
-     * Set urlAlias
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\UrlAlias $urlAlias
-     *
-     * @return Album
-     */
-    public function setUrlAlias(\Myexp\Bundle\CmsBundle\Entity\UrlAlias $urlAlias = null) {
-        $this->urlAlias = $urlAlias;
-
-        return $this;
-    }
-
-    /**
-     * Get urlAlias
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\UrlAlias
-     */
-    public function getUrlAlias() {
-        return $this->urlAlias;
-    }
-
-    /**
-     * Set website
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Website $website
-     *
-     * @return Album
-     */
-    public function setWebsite(\Myexp\Bundle\CmsBundle\Entity\Website $website = null) {
-        $this->website = $website;
-
-        return $this;
-    }
-
-    /**
-     * Get website
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Website
-     */
-    public function getWebsite() {
-        return $this->website;
-    }
-
-    /**
      * Set isActive
      *
      * @param boolean $isActive
      *
-     * @return Album
+     * @return Content
      */
     public function setIsActive($isActive) {
         $this->isActive = $isActive;
@@ -341,7 +197,7 @@ class Album {
      *
      * @param \DateTime $createTime
      *
-     * @return Album
+     * @return Content
      */
     public function setCreateTime($createTime) {
         $this->createTime = $createTime;
@@ -363,7 +219,7 @@ class Album {
      *
      * @param \DateTime $updateTime
      *
-     * @return Album
+     * @return Content
      */
     public function setUpdateTime($updateTime) {
         $this->updateTime = $updateTime;
@@ -381,11 +237,99 @@ class Album {
     }
 
     /**
+     * Set category
+     *
+     * @param \Myexp\Bundle\CmsBundle\Entity\Category $category
+     *
+     * @return Content
+     */
+    public function setCategory(\Myexp\Bundle\CmsBundle\Entity\Category $category = null) {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\Category
+     */
+    public function getCategory() {
+        return $this->category;
+    }
+
+    /**
+     * Set urlAlias
+     *
+     * @param \Myexp\Bundle\CmsBundle\Entity\UrlAlias $urlAlias
+     *
+     * @return Content
+     */
+    public function setUrlAlias(\Myexp\Bundle\CmsBundle\Entity\UrlAlias $urlAlias = null) {
+        $this->urlAlias = $urlAlias;
+
+        return $this;
+    }
+
+    /**
+     * Get urlAlias
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\UrlAlias
+     */
+    public function getUrlAlias() {
+        return $this->urlAlias;
+    }
+
+    /**
+     * Set website
+     *
+     * @param \Myexp\Bundle\CmsBundle\Entity\Website $website
+     *
+     * @return Content
+     */
+    public function setWebsite(\Myexp\Bundle\CmsBundle\Entity\Website $website = null) {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\Website
+     */
+    public function getWebsite() {
+        return $this->website;
+    }
+
+    /**
+     * Set contentModel
+     *
+     * @param \Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel
+     *
+     * @return Content
+     */
+    public function setContentModel(\Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel = null) {
+        $this->contentModel = $contentModel;
+
+        return $this;
+    }
+
+    /**
+     * Get contentModel
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\ContentModel
+     */
+    public function getContentModel() {
+        return $this->contentModel;
+    }
+
+    /**
      * Set createdBy
      *
      * @param \Myexp\Bundle\CmsBundle\Entity\User $createdBy
      *
-     * @return Album
+     * @return Content
      */
     public function setCreatedBy(\Myexp\Bundle\CmsBundle\Entity\User $createdBy = null) {
         $this->createdBy = $createdBy;
@@ -407,7 +351,7 @@ class Album {
      *
      * @param \Myexp\Bundle\CmsBundle\Entity\User $updateBy
      *
-     * @return Album
+     * @return Content
      */
     public function setUpdateBy(\Myexp\Bundle\CmsBundle\Entity\User $updateBy = null) {
         $this->updateBy = $updateBy;
@@ -422,6 +366,28 @@ class Album {
      */
     public function getUpdateBy() {
         return $this->updateBy;
+    }
+
+    /**
+     * Set contentStatus
+     *
+     * @param \Myexp\Bundle\CmsBundle\Entity\ContentStatus $contentStatus
+     *
+     * @return Content
+     */
+    public function setContentStatus(\Myexp\Bundle\CmsBundle\Entity\ContentStatus $contentStatus = null) {
+        $this->contentStatus = $contentStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get contentStatus
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\ContentStatus
+     */
+    public function getContentStatus() {
+        return $this->contentStatus;
     }
 
 }

@@ -4,13 +4,10 @@ namespace Myexp\Bundle\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Myexp\Bundle\CmsBundle\Helper\Upload;
 
 /**
  * @ORM\Table(name="articles")
  * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\ArticleRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class Article {
 
@@ -22,21 +19,16 @@ class Article {
     private $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
-     */
-    private $title;
-
-    /**
-     * @ORM\Column(name="content", type="text", nullable=true)
+     * @ORM\OneToOne(targetEntity="Content")
+     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToMany(targetEntity="Photo")
+     * @ORM\JoinTable(name="articles_photos")
      */
-    private $category;
+    private $photos;
 
     /**
      * @var string
@@ -59,106 +51,26 @@ class Article {
     private $publishTime;
 
     /**
-     * @ORM\Column(name="create_time", type="datetime", nullable=false)
-     * @Assert\NotBlank()
+     * Constructor
      */
-    private $createTime;
-
-    /**
-     * @ORM\Column(name="update_time", type="datetime", nullable=true)
-     */
-    private $updateTime;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_active", type="boolean", nullable=true)
-     */
-    private $isActive;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="picurl", type="string", length=255, nullable=true)
-     */
-    private $picurl;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    private $user;
-
-    /**
-     * @Assert\Image(
-     *     minWidth = 40,
-     *     maxWidth = 4000,
-     *     minHeight = 40,
-     *     maxHeight = 4000
-     * )
-     */
-    private $filePhoto;
-
-    /**
-     * @var string
-     */
-    private $tempPhoto;
+    public function __construct() {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId() {
         return $this->id;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Page
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     * @return Page
-     */
-    public function setContent($content) {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string 
-     */
-    public function getContent() {
-        return $this->content;
-    }
-
-    /**
      * Set author
      *
      * @param string $author
+     *
      * @return Article
      */
     public function setAuthor($author) {
@@ -170,25 +82,17 @@ class Article {
     /**
      * Get author
      *
-     * @return string 
+     * @return string
      */
     public function getAuthor() {
         return $this->author;
     }
 
     /**
-     * Get from
-     *
-     * @return string 
-     */
-    public function getSource() {
-        return $this->source;
-    }
-
-    /**
-     * Set from
+     * Set source
      *
      * @param string $source
+     *
      * @return Article
      */
     public function setSource($source) {
@@ -198,9 +102,19 @@ class Article {
     }
 
     /**
+     * Get source
+     *
+     * @return string
+     */
+    public function getSource() {
+        return $this->source;
+    }
+
+    /**
      * Set publishTime
      *
-     * @param string $publishTime
+     * @param \DateTime $publishTime
+     *
      * @return Article
      */
     public function setPublishTime($publishTime) {
@@ -212,210 +126,63 @@ class Article {
     /**
      * Get publishTime
      *
-     * @return \DateTime  
+     * @return \DateTime
      */
     public function getPublishTime() {
         return $this->publishTime;
     }
 
     /**
-     * Set createTime
+     * Set content
      *
-     * @param string $createTime
+     * @param \Myexp\Bundle\CmsBundle\Entity\Content $content
+     *
      * @return Article
      */
-    public function setCreateTime($createTime) {
-        $this->createTime = $createTime;
+    public function setContent(\Myexp\Bundle\CmsBundle\Entity\Content $content = null) {
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * Get createTime
+     * Get content
      *
-     * @return \DateTime  
+     * @return \Myexp\Bundle\CmsBundle\Entity\Content
      */
-    public function getCreateTime() {
-        return $this->createTime;
+    public function getContent() {
+        return $this->content;
     }
 
     /**
-     * Set updateTime
+     * Add photo
      *
-     * @param string $updateTime
+     * @param \Myexp\Bundle\CmsBundle\Entity\Photo $photo
+     *
      * @return Article
      */
-    public function setUpdateTime($updateTime) {
-        $this->updateTime = $updateTime;
+    public function addPhoto(\Myexp\Bundle\CmsBundle\Entity\Photo $photo) {
+        $this->photos[] = $photo;
 
         return $this;
     }
 
     /**
-     * Get updateTime
+     * Remove photo
      *
-     * @return \DateTime  
+     * @param \Myexp\Bundle\CmsBundle\Entity\Photo $photo
      */
-    public function getUpdateTime() {
-        return $this->updateTime;
+    public function removePhoto(\Myexp\Bundle\CmsBundle\Entity\Photo $photo) {
+        $this->photos->removeElement($photo);
     }
 
     /**
-     * Set picurl
+     * Get photos
      *
-     * @param string $picurl
-     * @return Photo
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setPicUrl($picurl) {
-        $this->picurl = $picurl;
-
-        return $this;
-    }
-
-    /**
-     * Get picurl
-     *
-     * @return string 
-     */
-    public function getPicUrl() {
-        return $this->picurl;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->setCreateTime(new \DateTime());
-        $this->setUpdateTime($this->getCreateTime());
-    }
-
-    /**
-     * Set category
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Category $category
-     * @return Article
-     */
-    public function setCategory(\Myexp\Bundle\CmsBundle\Entity\Category $category = null) {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Category
-     */
-    public function getCategory() {
-        return $this->category;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\User $user
-     * @return Article
-     */
-    public function setUser(\Myexp\Bundle\CmsBundle\Entity\User $user = null) {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\User
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     * @return Article
-     */
-    public function setIsActive($isActive) {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean 
-     */
-    public function getIsActive() {
-        return $this->isActive;
-    }
-
-    /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setFilePhoto(UploadedFile $filePhoto = null) {
-
-        $this->filePhoto = $filePhoto;
-
-        if (isset($this->picurl)) {
-            $this->tempPhoto = $this->picurl;
-        }
-        $this->picurl = null;
-    }
-
-    /**
-     * Get file.
-     *
-     * @return UploadedFile
-     */
-    public function getFilePhoto() {
-        return $this->filePhoto;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload() {
-
-        if (null !== $this->getFilePhoto()) {
-
-            $filename = Upload:: genFileName();
-            $this->picurl = $filename . '.' . $this->getFilePhoto()->guessExtension();
-        }
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload() {
-        if (null !== $this->getFilePhoto()) {
-            $this->getFilePhoto()->move
-                    (Upload::getSavePath($this->picurl), $this->picurl);
-
-            if (isset($this->tempPhoto)) {
-                @unlink(Upload::getSavePath($this->tempPhoto) . $this->tempPhoto);
-                $this->tempPhoto = null;
-            }
-
-            $this->filePhoto = null;
-        }
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload() {
-
-        $file = Upload::getSavePath($this->picurl) . $this->picurl;
-        if (file_exists($file)) {
-            @unlink($file);
-        }
+    public function getPhotos() {
+        return $this->photos;
     }
 
 }

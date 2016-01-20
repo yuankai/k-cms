@@ -19,6 +19,10 @@ class ArticleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('content', ContentType::class, array(
+                    'label'=>false
+                ))
+                /*
                 ->add('category', CategoryType::class, array(
                     'label' => 'article.category',
                     'model'=>'article'
@@ -34,7 +38,7 @@ class ArticleType extends AbstractType {
                 ->add('filePhoto', FinderType::class, array(
                     'label' => 'article.pic', 
                     'required' => false
-                ))
+                ))*/
                 ->add('author', TextType::class, array(
                     'label' => 'article.author',
                     'required' => false
@@ -48,10 +52,11 @@ class ArticleType extends AbstractType {
                     'required' => false,
                     'widget' => 'single_text'
                 ))
+                /*
                 ->add('isActive', CheckboxType::class, array(
                     'label' => 'article.is_active',
                     'required' => false
-                ))
+                ))*/
         ;
     }
 

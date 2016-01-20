@@ -78,6 +78,14 @@ register:
     email: 邮箱
     password: 密码
     password_confirm: 确认密码
+    
+content:
+    title: 内容标题
+    description: 内容明细
+    category: 内容分类
+    keywords: 关键词
+    url_alias: 路径别名
+    status: 发布状态
 
 article:
     list: 文章列表

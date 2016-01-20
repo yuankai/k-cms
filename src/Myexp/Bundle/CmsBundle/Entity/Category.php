@@ -269,39 +269,4 @@ class Category {
         return $this->contentModel;
     }
 
-    /**
-     * Get top category
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Category 
-     */
-    public function getTopCategory() {
-
-        $parentCategory = $this->getParent();
-
-        if ($parentCategory) {
-            return $parentCategory->getTopCategory();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get all children
-     * 
-     * @return array all children
-     */
-    public function getAllChildren() {
-
-        $children = array($this);
-
-        $currChildren = $this->getChildren();
-        if ($currChildren) {
-            foreach ($currChildren as $child) {
-                $children = array_merge($children, $child->getAllChildren());
-            }
-        }
-
-        return $children;
-    }
-
 }

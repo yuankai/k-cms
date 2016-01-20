@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Article;
+use Myexp\Bundle\CmsBundle\Entity\Content;
 use Myexp\Bundle\CmsBundle\Form\ArticleType;
 
 /**
@@ -61,6 +62,9 @@ class ArticleController extends AdminController {
     public function createAction(Request $request) {
 
         $entity = new Article();
+        $content = new Content();
+        $entity->setContent($content);
+        
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -90,9 +94,13 @@ class ArticleController extends AdminController {
     public function newAction() {
 
         $entity = new Article();
-
-        $entity->setIsActive(true);
+        
+        $content = new Content();
+        $content->setIsActive(true);
+        
         $entity->setPublishTime(new \DateTime());
+        $entity->setContent($content);
+        
         $form = $this->createCreateForm($entity);
 
         return $this->display(array(
