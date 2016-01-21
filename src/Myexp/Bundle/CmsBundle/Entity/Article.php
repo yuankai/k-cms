@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="articles")
  * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\ArticleRepository")
  */
-class Article {
+class Article implements ContentModelInterface {
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -183,6 +183,13 @@ class Article {
      */
     public function getPhotos() {
         return $this->photos;
+    }
+
+    /**
+     * 获得内容模型名称
+     */
+    public function getContentModelName() {
+        return 'article';
     }
 
 }

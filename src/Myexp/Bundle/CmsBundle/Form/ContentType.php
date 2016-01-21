@@ -5,13 +5,15 @@ namespace Myexp\Bundle\CmsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
 use Myexp\Bundle\CmsBundle\Form\Type\CategoryType;
 use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
 use Myexp\Bundle\CmsBundle\Form\Type\EntityIdType;
-use Myexp\Bundle\CmsBundle\Form\DataTransformer\UrlAliasTransformer;
+
+use Myexp\Bundle\CmsBundle\EventListener\ContentFormSubscriber;
 
 class ContentType extends AbstractType {
 
@@ -19,14 +21,21 @@ class ContentType extends AbstractType {
      *
      * @var type 
      */
-    protected $manager;
+    private $manager;
+
+    /**
+     *
+     * @var type 
+     */
+    private $session;
 
     /**
      * 
      * @param ObjectManager $manager
      */
-    public function __construct(ObjectManager $manager) {
+    public function __construct(ObjectManager $manager, Session $session) {
         $this->manager = $manager;
+        $this->session = $session;
     }
 
     /**
@@ -35,25 +44,15 @@ class ContentType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
-        //显示分类
-        $contentModel = $options['content_model'];
-
-        $contentModelEntity = $this->manager
-                ->getRepository('MyexpCmsBundle:ContentModel')
-                ->findOneBy(array(
-            'name' => $contentModel
-        ));
-
-        //只有可分类模型才添加分类字段
-        if ($contentModelEntity->getIsClassable()) {
-            $builder->add('category', CategoryType::class, array(
-                'label' => 'content.category',
-                'content_model' => $contentModel
-            ));
-        }
+        //添加监听器
+        $builder->addEventSubscriber(new ContentFormSubscriber($this->manager, $this->session));
 
         //常规字段
         $builder
+                ->add('category', CategoryType::class, array(
+                    'label' => 'content.category',
+                    'content_model' => null
+                ))
                 ->add('title', TextType::class, array(
                     'label' => 'content.title'
                 ))
@@ -74,24 +73,8 @@ class ContentType extends AbstractType {
                 ))
                 ->add('contentModel', EntityIdType::class, array(
                     'class' => 'MyexpCmsBundle:ContentModel'
-        ));
-
-        //添加url别名转换器
-        $builder->get('urlAlias')->addModelTransformer(new UrlAliasTransformer(
-                $this->manager, $contentModelEntity
-        ));
-
-        //内容状态
-        $contentStatuses = $this->manager
-                ->getRepository('MyexpCmsBundle:ContentStatus')
-                ->getByContentModel($contentModelEntity);
-
-        $builder->add('contentStatus', EntityType::class, array(
-            'label' => 'content.status',
-            'class' => 'MyexpCmsBundle:ContentStatus',
-            'choice_label' => 'title',
-            'choices' => $contentStatuses
-        ));
+                ))
+        ;
     }
 
     /**
@@ -100,8 +83,7 @@ class ContentType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Content',
-            'label' => false,
-            'content_model' => ''
+            'label' => false
         ));
     }
 

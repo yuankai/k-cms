@@ -5,11 +5,8 @@ namespace Myexp\Bundle\CmsBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
 
 /**
@@ -31,6 +28,11 @@ class EntityIdType extends AbstractType {
         $this->manager = $manager;
     }
 
+    /**
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder->addModelTransformer(new EntityToIdTransformer(
@@ -38,20 +40,20 @@ class EntityIdType extends AbstractType {
         ));
     }
 
+    /**
+     * 
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setRequired(array(
             'class'
-        ))->setDefaults(array(
-            'hidden' => true
         ));
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options) {
-        if (true === $options['hidden']) {
-            $view->vars['type'] = 'hidden';
-        }
-    }
-
+    /**
+     * 
+     * @return type
+     */
     public function getParent() {
         return HiddenType::class;
     }

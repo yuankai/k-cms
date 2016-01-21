@@ -11,7 +11,7 @@ use Myexp\Bundle\CmsBundle\Entity\Content;
  *
  * @author kai
  */
-class ContentSubscriber implements EventSubscriber {
+class ContentEntitySubscriber implements EventSubscriber {
 
     /**
      * 需要订阅的事件

@@ -24,8 +24,8 @@ services:
             - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
             
     # 内容实体监听器
-    myexp_cms.listener.content_subscriber:
-        class: 'Myexp\Bundle\CmsBundle\EventListener\ContentSubscriber'
+    myexp_cms.listener.content_entity_subscriber:
+        class: 'Myexp\Bundle\CmsBundle\EventListener\ContentEntitySubscriber'
         tags:
             - { name: doctrine.event_subscriber, connection: default }
             
@@ -53,7 +53,7 @@ services:
     # 内容类型
     myexp_cms.form.content_type:
         class: Myexp\Bundle\CmsBundle\Form\ContentType
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@session']
         tags:
             - { name: form.type, alias: content}
             

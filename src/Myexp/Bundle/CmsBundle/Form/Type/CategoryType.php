@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
 
 /**
@@ -19,8 +18,17 @@ use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
  * @author Kevin
  */
 class CategoryType extends AbstractType {
-    
+
+    /**
+     *
+     * @var type 
+     */
     private $manager;
+    
+    /**
+     *
+     * @var type 
+     */
     private $session;
 
     /**
@@ -31,7 +39,7 @@ class CategoryType extends AbstractType {
         $this->manager = $manager;
         $this->session = $session;
     }
-    
+
     /**
      * 构建form
      * 
@@ -51,29 +59,23 @@ class CategoryType extends AbstractType {
      * @param array $options
      */
     public function buildView(FormView $view, FormInterface $form, array $options) {
-        
-        $model = $options['content_model'];
+
+        $contentModel = $options['content_model'];
         $website = $this->session->get('currentWebsite');
-        
+
         $topCategories = array();
-     
-        $contentModel = $this->manager
-                ->getRepository('MyexpCmsBundle:ContentModel')
-                ->findOneBy(array(
-                    'name'=>$model
-                ));
-        
-        if($contentModel){
+
+        if ($contentModel) {
             $topCategories = $this->manager
                     ->getRepository('MyexpCmsBundle:Category')
                     ->findBy(array(
-                        'contentModel'=>$contentModel,
-                        'website'=>$website
-                    ));
+                'contentModel' => $contentModel,
+                'website' => $website
+            ));
         }
-        
+
         $view->vars['categories'] = $topCategories;
-        
+
         parent::buildView($view, $form, $options);
     }
 
@@ -84,7 +86,7 @@ class CategoryType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'content_model' => ''
+            'content_model' => null
         ));
     }
 
