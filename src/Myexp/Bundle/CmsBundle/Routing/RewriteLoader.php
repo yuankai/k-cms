@@ -6,7 +6,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-use Myexp\Bundle\CmsBundle\Repository\ContentModel;
 
 /**
  * Description of RewriteLoader
@@ -20,13 +19,13 @@ class RewriteLoader extends Loader {
      * @var type 
      */
     private $loaded = false;
-    
+
     /**
      *
      * @var type 
      */
     protected $registry;
-    
+
     /**
      *
      * @var type 
@@ -72,17 +71,13 @@ class RewriteLoader extends Loader {
     private function loadContentModelDefaultRoute(RouteCollection $routes) {
 
         $em = $this->registry->getManager();
+
         $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
-        
+
         if ($contentModels) {
             foreach ($contentModels as $contentModel) {
-                $entityName = $contentModel->getEntityName();
-                $rep = $em->getRepository('MyexpCmsBundle:' . $entityName);
-
-                if ($rep instanceof ContentModel) {
-                    $defaultRoutes = $rep->getDefaultRoute($this->rewriteConfig['url_suffix']);
-                    $routes->addCollection($defaultRoutes);
-                }
+                $defaultRoutes = $contentModel->getDefaultRoute($this->rewriteConfig['url_suffix']);
+                $routes->addCollection($defaultRoutes);
             }
         }
     }
@@ -97,11 +92,12 @@ class RewriteLoader extends Loader {
 
         $urlAliases = $urlAliasRepo->findAll();
         foreach ($urlAliases as $urlAlias) {
+            
             $path = $urlAlias->getUrl();
             $defaults = array(
-                '_controller' => 'MyexpCmsBundle:' . $urlAlias->getController()
+                '_controller' => $urlAlias->getController()
             );
-            $parameters = $urlAlias->getParameters();
+            $parameters = json_decode($urlAlias->getParameters(), true);
 
             $requirements = array();
             $route = new Route($path, array_merge($defaults, $parameters), $requirements);

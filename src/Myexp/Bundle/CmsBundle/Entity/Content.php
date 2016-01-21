@@ -41,7 +41,7 @@ class Content {
     private $keywords;
 
     /**
-     * @ORM\OneToOne(targetEntity="UrlAlias")
+     * @ORM\OneToOne(targetEntity="UrlAlias", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="url_alias_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $urlAlias;

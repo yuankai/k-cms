@@ -2,34 +2,84 @@
 
 namespace Myexp\Bundle\CmsBundle\EventListener;
 
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
+/**
+ * 视图相关监听
+ */
 class ViewListener {
 
-    protected $rewrite;
-    protected $registry;
+    /**
+     *
+     * @var type 
+     */
+    private $rewrite;
 
-    public function __construct(RegistryInterface $registry, $rewrite) {
+    /**
+     *
+     * @var type 
+     */
+    private $manager;
+
+    /**
+     *
+     * @var type 
+     */
+    private $session;
+
+    /**
+     * 
+     * @param ObjectManager $manager
+     * @param Session $session
+     * @param type $rewrite
+     */
+    public function __construct(ObjectManager $manager, Session $session, $rewrite) {
+        $this->manager = $manager;
+        $this->session = $session;
         $this->rewrite = $rewrite;
-        $this->registry = $registry;
     }
 
+    /**
+     * 
+     * @param GetResponseEvent $event
+     * @return type
+     */
     public function onKernelRequest(GetResponseEvent $event) {
+
+        $request = $event->getRequest();
+        $requestUri = $request->getRequestUri();
+
+        //管理界面
+        if (preg_match('/^\/admin/', $requestUri)) {
+
+            //设置当前管理的站点
+            $currentWebsite = $this->session->get('currentWebsite');
+
+            if (!$currentWebsite) {
+
+                //获得默认站点到session
+                $allWebsites = $this->manager->getRepository('MyexpCmsBundle:Website')->findAll();
+                $this->session->set('currentWebsite', $allWebsites[0]);
+            }
+
+            return;
+        }
+
+        /*
+         * 前端界面
+         */
 
         // 关闭url重写
         if (!$this->rewrite["on"]) {
             return;
         }
 
-        $request = $event->getRequest();
-
-        $requestUri = $request->getRequestUri();
-
-        $em = $this->registry->getManager();
+        //echo $requestUri;
         // $em->getRepository("MyexpCmsBundle:QueryUrl");
     }
 
@@ -51,10 +101,10 @@ class ViewListener {
             return;
         }
 
-//        echo $controllerObj->getNamespaceName();
-        
-        $parentClassName = $parentClass->getShortName();
-        if ($parentClassName !== 'AdminController') {
+        $namespace = $controllerObj->getNamespaceName();
+
+        //判断是否为后台界面
+        if (!preg_match('/Admin$/', $namespace)) {
             return;
         }
 

@@ -19,7 +19,7 @@ class Article {
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Content", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Content", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $content;

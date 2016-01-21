@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
@@ -19,14 +20,16 @@ use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
  */
 class CategoryType extends AbstractType {
     
-    protected $manager;
+    private $manager;
+    private $session;
 
     /**
      * 
      * @param ObjectManager $manager
      */
-    public function __construct(ObjectManager $manager) {
+    public function __construct(ObjectManager $manager, Session $session) {
         $this->manager = $manager;
+        $this->session = $session;
     }
     
     /**
@@ -49,16 +52,24 @@ class CategoryType extends AbstractType {
      */
     public function buildView(FormView $view, FormInterface $form, array $options) {
         
-        $model = $options['model'];
+        $model = $options['content_model'];
+        $website = $this->session->get('currentWebsite');
         
         $topCategories = array();
      
-        $contentModel = $this->manager->getRepository('MyexpCmsBundle:ContentModel')
-                ->findOneBy(array('name'=>$model));
+        $contentModel = $this->manager
+                ->getRepository('MyexpCmsBundle:ContentModel')
+                ->findOneBy(array(
+                    'name'=>$model
+                ));
         
         if($contentModel){
-            $topCategories = $this->manager->getRepository('MyexpCmsBundle:Category')
-                    ->findBy(array('contentModel'=>$contentModel));
+            $topCategories = $this->manager
+                    ->getRepository('MyexpCmsBundle:Category')
+                    ->findBy(array(
+                        'contentModel'=>$contentModel,
+                        'website'=>$website
+                    ));
         }
         
         $view->vars['categories'] = $topCategories;
@@ -73,7 +84,7 @@ class CategoryType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'model' => ''
+            'content_model' => ''
         ));
     }
 

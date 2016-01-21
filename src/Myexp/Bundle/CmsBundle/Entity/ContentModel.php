@@ -2,6 +2,8 @@
 
 namespace Myexp\Bundle\CmsBundle\Entity;
 
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,13 @@ class ContentModel {
      * @ORM\Column(name="entity_name", type="string", length=255)
      */
     private $entityName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="controller_name", type="string", length=255)
+     */
+    private $controllerName;
 
     /**
      * @var boolean
@@ -115,6 +124,25 @@ class ContentModel {
 
     /**
      * 
+     * Get controller name
+     * 
+     * @return type
+     */
+    public function getControllerName() {
+        return $this->controllerName;
+    }
+
+    /**
+     * Set controller name
+     * 
+     * @param type $controllerName
+     */
+    public function setControllerName($controllerName) {
+        $this->controllerName = $controllerName;
+    }
+
+    /**
+     * 
      * Get is classable
      * 
      * @return type
@@ -130,6 +158,41 @@ class ContentModel {
      */
     public function setIsClassable($isClassable) {
         $this->isClassable = $isClassable;
+    }
+    
+    /**
+     * 获得默认路由
+     */
+    public function getDefaultRoute($urlSurffix) {
+
+        $modelName = $this->getName();
+        $controller = $this->getControllerName();
+
+        $routes = new RouteCollection();
+
+        //列表路由
+        $listPath = '/' . $modelName . '/list/{id}' . $urlSurffix;
+        $listDefaults = array(
+            '_controller' => $controller . ':list'
+        );
+        $listRequirements = array(
+            'id' => '\d+',
+        );
+        $listwRoute = new Route($listPath, $listDefaults, $listRequirements);
+        $routes->add($modelName . '_list', $listwRoute);
+
+        //查看路由
+        $showPath = '/' . $modelName . '/show/{id}' . $urlSurffix;
+        $showDefaults = array(
+            '_controller' =>  $controller . ':show'
+        );
+        $showRequirements = array(
+            'id' => '\d+',
+        );
+        $showRoute = new Route($showPath, $showDefaults, $showRequirements);
+        $routes->add($modelName . '_show', $showRoute);
+
+        return $routes;
     }
 
 }

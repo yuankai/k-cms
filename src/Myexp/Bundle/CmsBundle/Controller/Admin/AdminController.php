@@ -148,17 +148,13 @@ abstract class AdminController extends Controller {
      */
     public function before() {
 
+        //获得所有站点
         $em = $this->getDoctrine()->getManager();
         $allWebsites = $em->getRepository('MyexpCmsBundle:Website')->findAll();
 
-        // 保存当前网站到session
+        //获得当前站点
         $session = $this->get('session');
         $currentWebsite = $session->get('currentWebsite');
-
-        if (!$currentWebsite) {
-            $currentWebsite = $allWebsites[0];
-            $session->set('currentWebsite', $currentWebsite);
-        }
 
         $this->allWebsites = $allWebsites;
         $this->currentWebsite = $currentWebsite;

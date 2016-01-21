@@ -36,6 +36,12 @@ class ContentStatus {
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ContentModel")
+     * @ORM\JoinColumn(name="content_model_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $contentModel;
+
+    /**
      * Get id
      *
      * @return int
@@ -86,6 +92,28 @@ class ContentStatus {
      */
     public function getTitle() {
         return $this->title;
+    }
+
+    /**
+     * Set contentModel
+     *
+     * @param \Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel
+     *
+     * @return ContentStatus
+     */
+    public function setContentModel(\Myexp\Bundle\CmsBundle\Entity\ContentModel $contentModel = null) {
+        $this->contentModel = $contentModel;
+
+        return $this;
+    }
+
+    /**
+     * Get contentModel
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\ContentModel
+     */
+    public function getContentModel() {
+        return $this->contentModel;
     }
 
 }
