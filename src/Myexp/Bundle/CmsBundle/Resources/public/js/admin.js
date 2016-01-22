@@ -21,4 +21,6 @@ $(function () {
         //inline: true,
         lang: 'ch'
     });
+    
+    $('.ui.category.box .ui.dropdown').dropdown();
 });

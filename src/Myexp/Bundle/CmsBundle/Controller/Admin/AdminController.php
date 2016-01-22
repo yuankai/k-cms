@@ -159,26 +159,6 @@ abstract class AdminController extends Controller {
         $this->allWebsites = $allWebsites;
         $this->currentWebsite = $currentWebsite;
     }
-
-    /**
-     * 获得默认内容实体
-     * 
-     * @param type $contentModelName
-     * @return type
-     */
-    protected function newContentInstance($contentModelName) {
-
-        $content = new Content();
-        $content->setWebsite($this->currentWebsite);
-
-        $contentModel = $this->getDoctrine()->getManager()
-                ->getRepository('MyexpCmsBundle:ContentModel')
-                ->findOneBy(array('name' => $contentModelName));
-
-        $content->setContentModel($contentModel);
-
-        return $content;
-    }
     
     /**
      * 保存内容实体

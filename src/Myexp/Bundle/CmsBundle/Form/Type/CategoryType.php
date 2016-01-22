@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 use Myexp\Bundle\CmsBundle\Form\DataTransformer\EntityToIdTransformer;
 
@@ -24,20 +23,13 @@ class CategoryType extends AbstractType {
      * @var type 
      */
     private $manager;
-    
-    /**
-     *
-     * @var type 
-     */
-    private $session;
 
     /**
      * 
      * @param ObjectManager $manager
      */
-    public function __construct(ObjectManager $manager, Session $session) {
+    public function __construct(ObjectManager $manager) {
         $this->manager = $manager;
-        $this->session = $session;
     }
 
     /**
@@ -48,7 +40,6 @@ class CategoryType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->addModelTransformer(new EntityToIdTransformer($this->manager, 'MyexpCmsBundle:Category'));
-        parent::buildForm($builder, $options);
     }
 
     /**
@@ -61,7 +52,7 @@ class CategoryType extends AbstractType {
     public function buildView(FormView $view, FormInterface $form, array $options) {
 
         $contentModel = $options['content_model'];
-        $website = $this->session->get('currentWebsite');
+        $website = $options['website'];
 
         $topCategories = array();
 
@@ -86,7 +77,8 @@ class CategoryType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'content_model' => null
+            'content_model' => null,
+            'website'=>null
         ));
     }
 

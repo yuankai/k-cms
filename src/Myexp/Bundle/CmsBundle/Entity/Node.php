@@ -22,12 +22,12 @@ class Node {
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="websiteId", type="integer")
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $websiteId;
-
+    private $title;
+    
     /**
      * @var integer
      *
@@ -36,150 +36,32 @@ class Node {
     private $sequenceId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="isActive", type="boolean")
      */
     private $isActive;
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * Set websiteId
-     *
-     * @param integer $websiteId
-     *
-     * @return Node
-     */
-    public function setWebsiteId($websiteId) {
-        $this->websiteId = $websiteId;
-
-        return $this;
-    }
-
-    /**
-     * Get websiteId
-     *
-     * @return integer
-     */
-    public function getWebsiteId() {
-        return $this->websiteId;
-    }
-
-    /**
-     * Set sequenceId
-     *
-     * @param integer $sequenceId
-     *
-     * @return Node
-     */
-    public function setSequenceId($sequenceId) {
-        $this->sequenceId = $sequenceId;
-
-        return $this;
-    }
-
-    /**
-     * Get sequenceId
-     *
-     * @return integer
-     */
-    public function getSequenceId() {
-        return $this->sequenceId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Node
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return Node
-     */
-    public function setIsActive($isActive) {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive() {
-        return $this->isActive;
-    }
     
-    
-    /**
-     * Get top category
+     /**
+     * @var Myexp\Bundle\CmsBundle\Entity\Website
      *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Category 
+     * @ORM\ManyToOne(targetEntity="Website")
+     * @ORM\JoinColumn(name="websiteId", referencedColumnName="id", onDelete="SET NULL")
+     * @Assert\NotBlank()
      */
-    public function getTopCategory() {
-
-        $parentCategory = $this->getParent();
-
-        if ($parentCategory) {
-            return $parentCategory->getTopCategory();
-        }
-
-        return $this;
-    }
+    private $website;
+    
+     /**
+     * @var Myexp\Bundle\CmsBundle\Entity\MenuItem
+     *
+     * @ORM\ManyToOne(targetEntity="Node")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $parent;
 
     /**
-     * Get all children
-     * 
-     * @return array all children
+     *
+     * @ORM\OneToMany(targetEntity="Node", mappedBy="parent")
      */
-    public function getAllChildren() {
-
-        $children = array($this);
-
-        $currChildren = $this->getChildren();
-        if ($currChildren) {
-            foreach ($currChildren as $child) {
-                $children = array_merge($children, $child->getAllChildren());
-            }
-        }
-
-        return $children;
-    }
-
+    private $children;
 }

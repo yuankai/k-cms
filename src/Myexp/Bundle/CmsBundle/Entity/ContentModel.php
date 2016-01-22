@@ -47,9 +47,16 @@ class ContentModel {
     /**
      * @var string
      *
-     * @ORM\Column(name="controller_name", type="string", length=255)
+     * @ORM\Column(name="list_controller_name", type="string", length=255)
      */
-    private $controllerName;
+    private $listControllerName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="show_controller_name", type="string", length=255)
+     */
+    private $showControllerName;
 
     /**
      * @var boolean
@@ -124,21 +131,40 @@ class ContentModel {
 
     /**
      * 
-     * Get controller name
+     * Get list controller name
      * 
      * @return type
      */
-    public function getControllerName() {
-        return $this->controllerName;
+    public function getListControllerName() {
+        return $this->listControllerName;
     }
 
     /**
-     * Set controller name
+     * Set list controller name
      * 
-     * @param type $controllerName
+     * @param type $listControllerName
      */
-    public function setControllerName($controllerName) {
-        $this->controllerName = $controllerName;
+    public function setListControllerName($listControllerName) {
+        $this->listControllerName = $listControllerName;
+    }
+
+    /**
+     * 
+     * Get show controller name
+     * 
+     * @return type
+     */
+    public function getShowControllerName() {
+        return $this->showControllerName;
+    }
+
+    /**
+     * Set show controller name
+     * 
+     * @param type $showControllerName
+     */
+    public function setShowControllerName($showControllerName) {
+        $this->showControllerName = $showControllerName;
     }
 
     /**
@@ -159,21 +185,20 @@ class ContentModel {
     public function setIsClassable($isClassable) {
         $this->isClassable = $isClassable;
     }
-    
+
     /**
      * 获得默认路由
      */
     public function getDefaultRoute($urlSurffix) {
 
         $modelName = $this->getName();
-        $controller = $this->getControllerName();
-
         $routes = new RouteCollection();
 
         //列表路由
+        $listController = $this->getListControllerName();
         $listPath = '/' . $modelName . '/list/{id}' . $urlSurffix;
         $listDefaults = array(
-            '_controller' => $controller . ':list'
+            '_controller' => $listController
         );
         $listRequirements = array(
             'id' => '\d+',
@@ -182,9 +207,10 @@ class ContentModel {
         $routes->add($modelName . '_list', $listwRoute);
 
         //查看路由
+        $showController = $this->getShowControllerName();
         $showPath = '/' . $modelName . '/show/{id}' . $urlSurffix;
         $showDefaults = array(
-            '_controller' =>  $controller . ':show'
+            '_controller' => $showController
         );
         $showRequirements = array(
             'id' => '\d+',

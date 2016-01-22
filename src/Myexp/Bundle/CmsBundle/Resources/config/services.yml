@@ -26,6 +26,7 @@ services:
     # 内容实体监听器
     myexp_cms.listener.content_entity_subscriber:
         class: 'Myexp\Bundle\CmsBundle\EventListener\ContentEntitySubscriber'
+        arguments: ['@security.token_storage']
         tags:
             - { name: doctrine.event_subscriber, connection: default }
             
@@ -46,7 +47,7 @@ services:
     # 分类选择器
     myexp_cms.form.category_type:
         class: Myexp\Bundle\CmsBundle\Form\Type\CategoryType
-        arguments: ['@doctrine.orm.entity_manager', '@session']
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type, alias: category}
             

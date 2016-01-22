@@ -28,13 +28,19 @@ class Category {
      * @ORM\Column(name="keywords", type="string", length=255, nullable=true)
      */
     private $keywords;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="UrlAlias", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="url_alias_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $urlAlias;
 
     /**
      * @var int
      * 
-     * @ORM\Column(name="sort_order", type="integer", nullable=true)
+     * @ORM\Column(name="sequence_id", type="integer", nullable=true)
      */
-    private $sortOrder;
+    private $sequenceId;
 
     /**
      * @var boolean
@@ -47,7 +53,7 @@ class Category {
      * @var Myexp\Bundle\CmsBundle\Entity\Category
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
-     * @ORM\JoinColumn(name="pid", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $parent;
 
@@ -132,26 +138,48 @@ class Category {
     public function getKeywords() {
         return $this->keywords;
     }
-
+    
     /**
-     * Set sortOrder
+     * Set urlAlias
      *
-     * @param int $sortOrder
-     * @return Category
+     * @param \Myexp\Bundle\CmsBundle\Entity\UrlAlias $urlAlias
+     *
+     * @return Content
      */
-    public function setSortOrder($sortOrder) {
-        $this->sortOrder = $sortOrder;
+    public function setUrlAlias(\Myexp\Bundle\CmsBundle\Entity\UrlAlias $urlAlias = null) {
+        $this->urlAlias = $urlAlias;
 
         return $this;
     }
 
     /**
-     * Get sortOrder
+     * Get urlAlias
+     *
+     * @return \Myexp\Bundle\CmsBundle\Entity\UrlAlias
+     */
+    public function getUrlAlias() {
+        return $this->urlAlias;
+    }
+
+    /**
+     * Set sequenceId
+     *
+     * @param int $sequenceId
+     * @return Category
+     */
+    public function setSequenceId($sequenceId) {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId
      *
      * @return int 
      */
-    public function getSortOrder() {
-        return $this->sortOrder;
+    public function getSequenceId() {
+        return $this->sequenceId;
     }
 
     /**

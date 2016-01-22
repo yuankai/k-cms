@@ -12,7 +12,9 @@ class ArticleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('content', ContentType::class)
+                ->add('content', ContentType::class, array(
+                    'model_name' => 'article'
+                ))
                 ->add('author', TextType::class, array(
                     'label' => 'article.author',
                     'required' => false

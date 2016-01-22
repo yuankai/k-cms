@@ -19,66 +19,62 @@ class Menu {
     private $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
-     * @ORM\Column(name="path", type="string", length=255, nullable=false)
+     * @var Myexp\Bundle\CmsBundle\Entity\Website
+     *
+     * @ORM\ManyToOne(targetEntity="Website")
+     * @ORM\JoinColumn(name="websiteId", referencedColumnName="id", onDelete="SET NULL")
      * @Assert\NotBlank()
      */
-    private $path;
-
-    /**
-     * @var int
-     * 
-     * @ORM\Column(name="sort_order", type="integer", nullable=true)
-     */
-    private $sortOrder;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_nav", type="boolean", nullable=true)
-     */
-    private $isNav;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_Index", type="boolean", nullable=true)
-     */
-    private $isIndex;
-
-    /**
-     * @var Myexp\Bundle\CmsBundle\Entity\Menu
-     *
-     * @ORM\ManyToOne(targetEntity="Menu")
-     * @ORM\JoinColumn(name="pid", referencedColumnName="id", onDelete="SET NULL")
-     */
-    private $parent;
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-    }
+    private $website;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId() {
         return $this->id;
     }
 
     /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Menu
+     */
+    public function setName($name) {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+
+    /**
      * Set title
      *
      * @param string $title
-     * @return Page
+     *
+     * @return Menu
      */
     public function setTitle($title) {
         $this->title = $title;
@@ -89,115 +85,32 @@ class Menu {
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle() {
         return $this->title;
     }
 
     /**
-     * Set path
+     * Set website
      *
-     * @param string $path
+     * @param \Myexp\Bundle\CmsBundle\Entity\Website $website
+     *
      * @return Menu
      */
-    public function setPath($path) {
-        $this->path = $path;
+    public function setWebsite(\Myexp\Bundle\CmsBundle\Entity\Website $website = null) {
+        $this->website = $website;
 
         return $this;
     }
 
     /**
-     * Get path
+     * Get website
      *
-     * @return string 
+     * @return \Myexp\Bundle\CmsBundle\Entity\Website
      */
-    public function getPath() {
-        return $this->path;
-    }
-
-    /**
-     * Set sortOrder
-     *
-     * @param int $sortOrder
-     * @return Menu
-     */
-    public function setSortOrder($sortOrder) {
-        $this->sortOrder = $sortOrder;
-
-        return $this;
-    }
-
-    /**
-     * Get sortOrder
-     *
-     * @return int 
-     */
-    public function getSortOrder() {
-        return $this->sortOrder;
-    }
-
-    /**
-     * Set isNav
-     *
-     * @param boolean $isNav
-     * @return Menu
-     */
-    public function setIsNav($isNav) {
-        $this->isNav = $isNav;
-
-        return $this;
-    }
-
-    /**
-     * Get isNav
-     *
-     * @return boolean 
-     */
-    public function getIsNav() {
-        return $this->isNav;
-    }
-
-    /**
-     * Get isIndex
-     *
-     * @return boolean 
-     */
-    public function getIsIndex() {
-        return $this->isIndex;
-    }
-
-    /**
-     * Set isIndex
-     *
-     * @param boolean $isIndex
-     * @return Menu
-     */
-    public function setIsIndex($isIndex) {
-        $this->isIndex = $isIndex;
-
-        return $this;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Menu $parent
-     * @return Menu
-     */
-    public function setParent(\Myexp\Bundle\CmsBundle\Entity\Menu $parent = null) {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Menu 
-     */
-    public function getParent() {
-        return $this->parent;
+    public function getWebsite() {
+        return $this->website;
     }
 
 }

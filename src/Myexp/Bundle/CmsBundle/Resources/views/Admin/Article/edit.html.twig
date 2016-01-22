@@ -12,11 +12,3 @@
     {{ form(delete_form) }}
     </div>
 {% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-<script type="text/javascript">
-    $(function () {
-        $('.ui.category.box .ui.dropdown').dropdown();
-    });
-</script>
-{% endblock %}

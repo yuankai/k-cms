@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Article;
-use Myexp\Bundle\CmsBundle\Entity\Content;
 use Myexp\Bundle\CmsBundle\Form\ArticleType;
 
 /**
@@ -68,8 +67,6 @@ class ArticleController extends AdminController {
 
         if ($form->isValid()) {
             
-            //$this->saveContentInstance($entity->getContent());
-            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -94,10 +91,8 @@ class ArticleController extends AdminController {
     public function newAction() {
 
         $entity = new Article();
-        //$content = $this->newContentInstance('article');
         
-        //$entity->setPublishTime(new \DateTime());
-        //$entity->setContent($content);
+        $entity->setPublishTime(new \DateTime());
         
         $form = $this->createCreateForm($entity);
 
@@ -159,9 +154,6 @@ class ArticleController extends AdminController {
 
         if ($editForm->isValid()) {
 
-            //更新内容信息
-            //$this->saveContentInstance($entity->getContent());
-
             //保存文章
             $em->persist($entity);
             $em->flush();
@@ -169,11 +161,11 @@ class ArticleController extends AdminController {
             return $this->redirectSucceed();
         }
 
-        return array(
+        return $this->display(array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
