@@ -1,26 +1,14 @@
-myexp_cms_content_model:
-    resource: "@MyexpCmsBundle/Controller/ContentModelController.php"
-    type:     annotation
+#myexp_admin:
+#    resource: "@MyexpAdminBundle/Resources/config/routing.yml"
+#    prefix:   /
 
-myexp_cms_content_model:
-    resource: "@MyexpCmsBundle/Controller/ContentModelController.php"
-    type:     annotation
+#myexp_finder:
+#    resource: "@MyexpFinderBundle/Resources/config/routing.yml"
+#    prefix:   /
 
-myexp_cms_content_model:
-    resource: "@MyexpCmsBundle/Controller/ContentModelController.php"
-    type:     annotation
-
-myexp_admin:
-    resource: "@MyexpAdminBundle/Resources/config/routing.yml"
-    prefix:   /
-
-myexp_finder:
-    resource: "@MyexpFinderBundle/Resources/config/routing.yml"
-    prefix:   /
-
-myexp_editor:
-    resource: "@MyexpEditorBundle/Resources/config/routing.yml"
-    prefix:   /
+#myexp_editor:
+#    resource: "@MyexpEditorBundle/Resources/config/routing.yml"
+#    prefix:   /
 
 myexp_cms:
     resource: "@MyexpCmsBundle/Resources/config/routing.yml"

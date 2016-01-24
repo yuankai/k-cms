@@ -1,0 +1,28 @@
+{% extends 'MyexpCmsBundle::layout.html.twig' %}
+{% block content %}
+    
+    <!-- 幻灯 -->
+    <div>
+    </div>
+    
+    <!-- 面包屑 -->
+    <div></div>
+    
+    <!-- 内容 -->
+    <div class="ui grid">
+        
+        <!-- 左侧 -->
+        <div class="three wide column">
+            
+            <div class="ui vertical pointing fluid menu">
+                
+            </div>
+            
+        </div>
+        
+        <!-- 右侧 -->
+        <div class="thirteen wide column">
+            {% block inner %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

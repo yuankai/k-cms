@@ -13,7 +13,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Myexp\Bundle\CmsBundle\Form\Type\CategoryType;
 use Myexp\Bundle\EditorBundle\Form\Type\EditorType;
 use Myexp\Bundle\CmsBundle\Form\Type\EntityIdType;
-use Myexp\Bundle\CmsBundle\Form\DataTransformer\UrlAliasTransformer;
 use Myexp\Bundle\CmsBundle\EventListener\UrlAliasSubscriber;
 
 class ContentType extends AbstractType {
@@ -120,11 +119,6 @@ class ContentType extends AbstractType {
             'choice_label' => 'title',
             'choices' => $contentStatuses
         ));
-
-        //添加url别名转换器
-//        $builder->get('urlAlias')->addModelTransformer(new UrlAliasTransformer(
-//                $this->manager, $contentModelEntity
-//        ));
 
         //设置表单的内容类型
         $builder->get('contentModel')->setData($contentModelEntity);

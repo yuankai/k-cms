@@ -1,5 +1,25 @@
 {% extends 'MyexpCmsBundle::layout.html.twig' %}
 {% block title %}{{ 'site.name'|trans }}{% endblock %}
 {% block content %}
-    Hello, K-CMS!
+    
+    <!-- 幻灯片 -->
+    <div class="cycle-slideshow">
+    <img class="ui fluid image" src="{{ asset('bundles/myexpcms/images/demo/1.jpg') }}" style="height: 200px;"/>
+    <img class="ui fluid image" src="{{ asset('bundles/myexpcms/images/demo/2.jpg') }}" style="height: 200px;"/>
+    <img class="ui fluid image" src="{{ asset('bundles/myexpcms/images/demo/3.jpg') }}" style="height: 200px;"/>
+    <img class="ui fluid image" src="{{ asset('bundles/myexpcms/images/demo/4.jpg') }}" style="height: 200px;"/>
+</div>
+    
+    <!-- 产品介绍 -->
+    
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/jquery.cycle2.min.js') }}"></script>
+    <script>
+        $('.cycle-slideshow').cycle({
+    speed: 600,
+    manualSpeed: 100
+});
+    </script>
 {% endblock %}

@@ -29,9 +29,9 @@ services:
         arguments: ['@security.token_storage']
         tags:
             - { name: doctrine.event_subscriber, connection: default }
-            
-    # 自定义路由加载器，加载内容类型默认路由以及URL别名
-    myexp_cms.routing_loader:
+    
+    # URL别名加载器
+    myexp_cms.routing.rewrite_loader:
         class: 'Myexp\Bundle\CmsBundle\Routing\RewriteLoader'
         arguments: ['@doctrine', %myexp_cms.url_rewrite%]
         tags:

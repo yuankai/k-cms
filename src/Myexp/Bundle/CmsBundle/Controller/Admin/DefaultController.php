@@ -33,7 +33,7 @@ class DefaultController extends AdminController {
      * @Template()
      */
     public function indexAction(Request $request) {
-
+        
         $websiteId = $request->get('websiteId');
         if ($websiteId) {
             $this->setCurrentWebsite($websiteId);

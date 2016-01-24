@@ -94,14 +94,18 @@ admin_node:
 
 # 前台路由
 
-download:
-    resource: "@MyexpCmsBundle/Controller/DownloadController.php"
-    type: annotation
+#article:
+#    resource: "@MyexpCmsBundle/Controller/ArticleController.php"
+#    type: annotation
     
-product:
-    resource: "@MyexpCmsBundle/Controller/ProductController.php"
-    type: annotation
+#download:
+#    resource: "@MyexpCmsBundle/Controller/DownloadController.php"
+#    type: annotation
     
-page:
-    resource: "@MyexpCmsBundle/Controller/PageController.php"
-    type: annotation
+#product:
+#    resource: "@MyexpCmsBundle/Controller/ProductController.php"
+#    type: annotation
+    
+#page:
+#    resource: "@MyexpCmsBundle/Controller/PageController.php"
+#    type: annotation

@@ -2,10 +2,13 @@
 
 namespace Myexp\Bundle\CmsBundle\Routing;
 
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Description of RewriteLoader
@@ -24,13 +27,13 @@ class RewriteLoader extends Loader {
      *
      * @var type 
      */
-    protected $registry;
+    private $registry;
 
     /**
      *
      * @var type 
      */
-    protected $rewriteConfig;
+    private $rewriteConfig;
 
     /**
      * 
@@ -55,10 +58,8 @@ class RewriteLoader extends Loader {
 
         $routes = new RouteCollection();
 
-        if ($this->rewriteConfig['on']) {
-            $this->loadContentModelDefaultRoute($routes);
-            $this->loadUrlAliasRoute($routes);
-        }
+        $this->loadContentModelDefaultRoute($routes);
+        $this->loadUrlAliasRoute($routes);
 
         $this->loaded = true;
 
@@ -71,13 +72,44 @@ class RewriteLoader extends Loader {
     private function loadContentModelDefaultRoute(RouteCollection $routes) {
 
         $em = $this->registry->getManager();
-
         $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
+        $urlSuffix = $this->rewriteConfig['url_suffix'];
 
-        if ($contentModels) {
-            foreach ($contentModels as $contentModel) {
-                $defaultRoutes = $contentModel->getDefaultRoute($this->rewriteConfig['url_suffix']);
-                $routes->addCollection($defaultRoutes);
+        if (!$contentModels) {
+            return;
+        }
+
+        foreach ($contentModels as $contentModel) {
+
+            $modelName = $contentModel->getName();
+            $actions = array('list', 'show');
+
+            foreach ($actions as $action) {
+
+                $withPage = array(false, true);
+                $withSuffix = array(false);
+
+                //伪静态
+                if ($this->rewriteConfig['on']) {
+                    $withSuffix[] = true;
+                }
+
+                foreach ($withPage as $page) {
+                    foreach ($withSuffix as $suffix) {
+
+                        $routeNameSuffix = $page ? '_page' : '';
+                        $routeNameSuffix .= $suffix ? '_html' : '';
+
+                        $routeName = $modelName . '_' . $action . $routeNameSuffix;
+                        $route = $contentModel->getDefaultRoute($action, $page);
+
+                        if ($suffix) {
+                            $route->setPath($route->getPath() . $urlSuffix);
+                        }
+
+                        $routes->add($routeName, $route);
+                    }
+                }
             }
         }
     }
@@ -88,22 +120,47 @@ class RewriteLoader extends Loader {
     private function loadUrlAliasRoute(RouteCollection $routes) {
 
         $em = $this->registry->getManager();
+        $request = Request::createFromGlobals();
+
+        $urlSuffix = $this->rewriteConfig['url_suffix'];
+
+        $context = new RequestContext();
+        $context->fromRequest($request);
+
+        $matcher = new UrlMatcher($routes, $context);
+
         $urlAliasRepo = $em->getRepository("MyexpCmsBundle:UrlAlias");
-
         $urlAliases = $urlAliasRepo->findAll();
+
         foreach ($urlAliases as $urlAlias) {
-            
-            $path = $urlAlias->getUrl();
-            $defaults = array(
-                '_controller' => $urlAlias->getController()
-            );
-            $parameters = json_decode($urlAlias->getParameters(), true);
 
-            $requirements = array();
-            $route = new Route($path, array_merge($defaults, $parameters), $requirements);
+            $path = $urlAlias->getPath();
+            $url = $urlAlias->getUrl();
 
-            $routeName = '_urlRewriteRoute_' . $urlAlias->getId();
-            $routes->add($routeName, $route);
+            $pathes = array($path, $path . '-1');
+            $routePathes = array($url, $url . '-{page}');
+
+            foreach ($pathes as $i => $path) {
+
+                $routePath = $routePathes[$i];
+
+                try {
+                    $matchRes = $matcher->match($path);
+                } catch (ResourceNotFoundException $e) {
+                    continue;
+                }
+
+                $routeName = $matchRes['_route'];
+                $defaultRoute = $routes->get($routeName);
+
+                $newRoute = clone $defaultRoute;
+
+                $newRoute->setPath($routePath . $urlSuffix);
+                $newRoute->setDefault('id', $matchRes['id']);
+
+                $newRouteName = $routeName . '_' . $urlAlias->getId();
+                $routes->add($newRouteName, $newRoute);
+            }
         }
     }
 

@@ -1,6 +1,97 @@
 {% extends 'MyexpCmsBundle::base.html.twig' %}
 {% block body %}
-    This is content:
-    {% block content %}
-    {% endblock %}
+    <div class="ui container">
+        
+        <div>
+            <img class="ui middle aligned small image" src="{{ asset('bundles/myexpcms/images/yfc-logo.png') }}"/>
+            <span>南京韵风成仪器有限公司</span>
+        </div>
+        
+        <div class="ui menu">
+            <a class="item">
+                <i class="home icon"></i>网站首页
+            </a>
+            <a class="browse item">
+                <i class="grid layout icon"></i>产品与服务 
+                <i class="dropdown icon"></i> 
+            </a>
+            <div class="ui fluid popup bottom left transition hidden">
+                <div class="ui four column relaxed equal height divided grid">
+                    <div class="column">
+                        <h4 class="ui header">Fabrics</h4>
+                        <div class="ui link list">
+                            <a class="item">Cashmere</a>
+                            <a class="item">Linen</a>
+                            <a class="item">Cotton</a>
+                            <a class="item">Viscose</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h4 class="ui header">Size</h4>
+                        <div class="ui link list">
+                            <a class="item">Small</a>
+                            <a class="item">Medium</a>
+                            <a class="item">Large</a>
+                            <a class="item">Plus Sizes</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h4 class="ui header">彩色的</h4>
+                        <div class="ui link list">
+                            <a class="item">Neutrals</a>
+                            <a class="item">Brights</a>
+                            <a class="item">Pastels</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h4 class="ui header">Types</h4>
+                        <div class="ui link list">
+                            <a class="item">Knitwear</a>
+                            <a class="item">Outerwear</a>
+                            <a class="item">Pants</a>
+                            <a class="item">Shoes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="item">关于韵风成</a>
+            <a class="item">公司动态</a>
+            <a class="item"><i class="mail icon"></i>联系我们</a>
+            <div class="right item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+        <div class="ui orange inverted vertical footer segment">
+            <div id="footer" class="ui container">
+                <div class="ui stackable inverted divided equal height stackable grid">
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">About</h4>
+                        <div class="ui inverted link list">
+                            <a href="#" class="item">Sitemap</a>
+                            <a href="#" class="item">Contact Us</a>
+                            <a href="#" class="item">Religious Ceremonies</a>
+                            <a href="#" class="item">Gazebo Plans</a>
+                        </div>
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Services</h4>
+                        <div class="ui inverted link list">
+                            <a href="#" class="item">Banana Pre-Order</a>
+                            <a href="#" class="item">DNA FAQ</a>
+                            <a href="#" class="item">How To Access</a>
+                            <a href="#" class="item">Favorite X-Men</a>
+                        </div>
+                    </div>
+                    <div class="seven wide column">
+                        <h4 class="ui inverted header">Footer Header</h4>
+                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

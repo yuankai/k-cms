@@ -3,7 +3,6 @@
 namespace Myexp\Bundle\CmsBundle\Entity;
 
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -187,38 +186,57 @@ class ContentModel {
     }
 
     /**
-     * 获得默认路由
+     * 获得列表路由
+     * 
+     * @return type
      */
-    public function getDefaultRoute($urlSurffix) {
+    public function getDefaultListRoute($withPage = true) {
+        return $this->getDefaultRoute('list', $withPage);
+    }
 
-        $modelName = $this->getName();
-        $routes = new RouteCollection();
+    /**
+     * 获得查看路由
+     * 
+     * @return type
+     */
+    public function getDefaultShowRoute($withPage = true) {
+        return $this->getDefaultRoute('show', $withPage);
+    }
 
-        //列表路由
-        $listController = $this->getListControllerName();
-        $listPath = '/' . $modelName . '/list/{id}' . $urlSurffix;
-        $listDefaults = array(
-            '_controller' => $listController
+    /**
+     * 
+     * 获得默认路由
+     * 
+     * @param type $action
+     * @param type $withPage
+     * @return Route
+     */
+    public function getDefaultRoute($action, $withPage = true) {
+
+        $path = '/' . $this->getName() . '/' . $action . '/{id}';
+
+        if ($withPage) {
+            $path .= '-{page}';
+        }
+
+        //路由
+        if ('list' == $action) {
+            $controller = $this->getListControllerName();
+        } else {
+            $controller = $this->getShowControllerName();
+        }
+
+        $defaults = array(
+            '_controller' => $controller,
+            'model' => $this->getName(),
+            'page' => 1
         );
-        $listRequirements = array(
+        $requirements = array(
             'id' => '\d+',
+            'page' => '\d+'
         );
-        $listwRoute = new Route($listPath, $listDefaults, $listRequirements);
-        $routes->add($modelName . '_list', $listwRoute);
 
-        //查看路由
-        $showController = $this->getShowControllerName();
-        $showPath = '/' . $modelName . '/show/{id}' . $urlSurffix;
-        $showDefaults = array(
-            '_controller' => $showController
-        );
-        $showRequirements = array(
-            'id' => '\d+',
-        );
-        $showRoute = new Route($showPath, $showDefaults, $showRequirements);
-        $routes->add($modelName . '_show', $showRoute);
-
-        return $routes;
+        return new Route($path, $defaults, $requirements);
     }
 
 }

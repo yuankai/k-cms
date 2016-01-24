@@ -92,12 +92,13 @@ class UrlAliasSubscriber implements EventSubscriberInterface {
         } elseif (null !== $url) {
 
             //新增
-            $controller = $this->contentModelEntity->getShowControllerName();
-
+            $showPath = $this->contentModelEntity
+                    ->getDefaultShowRoute(false)
+                    ->getPath();
+            
             $urlAlias = new UrlAlias();
             $urlAlias->setUrl($url);
-            $urlAlias->setController($controller);
-            $urlAlias->setParameters('{}');
+            $urlAlias->setPath($showPath);
 
             $content->setUrlAlias($urlAlias);
         }

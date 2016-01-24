@@ -31,16 +31,9 @@ class UrlAlias {
     /**
      * @var string
      *
-     * @ORM\Column(name="controller", type="string", length=255)
+     * @ORM\Column(name="path", type="string", length=255)
      */
-    private $controller;
-
-    /**
-     * @var parameters
-     *
-     * @ORM\Column(name="parameters", type="string", length=255)
-     */
-    private $parameters;
+    private $path;
 
     /**
      * Get id
@@ -74,47 +67,25 @@ class UrlAlias {
     }
 
     /**
-     * Set controller
+     * Set path
      *
-     * @param string $controller
+     * @param string $path
      *
      * @return UrlAlias
      */
-    public function setController($controller) {
-        $this->controller = $controller;
+    public function setPath($path) {
+        $this->path = $path;
 
         return $this;
     }
 
     /**
-     * Get controller
+     * Get path
      *
      * @return string
      */
-    public function getController() {
-        return $this->controller;
-    }
-
-    /**
-     * Set parameters
-     *
-     * @param string $parameters
-     *
-     * @return UrlAlias
-     */
-    public function setParameters($parameters) {
-        $this->parameters = $parameters;
-
-        return $this;
-    }
-
-    /**
-     * Get parameters
-     *
-     * @return string
-     */
-    public function getParameters() {
-        return $this->parameters;
+    public function getPath() {
+        return $this->path;
     }
 
 }

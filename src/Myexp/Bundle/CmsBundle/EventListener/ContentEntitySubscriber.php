@@ -135,8 +135,11 @@ class ContentEntitySubscriber implements EventSubscriber {
         $urlAlias = $entity->getUrlAlias();
 
         if (null !== $urlAlias) {
-            $parameters = array('id' => $entity->getId());
-            $urlAlias->setParameters(json_encode($parameters));
+            
+            $path = $urlAlias->getPath();
+            $showPath = str_replace('{id}', $entity->getId(), $path);
+            $urlAlias->setPath($showPath);
+            
             $entityManager->persist($urlAlias);
             $entityManager->flush();
         }

@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Myexp\Bundle\CmsBundle\Entity\Article;
 use Myexp\Bundle\CmsBundle\Form\ArticleType;
-use Myexp\Bundle\CmsBundle\Helper\Paginator;
 
 /**
  * Article controller.
@@ -21,7 +20,7 @@ class ArticleController extends Controller {
     /**
      * Lists Article entities.
      *
-     * @Route("/list-{id}", name="article_list")
+     * @Route("/list/{id}", name="article_list")
      * @Method("GET")
      * @Template()
      */
@@ -47,7 +46,7 @@ class ArticleController extends Controller {
     /**
      * Finds and displays a Article entity.
      *
-     * @Route("/show-{id}", name="article_show")
+     * @Route("/show/{id}/{page}", name="article_show", defaults={"page"=1})
      * @Method("GET")
      * @Template()
      */
