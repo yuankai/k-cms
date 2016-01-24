@@ -1,47 +1,31 @@
-{% extends '::base.html.twig' %}
-
-{% block body -%}
-    <h1>Node list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Websiteid</th>
-                <th>Sequenceid</th>
-                <th>Title</th>
-                <th>Isactive</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('node_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.websiteId }}</td>
-                <td>{{ entity.sequenceId }}</td>
-                <td>{{ entity.title }}</td>
-                <td>{{ entity.isActive }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('node_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('node_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/myexpcms/jstree/themes/default/style.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block title %}{{ 'node.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <div class="active section">{{ 'node.manage'|trans }}</div>
+{% endblock %}
+{% block content %}
+    <div id="jstree_node_div">
         <ul>
-        <li>
-            <a href="{{ path('node_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+            <li>{{ currentWebsite.name }}
+                {% import 'MyexpCmsBundle:Admin/Common:tree.html.twig' as tree %}
+                {% if topNodes is not empty %}
+                    <ul>
+                        {% for node in topNodes %}
+                            <li dbid="{{ node.id }}">{{ node.title }}{{ tree.nodeTree(node) }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    <div class="ui modal"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpcms/jstree/jstree.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/node.js') }}"></script>
+{% endblock %}

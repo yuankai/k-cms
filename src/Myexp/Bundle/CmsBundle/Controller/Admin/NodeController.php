@@ -15,7 +15,28 @@ use Myexp\Bundle\CmsBundle\Form\NodeType;
  *
  * @Route("/admin/node")
  */
-class NodeController extends Controller {
+class NodeController extends AdminController {
+
+    /**
+     *
+     * 主菜单
+     * 
+     * @var type 
+     */
+    protected $primaryMenu = 'admin_node';
+
+    /**
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'Node';
+
+    /**
+     * 主表单类型
+     *
+     * @var type 
+     */
+    protected $primaryFormType = NodeType::class;
 
     /**
      * Lists all Node entities.
@@ -25,13 +46,23 @@ class NodeController extends Controller {
      * @Template()
      */
     public function indexAction() {
+
         $em = $this->getDoctrine()->getManager();
+        $website = $this->currentWebsite;
 
-        $entities = $em->getRepository('MyexpCmsBundle:Node')->findAll();
+        //top node items
+        $topNodes = $em
+                ->getRepository('MyexpCmsBundle:Node')
+                ->findBy(
+                array(
+                    'website' => $website,
+                    'parent' => null
+                ))
+        ;
 
-        return array(
-            'entities' => $entities,
-        );
+        return $this->display(array(
+                    'topNodes' => $topNodes
+        ));
     }
 
     /**
@@ -58,24 +89,6 @@ class NodeController extends Controller {
             'entity' => $entity,
             'form' => $form->createView(),
         );
-    }
-
-    /**
-     * Creates a form to create a Node entity.
-     *
-     * @param Node $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Node $entity) {
-        $form = $this->createForm(new NodeType(), $entity, array(
-            'action' => $this->generateUrl('node_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
     }
 
     /**
@@ -146,24 +159,6 @@ class NodeController extends Controller {
     }
 
     /**
-     * Creates a form to edit a Node entity.
-     *
-     * @param Node $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(Node $entity) {
-        $form = $this->createForm(new NodeType(), $entity, array(
-            'action' => $this->generateUrl('node_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-
-    /**
      * Edits an existing Node entity.
      *
      * @Route("/{id}", name="node_update")
@@ -219,22 +214,6 @@ class NodeController extends Controller {
         }
 
         return $this->redirect($this->generateUrl('node'));
-    }
-
-    /**
-     * Creates a form to delete a Node entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id) {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('node_delete', array('id' => $id)))
-                        ->setMethod('DELETE')
-                        ->add('submit', 'submit', array('label' => 'Delete'))
-                        ->getForm()
-        ;
     }
 
 }

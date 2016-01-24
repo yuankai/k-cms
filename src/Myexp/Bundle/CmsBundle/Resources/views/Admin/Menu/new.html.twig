@@ -1,30 +1,10 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
-{% block title %}{{ 'menu.new'|trans }}{% endblock %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
+{% block title %}{{ 'menu.new'|trans }} - {{ 'menu.manage'|trans }}{{ parent() }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('menu')}}">{{ 'menu.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'menu.new'|trans }}</a></span>
+    <a class="section" href="{{ path('admin_menu') }}">{{ 'menu.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'menu.new'|trans }}</div>
 {% endblock %}
 {% block content %}
-<form action="{{ path('menu_create') }}" method="post">
-    <div class="form">
-        {% form_theme form 'MyexpCmsBundle:Form:tabs.html.twig' %}
-        {{ form_widget(form) }}
-        <div class="form-actions">
-            <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />
-            <input class="btn btn-danger" type="reset" value="{{ 'common.reset'|trans }}" />
-        </div>
-    </div>
-</form>
-<form>
-<div class="form-actions">
-        <input class="btn btn-primary" type="submit" value="{{ 'common.back_list'|trans }}"  onclick="saveToDraft(this, '{{ path('menu') }}');" />
-</div>
-    </form>
-{% endblock %}
-{% block javascripts %}
-{{ parent() }}
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.tabs').tabs();
-    });
-</script>
+{{ form(form) }}
 {% endblock %}

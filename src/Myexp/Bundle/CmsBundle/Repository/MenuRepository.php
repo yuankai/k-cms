@@ -12,49 +12,36 @@ use Doctrine\ORM\EntityRepository;
  */
 class MenuRepository extends EntityRepository {
 
-    public function getChildren($parent = null) {
+    /**
+     * 获得分页查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function getPaginationQuery($params = null) {
+        $qb = $this->buildQuery($params);
+
+        return $qb->getQuery();
+    }
+
+    /**
+     * 构造查询
+     * 
+     * @param type $params
+     * @return type
+     */
+    public function buildQuery($params) {
 
         $qb = $this->createQueryBuilder('m');
 
-        if ($parent === null) {
-            $qb->where('m.parent IS NULL');
-        } else {
+        if (isset($params['isActive'])) {
             $qb
-                    ->where('m.parent = ?1','m.isNav = ?2')
-                    ->setParameters(array('1'=> $parent,'2'=>1))
+                    ->andWhere('m.isActive = ?1')
+                    ->setParameter(1, $params['isActive'])
             ;
         }
 
-        $qb->add('orderBy', 'm.sortOrder ASC');
-
-        return $qb->getQuery()->getResult();
-    }
-    
-    //统计pid查找全部
-    public function getPid($pid){
-        $qb=  $this->createQueryBuilder('m')
-                ->where('m.parent = :parent')
-                ->setParameter('parent',$pid)
-                ->getQuery();
-        return $qb->getResult();
-    }
-    
-    public function getParet_id($menu_name){
-        $qb= $this->createQueryBuilder('m')
-                ->find('m.parent', array('m.path'=>$menu_name));
-
-        return $qb->getResult();
-    }
-
-    public function getService($limit,$parent) {
-        $qb = $this->createQueryBuilder('m')
-                ->where('m.parent = :parent','m.isIndex = :isIndex')
-                ->setParameters(array('parent' => $parent,'isIndex'=>TRUE))
-                ->orderBy('m.sortOrder','ASC')
-                ->setMaxResults($limit)
-                ->getQuery()
-        ;
-        return $qb->getResult();
+        return $qb;
     }
 
 }

@@ -1,38 +1,43 @@
-{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
-{% block title %}{{ 'menu.list'|trans }}{% endblock %}
+{% extends 'MyexpCmsBundle:Admin:base.html.twig' %}
+{% block title %}{{ 'menu.list'|trans }}{{ parent() }}{% endblock %}
 {% block breadcrumd %}
-        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'menu.manage'|trans }}</a></span>
+    <div class="active section">{{ 'menu.manage'|trans }}</div>
 {% endblock %}
 {% block content %}
-<form action="{{ path('menu_order') }}" method="post">
-    <table class="table table-striped table-bordered bootstrap-datatable datatable">
+    <table class="ui green table">
         <thead>
             <tr>
+                <th>{{ 'menu.id'|trans }}</th>
+                <th>{{ 'menu.name'|trans }}</th>
                 <th>{{ 'menu.title'|trans }}</th>
-                <th>{{ 'menu.path'|trans }}</th>
-                <th>{{ 'menu.is_nav'|trans }}</th>
-                <th>{{ 'menu.order'|trans }}</th>
-                <th class="actions">{{ 'common.actions'|trans }}</th>
+                <th>{{ 'common.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
-                <tr>
-                    <td>{{ entity.trans.title }}</td>
-                    <td>{{ entity.path }}</td>
-                    <td>{% if entity.isNav %}{{ 'common.yes'|trans }}{% else %}{{ 'common.no'|trans }}{% endif %}</td>
-                    <td><input type="number" name="orders[{{ entity.id }}]" value="{{ entity.sortOrder }}" class="number" /></td>
-                    <td>
-                        <a href="{{ path('menu_show', { 'id': entity.id }) }}" class="btn btn-success">{{ 'common.show'|trans }}</a>
-                        <a href="{{ path('menu_edit', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'common.edit'|trans }}</a>
-                    </td>
-                </tr>
+        {% for entity in pagination %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.title }}</td>
+                <td>
+                    <div class="ui icon buttons">
+                        <a class="ui button" href="{{ path('admin_menu_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                            <i class="edit icon"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
         {% endfor %}
-            </tbody>
-        </table>
-            <div class="form-actions">
-                <input class="btn btn-primary" type="submit" value="{{ 'menu.new'|trans }}"  onclick="saveToDraft(this, '{{ path('menu_new') }}');" />
-                <input type="submit" class="btn" value="{{ 'common.submit'|trans }}" />
-            </div>
-    </form>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="8">
+                    <a class="ui left small teal labeled icon button" href="{{ path('admin_menu_new') }}">
+                        <i class="sidebar icon"></i> {{ 'menu.new'|trans }}
+                    </a>
+                    {{ knp_pagination_render(pagination) }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>   
 {% endblock %}

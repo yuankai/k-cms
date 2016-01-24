@@ -87,6 +87,10 @@ admin_slider:
 admin_menu:
     resource: "@MyexpCmsBundle/Controller/Admin/MenuController.php"
     type: annotation
+
+admin_menu_item:
+    resource: "@MyexpCmsBundle/Controller/Admin/MenuItemController.php"
+    type: annotation
     
 admin_node:
     resource: "@MyexpCmsBundle/Controller/Admin/NodeController.php"

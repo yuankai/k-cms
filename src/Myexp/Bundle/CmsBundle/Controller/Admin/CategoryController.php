@@ -51,18 +51,25 @@ class CategoryController extends AdminController {
 
         $em = $this->getDoctrine()->getManager();
 
-        $contentModels = $em->getRepository('MyexpCmsBundle:ContentModel')->findAll();
-        $contentModelId = 0;
+        $contentModels = $em
+                ->getRepository('MyexpCmsBundle:ContentModel')
+                ->getClassableModels()
+        ;
 
-        if (!empty($contentModels)) {
-            $contentModelId = $request->get('contentModelId', $contentModels[0]->getId());
+        $contentModelId = $request->get('contentModelId');
+        if (!$contentModelId) {
+            $contentModelId = $contentModels[0]->getId();
         }
 
-        $topCategories = $em->getRepository('MyexpCmsBundle:Category')->findBy(array(
-            'website'=>  $this->currentWebsite,
-            'contentModel' => $contentModelId,
-            'parent' => null
-        ));
+        $topCategories = $em
+                ->getRepository('MyexpCmsBundle:Category')
+                ->findBy(
+                array(
+                    'website' => $this->currentWebsite,
+                    'contentModel' => $contentModelId,
+                    'parent' => null
+                ))
+        ;
 
         return $this->display(array(
                     'contentModels' => $contentModels,
@@ -126,8 +133,8 @@ class CategoryController extends AdminController {
 
         return $this->ajaxDisplay();
     }
-    
-     /**
+
+    /**
      * Rename an existing Category entity.
      *
      * @Route("/move", name="admin_category_move")
@@ -147,7 +154,7 @@ class CategoryController extends AdminController {
 
         $parentId = $request->get('parent');
         $parent = $em->getRepository('MyexpCmsBundle:Category')->find($parentId);
-        
+
         $entity->setParent($parent);
 
         $em->persist($entity);
@@ -225,7 +232,7 @@ class CategoryController extends AdminController {
 
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
-        
+
         $entity = $em->getRepository('MyexpCmsBundle:Category')->find($id);
 
         if (!$entity) {
@@ -234,9 +241,9 @@ class CategoryController extends AdminController {
 
         $parentId = $request->get('parent');
         $parent = $em->getRepository('MyexpCmsBundle:Category')->find($parentId);
-        
+
         $mode = $request->get('mode');
-        
+
         $entity->setParent($parent);
 
         $em->persist($entity);

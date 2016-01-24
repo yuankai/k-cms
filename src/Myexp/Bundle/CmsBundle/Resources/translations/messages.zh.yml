@@ -10,6 +10,7 @@ admin:
 
 common:
     submit: 提交
+    cancle: 取消
     create: 创建
     update: 更新
     reset: 重置
@@ -141,13 +142,16 @@ menu:
     manage: 菜单管理
     new: 新建菜单
     edit: 编辑菜单
-    path: 链接地址
-    is_nav: 导航显示
+    name: 菜单名称
     title: 菜单标题
-    parent: 上级菜单    
-    order: 菜单排序
-    isIndex: 主页中部显示
-    show: 查看菜单
+    info: 基本信息
+    items: 菜单项
+    item:
+        root: 根节点
+        new: 新建菜单项
+        edit: 编辑菜单项
+        url: 链接地址
+        target: 打开目标
 
 link:
     list: 链接列表

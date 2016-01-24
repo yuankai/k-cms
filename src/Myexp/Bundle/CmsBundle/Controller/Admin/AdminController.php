@@ -84,10 +84,11 @@ abstract class AdminController extends Controller {
      * Creates a form to create a Node entity.
      *
      * @param Node $entity The entity
+     * @param Boolean $addSubmit Add submit button
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    protected function createCreateForm($entity) {
+    protected function createCreateForm($entity, $addSubmit=true) {
         
         $route = $this->getRouteByAction('create');
 
@@ -96,8 +97,10 @@ abstract class AdminController extends Controller {
             'method' => 'POST'
         ));
 
-        $form->add('submit', SubmitType::class, array('label' => 'common.create'));
-
+        if($addSubmit){
+            $form->add('submit', SubmitType::class, array('label' => 'common.create'));
+        }
+        
         return $form;
     }
 
@@ -105,10 +108,11 @@ abstract class AdminController extends Controller {
      * Creates a form to edit a Node entity.
      *
      * @param Node $entity The entity
+     * @param Boolean $addSubmit Add submit button
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    protected function createEditForm($entity) {
+    protected function createEditForm($entity, $addSubmit=true) {
 
         $route = $this->getRouteByAction('update');
 
@@ -117,8 +121,10 @@ abstract class AdminController extends Controller {
             'method' => 'PUT',
         ));
 
-        $form->add('submit', SubmitType::class, array('label' => 'common.update'));
-
+        if($addSubmit){
+            $form->add('submit', SubmitType::class, array('label' => 'common.update'));
+        }
+        
         return $form;
     }
 

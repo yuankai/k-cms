@@ -22,5 +22,9 @@ $(function () {
         lang: 'ch'
     });
     
+    //分类下拉
     $('.ui.category.box .ui.dropdown').dropdown();
+    
+    //标签页
+    $('.menu .item').tab();
 });
