@@ -1,0 +1,33 @@
+{% extends 'MyexpFrontBundle::common.html.twig' %}
+{% block title %}{% if category is defined %}{{ category.title }}{% else %}{{ 'product.all'|trans }}{% endif %} - {{ parent() }}{% endblock %}
+{% block nav %}
+    <section class="widget">
+        <h3 class="title">产品与服务</h3>		
+        <ul>
+            {% for category in category('product') %}
+                <li><a href="{{ front_url(category.defaultPath) }}" class="item">{{ category.title }}</a></li>
+                {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+{% block inner %}
+    <section class="service-list single-col">
+        <ul>
+            {% for entity in pagination %}
+                <li>
+                    {% if entity.productPhotos is not empty %}
+                        <figure>	
+                            <a href="{{ front_url(entity.defaultPath) }}" title="{{ entity.title }}">
+                                <img src="{{ entity.productPhotos[0].url }}" alt="{{ entity.title }}">
+                            </a>
+                        </figure>
+                    {% endif %}
+                    <h3><a href="{{ front_url(entity.defaultPath) }}">{{ entity.title|slice(0, 50) }}</a></h3>
+                    <p>{{ entity.description|striptags|slice(0, 100) }}…</p>
+                    <a href="{{ front_url(entity.defaultPath) }}" class="readmore">More</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {{ knp_pagination_render(pagination) }}
+    </section>
+{% endblock %}

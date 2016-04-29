@@ -1,0 +1,10 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block title %}{{ 'album.new'|trans }} - {{ 'album.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('cms_album') }}">{{ 'album.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'album.new'|trans }}</div>
+{% endblock %}
+{% block content %}
+{{ form(form) }}
+{% endblock %}

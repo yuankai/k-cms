@@ -1,0 +1,22 @@
+{% extends 'MyexpCmsBundle:Chips:finder.html.twig' %}
+{% block title %}{{ 'article.edit'|trans }} - {{ 'article.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('cms_article') }}">{{ 'article.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'article.edit'|trans }}</div>
+{% endblock %}
+{% block content %}
+    {{ form(edit_form) }}
+    <div class="ui horizontal divider"> {{ 'common.or'|trans }} </div>
+    <div class="ui delete form">
+    {{ form(delete_form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function(){
+            initFinder($('.ui.card.article-image-container'));
+        });
+    </script>
+{% endblock %}

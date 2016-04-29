@@ -1,0 +1,11 @@
+<div class="header">{{ 'node.edit'|trans }}</div>
+<div class="content">
+    {{ form_start(edit_form) }}
+    {% include 'MyexpAdminBundle:Node:builder.html.twig' %}
+    {{ form_rest(edit_form) }}
+    {{ form_end(edit_form) }}
+</div>
+<div class="actions">
+    <div class="ui teal approve button">{{ 'common.submit'|trans }}</div>
+    <div class="ui cancel button">{{ 'common.cancle'|trans }}</div>
+</div>

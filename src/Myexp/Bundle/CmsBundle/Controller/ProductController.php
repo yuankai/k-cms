@@ -2,86 +2,191 @@
 
 namespace Myexp\Bundle\CmsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use Myexp\Bundle\CmsBundle\Entity\Product;
+use Myexp\Bundle\CmsBundle\Entity\ProductPhoto;
+use Myexp\Bundle\CmsBundle\Form\ProductType;
 
 /**
  * Product controller.
  *
  * @Route("/product")
  */
-class ProductController extends Controller {
+class ProductController extends CmsController {
 
     /**
-     * Finds and displays a Product entity.
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'Product';
+
+    /**
+     * 主表单类型
      *
-     * @Route("/view-{id}.html", name="product_show", requirements={"id"="\d+"})
+     * @var type 
+     */
+    protected $primaryFormType = ProductType::class;
+
+    /**
+     * Lists all Product entities.
+     *
+     * @Route("/", name="cms_product")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id) {
+    public function indexAction() {
+        $pagination = $this->getPagination();
+
+        return $this->display(array(
+                    'pagination' => $pagination
+        ));
+    }
+
+    /**
+     * Creates a new Product entity.
+     *
+     * @Route("/", name="cms_product_create")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("POST")
+     * @Template("MyexpCmsBundle:Admin/Product:new.html.twig")
+     */
+    public function createAction(Request $request) {
+
+        $entity = new Product();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirectSucceed();
+        }
+
+        return $this->display(array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to create a new Product entity.
+     *
+     * @Route("/new", name="cms_product_new")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("GET")
+     * @Template()
+     */
+    public function newAction() {
+
+        $entity = new Product();
+        $entity->addProductPhoto(new ProductPhoto());
+        $form = $this->createCreateForm($entity);
+
+        return $this->display(array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing Product entity.
+     *
+     * @Route("/{id}/edit", name="cms_product_edit")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("GET|DELETE")
+     * @Template()
+     */
+    public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
+
         $entity = $em->getRepository('MyexpCmsBundle:Product')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
 
-        //当前分类的顶级分类
-        $category = $entity->getCategory()->getTopCategory();
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->display(array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Edits an existing Product entity.
+     *
+     * @Route("/{id}", name="cms_product_update")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("PUT")
+     * @Template("MyexpCmsBundle:Product:edit.html.twig")
+     */
+    public function updateAction(Request $request, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('MyexpCmsBundle:Product')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirectSucceed();
+        }
 
         return array(
             'entity' => $entity,
-            'category' => $category
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-     * Finds and display product entities by category.
+     * Deletes a Product entity.
      *
-     * @Route("/{name}.html", name="product_list")
-     * @Method("GET")
-     * @Template()
+     * @Route("/{id}", name="cms_product_delete")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("DELETE")
      */
-    public function listAction($name) {
+    public function deleteAction(Request $request, $id) {
 
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
 
-        $entity = $em->getRepository('MyexpCmsBundle:Category')->findOneBy(array(
-            'name' => $name
-        ));
+        if ($form->isValid()) {
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('MyexpCmsBundle:Product')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Product entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
         }
 
-        //当前列表的顶级分类
-        $topCategory = $entity->getTopCategory();
-
-        //分页处理
-        $productRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Product');
-        $params = array(
-            'category' => $entity,
-            'isActive' => true
-        );
-        $productTotal = $productRepo->getProductCount($params);
-        $paginator = new Paginator($productTotal);
-        $paginator->setShowLimit(false);
-
-        $sorts = array('p.updateTime' => 'DESC');
-        $entities = $productRepo->getProductsWithPagination(
-                $params, $sorts, $paginator->getOffset(), $paginator->getLimit()
-        );
-
-        return array(
-            'entities' => $entities,
-            'paginator' => $paginator,
-            'category' => $entity,
-            'topCategory' => $topCategory
-        );
+        return $this->redirectSucceed();
     }
 
 }

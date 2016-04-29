@@ -1,0 +1,15 @@
+{% import 'MyexpFinderBundle:Finder:macros.html.twig' as finder %}
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ finder.stylesheets() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ finder.javascripts() }}
+    <script type="text/javascript">
+        $(function(){
+            initFinder($('.ui.card.logo-container'));
+        });
+    </script>
+{% endblock %}

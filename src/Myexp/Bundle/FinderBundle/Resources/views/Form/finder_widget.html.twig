@@ -1,18 +1,24 @@
 {# 文件选择器 #}
 {% block finder_widget %}
-{% spaceless %}
-    <div>
-        <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}"/>
-    </div>
-        <button class="ui button" type="button">新增</button>
-    <script type="text/javascript">
-        {% autoescape true js %}
-        {% endautoescape %}
-    </script>
-    <script type="text/javascript" src="{{ asset('bundles/myexpfinder/elfinder/jquery/jquery-ui.min.css') }}"></script>
-    <script type="text/javascript">
-        {% autoescape true js %}
-        {% endautoescape %}
-    </script>
-{% endspaceless %}
+    {% spaceless %}
+        {% if multiple == false %}
+            <div class="ui card {{ class }}">
+            {% endif %}
+            <div class="blurring dimmable image">
+                <div class="ui dimmer">
+                    <div class="content">
+                        <div class="center">
+                            <div class="ui inverted button">
+                                <i class="add circle icon"></i>{{ 'finder.choose'|trans }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="{% if value is not empty %}{{ value }}{% else %}{{ asset('bundles/myexpfinder/images/image.png') }}{% endif %}">
+            </div>
+            <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}"/>
+            {% if multiple == false %}
+            </div>
+        {% endif %}
+    {% endspaceless %}
 {% endblock %}

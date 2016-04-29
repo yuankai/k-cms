@@ -4,12 +4,13 @@ namespace Myexp\Bundle\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Myexp\Bundle\AdminBundle\Entity\ContentEntity;
 
 /**
  * @ORM\Table(name="articles")
  * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\ArticleRepository")
  */
-class Article {
+class Article extends ContentEntity {
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -19,16 +20,21 @@ class Article {
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Content", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Myexp\Bundle\AdminBundle\Entity\Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $category;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Myexp\Bundle\AdminBundle\Entity\Content", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Photo")
-     * @ORM\JoinTable(name="articles_photos")
+     * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
      */
-    private $photos;
+    private $imageUrl;
 
     /**
      * @var string
@@ -51,6 +57,20 @@ class Article {
     private $publishTime;
 
     /**
+     * @var int
+     * 
+     * @ORM\Column(name="featuredOrder", type="integer", nullable=true)
+     */
+    private $featuredOrder;
+
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="stickOrder", type="integer", nullable=true)
+     */
+    private $stickOrder;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -64,6 +84,28 @@ class Article {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Myexp\Bundle\AdminBundle\Entity\Category $category
+     *
+     * @return Article
+     */
+    public function setCategory(\Myexp\Bundle\AdminBundle\Entity\Category $category = null) {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Myexp\Bundle\AdminBundle\Entity\Category
+     */
+    public function getCategory() {
+        return $this->category;
     }
 
     /**
@@ -131,15 +173,51 @@ class Article {
     public function getPublishTime() {
         return $this->publishTime;
     }
+    
+    /**
+     * 
+     * @param type $featuredOrder
+     */
+    public function setFeaturedOrder($featuredOrder) {
+        $this->featuredOrder = $featuredOrder;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getFeaturedOrder() {
+        return $this->featuredOrder;
+    }
 
+    /**
+     * 
+     * @param type $stickOrder
+     */
+    public function setStickOrder($stickOrder) {
+        $this->stickOrder = $stickOrder;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStickOrder() {
+        return $this->stickOrder;
+    }
+    
     /**
      * Set content
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Content $content
+     * @param \Myexp\Bundle\AdminBundle\Entity\Content $content
      *
      * @return Article
      */
-    public function setContent(\Myexp\Bundle\CmsBundle\Entity\Content $content = null) {
+    public function setContent(\Myexp\Bundle\AdminBundle\Entity\Content $content = null) {
         $this->content = $content;
 
         return $this;
@@ -148,41 +226,32 @@ class Article {
     /**
      * Get content
      *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Content
+     * @return \Myexp\Bundle\AdminBundle\Entity\Content
      */
     public function getContent() {
         return $this->content;
     }
 
     /**
-     * Add photo
+     * Set imageUrl
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Photo $photo
+     * @param string $imageUrl
      *
      * @return Article
      */
-    public function addPhoto(\Myexp\Bundle\CmsBundle\Entity\Photo $photo) {
-        $this->photos[] = $photo;
+    public function setImageUrl($imageUrl = null) {
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
 
     /**
-     * Remove photo
+     * Get imageUrl
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Photo $photo
+     * @return string
      */
-    public function removePhoto(\Myexp\Bundle\CmsBundle\Entity\Photo $photo) {
-        $this->photos->removeElement($photo);
-    }
-
-    /**
-     * Get photos
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPhotos() {
-        return $this->photos;
+    public function getImageUrl() {
+        return $this->imageUrl;
     }
 
 }

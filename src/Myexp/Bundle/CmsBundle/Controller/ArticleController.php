@@ -3,70 +3,211 @@
 namespace Myexp\Bundle\CmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Myexp\Bundle\CmsBundle\Entity\Article;
 use Myexp\Bundle\CmsBundle\Form\ArticleType;
+use Myexp\Bundle\CmsBundle\Form\ArticleFindType;
 
 /**
  * Article controller.
  *
  * @Route("/article")
  */
-class ArticleController extends Controller {
+class ArticleController extends CmsController {
+    
+    /**
+     * 主实体
+     * @var type 
+     */
+    protected $primaryEntity = 'Article';
 
     /**
-     * Lists Article entities.
+     * 主表单类型
      *
-     * @Route("/list/{id}", name="article_list")
+     * @var type 
+     */
+    protected $primaryFormType = ArticleType::class;
+
+    /**
+     * 查找表单类型
+     *
+     * @var type 
+     */
+    protected $findFormType = ArticleFindType::class;
+
+    /**
+     * Lists all Article entities.
+     *
+     * @Route("/", name="cms_article")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
-    public function listAction() {
+    public function indexAction(Request $request) {
 
-        $articleRepo = $this->getDoctrine()->getManager()->getRepository('MyexpCmsBundle:Article');
+        $findForm = $this->createFindForm();
+        $findForm->handleRequest($request);
+        
+        $param = array();
+        if($findForm->isSubmitted()){
+            $param = $findForm->getData();
+        }
+        
+        $pagination = $this->getPagination($param);
 
-        $params = array();
-
-        $articleTotal = $articleRepo->getArticleCount($params);
-
-        $sorts = array('a.createDate' => 'DESC', 'a.id' => 'DESC');
-        $entities = $articleRepo->getArticlesWithPagination(
-                $params, $sorts, 0, 10
-        );
-
-        return array(
-            'entities' => $entities,
-        );
+        return $this->display(array(
+                    'find_form' => $findForm->createView(),
+                    'pagination' => $pagination
+        ));
     }
 
+    /**
+     * Creates a new Article entity.
+     *
+     * @Route("/", name="cms_article_create")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("POST")
+     * @Template("MyexpCmsBundle:Admin/Article:new.html.twig")
+     */
+    public function createAction(Request $request) {
+
+        $entity = new Article();
+
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirectSucceed();
+        }
+
+        return $this->display(array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
 
     /**
-     * Finds and displays a Article entity.
+     * Displays a form to create a new Article entity.
      *
-     * @Route("/show/{id}/{page}", name="article_show", defaults={"page"=1})
+     * @Route("/new", name="cms_article_new")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("POST|GET")
+     * @Template()
+     */
+    public function newAction() {
+
+        $entity = new Article();
+
+        $entity->setPublishTime(new \DateTime());
+
+        $form = $this->createCreateForm($entity);
+
+        return $this->display(array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing Article entity.
+     *
+     * @Route("/{id}/edit", name="cms_article_edit")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id) {
+    public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
+
         $entity = $em->getRepository('MyexpCmsBundle:Article')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
-        //分类
-        $category = $entity->getCategory();
-        $topCategory = $category->getTopCategory();
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity' => $entity,
-            'category' => $category,
-            'topCategory' => $topCategory
-        );
+        return $this->display(array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
     }
+
+    /**
+     * Edits an existing Article entity.
+     *
+     * @Route("/{id}", name="cms_article_update")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("PUT")
+     * @Template("MyexpCmsBundle:Admin/Article:edit.html.twig")
+     */
+    public function updateAction(Request $request, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('MyexpCmsBundle:Article')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Article entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+
+            //保存文章
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirectSucceed();
+        }
+
+        return $this->display(array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a Article entity.
+     *
+     * @Route("/{id}", name="cms_article_delete")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id) {
+
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('MyexpCmsBundle:Article')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Article entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirectSucceed();
+    }
+
 }

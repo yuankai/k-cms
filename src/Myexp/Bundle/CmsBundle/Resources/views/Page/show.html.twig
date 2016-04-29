@@ -1,7 +1,15 @@
-{% extends 'MyexpCmsBundle::common.html.twig' %}
-{% block title %}{{ entity.content.title }} - {{ parent() }}{% endblock %}
-{% block inner %}
+{% extends 'MyexpCmsBundle::main.html.twig' %}
+{% block title %}{{ entity.trans.title }} - {{ category.trans.title }}{{ parent() }}{% endblock %}
+{% block content %}
     <div class="news_content">
-        {{ entity.content.description | raw }}
+        {% if entity.picurl %}
+            <div class="fl" id="bodycontent">
+                <div class="module_cont_right_c page_content">
+                    {{ entity.trans.content | raw }}
+                </div>
+            </div>
+        {% else %}
+            {{ entity.trans.content | raw }}
+        {% endif %}
     </div>
 {% endblock %}

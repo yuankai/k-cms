@@ -1,0 +1,34 @@
+{% extends 'MyexpFrontBundle::common.html.twig' %}
+{% block title %}{{ category.title }} - {{ parent() }}{% endblock %}
+{% block nav %}
+    <section class="widget">
+        {% set topNode = node(nodePath) %}
+        <h3 class="title">{{ topNode.title }}</h3>		
+        <ul>
+            {% for node in node(topNode) %}
+                <li><a href="{{ front_url(node.path) }}" title="{{node.title}}">{{node.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+{% block inner %}
+    <section class="service-list single-col">
+        <ul>
+            {% for entity in pagination %}
+                <li>
+                    {% if entity.imageUrl is not empty %}
+                    <figure>	
+                        <a href="{{ front_url(entity.defaultPath) }}" title="{{ entity.title }}">
+                            <img src="{{ entity.imageUrl }}" alt="{{ entity.title }}">
+                        </a>
+                    </figure>
+                    {% endif %}
+                    <h3><a href="{{ front_url(entity.defaultPath) }}">{{ entity.title|slice(0, 50) }}</a></h3>
+                    <p>{{ entity.description|striptags|slice(0, 50) }}…</p>
+                    <a href="{{ front_url(entity.defaultPath) }}" class="readmore">More</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {{ knp_pagination_render(pagination) }}
+    </section>
+{% endblock %}

@@ -2,14 +2,18 @@
 # http://symfony.com/doc/current/book/security.html
 security:
     encoders:
-        # Our user class and the algorithm we'll use to encode passwords
-        # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
-        Myexp\Bundle\CmsBundle\Entity\User: bcrypt
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        database_users:
-            entity: { class: MyexpCmsBundle:User, property: username }
+        in_memory:
+            memory: ~
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -18,13 +22,18 @@ security:
             security: false
 
         main:
-            # this firewall applies to all URLs
             pattern: ^/
-            
-            # but the firewall does not require login on every page
-            # denying access is done in access_control or in your controllers
-            anonymous: true
-            
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                # if you are using Symfony < 2.8, use the following config instead:
+                # csrf_provider: form.csrf_provider
+                default_target_path: admin_dashboard
+                always_use_default_target_path: true
+                use_referer: true
+
+            logout:       true
+            anonymous:    true
             # activate different ways to authenticate
 
             # http_basic: ~
@@ -32,31 +41,11 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-            form_login:
-                # The route name that the login form submits to
-                check_path: user_check
-                # The name of the route where the login form lives
-                # When the user tries to access a protected page, they are redirected here
-                login_path: user_login
-                # Secure the login form against CSRF
-                # Reference: http://symfony.com/doc/current/cookbook/security/csrf_in_login_form.html
-                csrf_token_generator: security.csrf.token_manager
-                default_target_path: /admin/
-                target_path_parameter: _target_path
-                
-            logout:
-                # The route name the user can go to in order to logout
-                path: user_logout
-                # The name of the route to redirect to after logging out
-                target: homepage
-                
-            remember_me:
-                secret: "%secret%"
-                lifetime: 31536000
-                path: /
-                domain: ~    
-                
+
     access_control:
-        # this is a catch-all for the admin area
-        # additional security lives in the controllers
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: ROLE_SUPER_ADMIN }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/cms, role: ROLE_ADMIN }
+        - { path: ^/finder, role: ROLE_ADMIN }

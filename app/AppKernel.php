@@ -13,22 +13,38 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Myexp\Bundle\CmsBundle\MyexpCmsBundle(),
-            new Myexp\Bundle\EditorBundle\MyexpEditorBundle(),
-            new Myexp\Bundle\FinderBundle\MyexpFinderBundle(),
-            new Myexp\Bundle\AdminBundle\MyexpAdminBundle(),
+            
+            # Third party bundles
+            new FOS\RestBundle\FOSRestBundle(), //rest service bundle
+            new FOS\UserBundle\FOSUserBundle(), //Doctrine User management bundle
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(), //Symfony Assets management bundle
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(), //doctrine migration bundle
+            new Liip\ImagineBundle\LiipImagineBundle(), //image manipulation bundle
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(), //KNP menu bundle
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), //KNP paginator bundle
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(), //Doctrine extension bundle
+            new Vich\UploaderBundle\VichUploaderBundle(), //file uploader bundle
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(), //CK Editor
+            new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(), //breadcrumbs
+            new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(), // adminlte theme
+            
+            # Our bundles
+            new Myexp\Bundle\UserBundle\MyexpUserBundle(), //User management bundle
+            new Myexp\Bundle\AdminBundle\MyexpAdminBundle(), //Admin bundle
+            new Myexp\Bundle\CmsBundle\MyexpCmsBundle(), //Cms bundle
+            new Myexp\Bundle\FinderBundle\MyexpFinderBundle(), //Finder bundle
+            new Myexp\Bundle\FrontBundle\MyexpFrontBundle(), //Front bundle
         ];
 
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(); //doctrine loading data bundle
         }
 
         return $bundles;

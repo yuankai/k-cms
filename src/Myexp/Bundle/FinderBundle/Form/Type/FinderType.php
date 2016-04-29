@@ -23,7 +23,8 @@ class FinderType extends AbstractType {
      * @param array $options
      */
     public function buildView(FormView $view, FormInterface $form, array $options) {
-        $view->vars['options'] = $options['options'];
+        $view->vars['class'] = $options['class'];
+        $view->vars['multiple'] = $options['multiple'];
         parent::buildView($view, $form, $options);
     }
 
@@ -34,7 +35,8 @@ class FinderType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'options' => array()
+            'class' => '',
+            'multiple' => false
         ));
     }
 

@@ -1,0 +1,36 @@
+{% extends 'MyexpFrontBundle::layout.html.twig' %}
+{% block title %}{{ parent() }}{% endblock %}
+{% block content %}
+    <div id="container" class="clearfix">
+        <hgroup class="page-head">  
+            {% set slider = slider('inner-top') %}
+            <ul class="slides">
+                {% for sliderPhoto in slider(slider) %}
+                    <li>
+                        <a href="{{ sliderPhoto.link }}" title="{{ sliderPhoto.title }}" class="img-hover" >
+                            <img src="{{ sliderPhoto.url }}" alt="{{ sliderPhoto.title }}" style="width: {{ slider.width }}px ;height: {{ slider.height }}px;"/>
+                        </a>                                                                                                             
+                    </li>
+                {% endfor %}
+            </ul>
+        </hgroup>
+        <aside id="sidebar">
+            {% block nav %}{% endblock %}
+            <section class="widget">
+                {% set slider = slider('inner-left') %}
+                <ul class="slides">
+                    {% for sliderPhoto in slider(slider) %}
+                        <li>
+                            <a href="{{ sliderPhoto.link }}" title="{{ sliderPhoto.title }}" class="img-hover" >
+                                <img src="{{ sliderPhoto.url }}" alt="{{ sliderPhoto.title }}" style="width: {{ slider.width }}px ;height: {{ slider.height }}px;"/>
+                            </a>                                                                                                             
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </aside>
+        <div id="content">
+        {% block inner %}{% endblock %}			                                   
+        </div>
+    </div>
+{% endblock %}

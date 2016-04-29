@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Myexp\Bundle\AdminBundle\Form\ContentType;
+
 class PageType extends AbstractType {
 
     /**
@@ -18,7 +20,7 @@ class PageType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('content', ContentType::class, array(
-                    'model_name' => 'page'
+                    'content_model' => 'page'
                 ))
         ;
     }

@@ -4,36 +4,37 @@ namespace Myexp\Bundle\CmsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Myexp\Bundle\AdminBundle\Form\Type\ContentCategoryType;
+use Myexp\Bundle\AdminBundle\Form\ContentType;
 
 class AlbumType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('name', 'text', array(
-                    'label' => 'album.name',
-                    'attr' => array('size' => 80)
+                ->add('category', ContentCategoryType::class, array(
+                    'label' => 'content.category',
+                    'content_model' => 'album',
                 ))
-                ->add('title', 'text', array(
-                    'label' => false,
-                    'attr' => array('size' => 80)
+                ->add('content', ContentType::class, array(
+                    'content_model' => 'page'
                 ))
-                ->add('sortOrder', 'integer', array(
-                    'label' => 'album.order',
+                ->add('featuredOrder', IntegerType::class, array(
                     'required' => false,
-                    'attr' => array('class' => 'number')
+                    'label' => 'album.featured_order'
+                ))
+                ->add('stickOrder', IntegerType::class, array(
+                    'required' => false,
+                    'label' => 'album.stick_order'
                 ))
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Album'
         ));
-    }
-
-    public function getName() {
-        return 'myexp_bundle_cmsbundle_album';
     }
 
 }

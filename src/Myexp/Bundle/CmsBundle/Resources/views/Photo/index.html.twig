@@ -23,7 +23,7 @@
                     <td class="id"><input type="checkbox" name="ids[]" value="{{ entity.id }}" /></td>
                     <td>{{ entity.trans.content }}</td>
                     <td>
-                        <img src="{{ asset(entity.picurl|picurl)| imagine_filter('123x82') }}" title="{{ entity.trans.content }}" />
+                        <img src="{{ asset(entity.picurl) }}" title="{{ entity.trans.content }}" />
                     </td>
                     <td>{{ entity.createTime|date('Y-m-d H:i') }}</td>
                     <td>{{ entity.updateTime|date('Y-m-d H:i') }}</td>

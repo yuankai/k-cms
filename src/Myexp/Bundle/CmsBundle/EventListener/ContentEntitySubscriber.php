@@ -2,6 +2,7 @@
 
 namespace Myexp\Bundle\CmsBundle\EventListener;
 
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -135,11 +136,11 @@ class ContentEntitySubscriber implements EventSubscriber {
         $urlAlias = $entity->getUrlAlias();
 
         if (null !== $urlAlias) {
-            
+
             $path = $urlAlias->getPath();
             $showPath = str_replace('{id}', $entity->getId(), $path);
             $urlAlias->setPath($showPath);
-            
+
             $entityManager->persist($urlAlias);
             $entityManager->flush();
         }

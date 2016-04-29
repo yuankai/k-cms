@@ -1,0 +1,33 @@
+{% extends 'MyexpAdminBundle:Chips:finder.html.twig' %}
+{% block title %}{{ 'product.new'|trans }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('cms_product') }}">{{ 'product.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'product.new'|trans }}</div>
+{% endblock %}
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_row(form.category) }}
+    {{ form_widget(form.content) }}
+    {{ form_row(form.featuredOrder) }}
+    {{ form_row(form.stickOrder) }}
+    <div class="photo field" data-prototype="{{ form_widget(form.productPhotos.vars.prototype)|e }}">
+        <label>{{ 'product.photos'|trans }}</label>
+        <div class="ui cards">
+            {% for productPhoto in form.productPhotos %}
+                {{ form_widget(productPhoto) }}
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        {{ form_widget(form.submit) }}
+        <button type="button" class="ui small labeled icon add button">
+            <i class="add icon"></i> {{ 'product.photo.add'|trans }}
+        </button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/photos.js') }}"></script>
+{% endblock %}

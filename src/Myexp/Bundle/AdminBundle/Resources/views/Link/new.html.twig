@@ -1,0 +1,18 @@
+{% extends 'MyexpAdminBundle:Chips:finder.html.twig' %}
+{% block title %}{{ 'link.new'|trans }} - {{ 'link.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('admin_link') }}">{{ 'link.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'link.new'|trans }}</div>
+{% endblock %}
+{% block content %}
+    {{ form(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function(){
+            initFinder($('.ui.card.logo-container'));
+        });
+    </script>
+{% endblock %}

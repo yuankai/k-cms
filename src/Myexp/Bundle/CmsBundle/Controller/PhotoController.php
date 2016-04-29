@@ -11,7 +11,6 @@ use Myexp\Bundle\CmsBundle\Entity\Photo;
 use Myexp\Bundle\CmsBundle\Entity\PhotoTranslation;
 use Myexp\Bundle\CmsBundle\Form\PhotoType;
 use Myexp\Bundle\CmsBundle\Helper\Paginator;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Photo controller.

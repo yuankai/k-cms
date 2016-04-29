@@ -1,0 +1,28 @@
+{% extends 'MyexpFrontBundle::common.html.twig' %}
+{% block title %}{{ 'search.result'|trans }}{{ parent() }}{% endblock %}
+{% block nav %}
+    <section class="widget">
+        <h3 class="title">{{ 'search.content_model'|trans }}</h3>		
+        <ul>
+            {% for contentModel in contentModels %}
+              <li>
+                  <a href="{{ path('search') }}?k={{ app.request.get('k') }}&c={{ contentModel.id }}" title="{{contentModel.title}}">{{contentModel.title}}</a>
+              </li>
+          {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+{% block inner %}
+    <section class="service-list single-col">
+            <ul>
+                {% for entity in pagination %}
+                <li>
+                    <h3><a href="{{ front_url(entity.defaultPath) }}">{{ entity.title|slice(0, 50) }}</a></h3>
+                    <p>{{ entity.description|striptags|slice(0, 50) }}…</p>
+                    <a href="{{ front_url(entity.defaultPath) }}" class="readmore">More</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {{ knp_pagination_render(pagination) }}
+    </section>
+{% endblock %}

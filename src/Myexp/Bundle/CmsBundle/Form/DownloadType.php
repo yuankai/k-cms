@@ -3,13 +3,13 @@
 namespace Myexp\Bundle\CmsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Myexp\Bundle\AdminBundle\Form\Type\ContentCategoryType;
+use Myexp\Bundle\AdminBundle\Form\ContentType;
 
 class DownloadType extends AbstractType {
 
@@ -19,28 +19,25 @@ class DownloadType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('title', TextType::class, array(
-                    'label' => 'download.title',
-                    'required' => true
+                ->add('category', ContentCategoryType::class, array(
+                    'label' => 'content.category',
+                    'content_model' => 'download',
                 ))
-                ->add('file', FileType::class, array(
-                    'label' => 'download.url', 
-                    'required' => false
-                 ))
-                ->add('category', EntityType::class, array(
-                    'label' => 'download.category',
-                    'class' => 'MyexpCmsBundle:Category',
-                    'choice_label' => 'title',
-                    'required' => true
+                 ->add('content', ContentType::class, array(
+                    'content_model' => 'download'
                 ))
                 ->add('publishTime', DateTimeType::class, array(
                     'label' => 'download.publish_time',
                     'required' => false,
                     'widget' => 'single_text'
                 ))
-                ->add('isActive', CheckboxType::class, array(
-                    'label' => 'download.is_active',
-                    'required' => false
+                 ->add('featuredOrder', IntegerType::class, array(
+                     'required' => false,
+                    'label' => 'download.featured_order'
+                ))
+                ->add('stickOrder', IntegerType::class, array(
+                    'required' => false,
+                    'label' => 'download.stick_order'
                 ))
         ;
     }

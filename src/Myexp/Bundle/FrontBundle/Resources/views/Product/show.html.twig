@@ -1,0 +1,25 @@
+{% extends 'MyexpFrontBundle::common.html.twig' %}
+{% block title %}{{ entity.content.title }} - {{ parent() }}{% endblock %}
+{% block nav %}
+    <section class="widget">
+        <h3 class="title">产品与服务</h3>		
+        <ul>
+            {% for category in category('product') %}
+                <li><a href="{{ front_url(category.defaultPath) }}" class="item">{{ category.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+{% block inner %}
+    <div class="news_content">
+        <h1>{{ entity.content.title }}</h1>
+        <div>
+            {% for photo in entity.productPhotos %}
+                <img src="{{ photo.url }}"/>
+            {% endfor %}
+        </div>
+        <div class="news_content_p">
+            {{ entity.description | raw }}
+        </div>
+    </div>
+{% endblock %}

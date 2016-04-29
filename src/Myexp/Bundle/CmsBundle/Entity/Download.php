@@ -3,70 +3,60 @@
 namespace Myexp\Bundle\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Myexp\Bundle\CmsBundle\Helper\Upload;
+use Myexp\Bundle\AdminBundle\Entity\ContentEntity;
 
 /**
  * Download
  *
  * @ORM\Table(name="downloads")
  * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\DownloadRepository")
- * @ORM\HasLifecycleCallbacks
  */
-class Download {
+class Download extends ContentEntity {
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="Myexp\Bundle\AdminBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $category;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Myexp\Bundle\AdminBundle\Entity\Content", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private $title;
+    private $content;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     * @ORM\Column(name="publish_time", type="datetime", nullable=false)
      */
-    private $url;
+    private $publishTime;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_active", type="boolean", nullable=true)
+     * @ORM\Column(name="is_direct_download", type="boolean", nullable=true)
      */
-    private $isActive;
+    private $isDirectDownload;
 
     /**
-     * @ORM\Column(name="publish_time", type="datetime", nullable=false)
-     * @Assert\NotBlank()
+     * @var int
+     * 
+     * @ORM\Column(name="featuredOrder", type="integer", nullable=true)
      */
-    private $publishTime;
-    
-    /**
-     * @Assert\File()
-     */
-    private $file;
+    private $featuredOrder;
 
     /**
-     * @var string
+     * @var int
+     * 
+     * @ORM\Column(name="stickOrder", type="integer", nullable=true)
      */
-    private $temp;
+    private $stickOrder;
 
     /**
      * Get id
@@ -80,10 +70,11 @@ class Download {
     /**
      * Set category
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Category $category
+     * @param \Myexp\Bundle\AdminBundle\Entity\Category $category
+     *
      * @return Download
      */
-    public function setCategory(\Myexp\Bundle\CmsBundle\Entity\Category $category = null) {
+    public function setCategory(\Myexp\Bundle\AdminBundle\Entity\Category $category = null) {
         $this->category = $category;
 
         return $this;
@@ -92,31 +83,32 @@ class Download {
     /**
      * Get category
      *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Category
+     * @return \Myexp\Bundle\AdminBundle\Entity\Category
      */
     public function getCategory() {
         return $this->category;
     }
 
     /**
-     * Set title
+     * Set content
      *
-     * @param string $title
-     * @return Download
+     * @param \Myexp\Bundle\AdminBundle\Entity\Content $content
+     *
+     * @return Article
      */
-    public function setTitle($title) {
-        $this->title = $title;
+    public function setContent(\Myexp\Bundle\AdminBundle\Entity\Content $content = null) {
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get content
      *
-     * @return string 
+     * @return \Myexp\Bundle\AdminBundle\Entity\Content
      */
-    public function getTitle() {
-        return $this->title;
+    public function getContent() {
+        return $this->content;
     }
 
     /**
@@ -162,90 +154,61 @@ class Download {
     }
 
     /**
-     * Set isActive
+     * Set isDirectDownload
      *
-     * @param boolean $isActive
-     * @return Download
+     * @param boolean $isDirectDownload
+     *
+     * @return Node
      */
-    public function setIsActive($isActive) {
-        $this->isActive = $isActive;
+    public function setIsDirectDownload($isDirectDownload) {
+        $this->isDirectDownload = $isDirectDownload;
 
         return $this;
     }
 
     /**
-     * Get isActive
+     * Get isDirectDownload
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getIsActive() {
-        return $this->isActive;
-    }
-    
-     /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setFile(UploadedFile $file = null) {
-
-        $this->file = $file;
-
-        if (isset($this->url)) {
-            $this->temp = $this->url;
-        }
-        $this->url = null;
+    public function getIsDirectDownload() {
+        return $this->isDirectDownload;
     }
 
     /**
-     * Get file.
-     *
-     * @return UploadedFile
+     * 
+     * @param type $featuredOrder
      */
-    public function getFile() {
-        return $this->file;
+    public function setFeaturedOrder($featuredOrder) {
+        $this->featuredOrder = $featuredOrder;
+
+        return $this;
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * 
+     * @return type
      */
-    public function preUpload() {
-
-        if (null !== $this->getFile()) {
-
-            $filename = Upload:: genFileName();
-            $this->url = $filename . '.' . $this->getFile()->guessExtension();
-        }
+    public function getFeaturedOrder() {
+        return $this->featuredOrder;
     }
 
     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * 
+     * @param type $stickOrder
      */
-    public function upload() {
-        if (null !== $this->getFile()) {
-            $this->getFile()->move
-                    (Upload::getDownloadPath($this->url), $this->url);
-            
-            if (isset($this->temp)) {
-                @unlink(Upload::getDownloadPath($this->temp) . $this->temp);
-                $this->temp = null;
-            }
+    public function setStickOrder($stickOrder) {
+        $this->stickOrder = $stickOrder;
 
-            $this->file = null;
-        }
+        return $this;
     }
 
     /**
-     * @ORM\PostRemove()
+     * 
+     * @return type
      */
-    public function removeUpload() {
-
-        $file = Upload::getDownloadPath($this->url) . $this->url;
-        if (file_exists($file)) {
-            @unlink($file);
-        }
+    public function getStickOrder() {
+        return $this->stickOrder;
     }
 
 }

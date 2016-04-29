@@ -1,0 +1,46 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/myexpadmin/jstree/themes/default/style.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block title %}{{ 'category.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <div class="active section">{{ 'category.manage'|trans }}</div>
+{% endblock %}
+{% block content %}
+    <div class="ui top attached tabular menu">
+        {% for contentModel in contentModels %}
+            <a class="{% if contentModelId == contentModel.id %}active {% endif %}item" href="{{ path('admin_category',{'contentModelId':contentModel.id}) }}">{{ contentModel.title }}</a>
+        {% endfor %}
+    </div>
+    <div class="ui bottom attached active tab segment">
+        <div id="jstree_category_div">
+            <ul>
+                <li>{{ 'category.root_node'|trans }}
+                    {% import 'MyexpAdminBundle:Chips:macros.html.twig' as tree %}
+                    {% if topCategories is not empty %}
+                        <ul>
+                            {% for category in topCategories %}
+                                <li dbid="{{ category.id }}">{{ category.title }}{{ tree.treeView(category) }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="ui modal"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/jstree/jstree.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/jquery.form.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/category.js') }}"></script>
+    <script type="text/javascript">
+        // 参数及路径
+        var contentModelId = {{ contentModelId }};
+        var createUrl = '{{ path('admin_category_create') }}';
+        var deleteUrl = '{{ path('admin_category_delete') }}';
+        var moveUrl = '{{ path('admin_category_move') }}';
+    </script>
+{% endblock %}

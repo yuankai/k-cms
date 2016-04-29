@@ -1,0 +1,55 @@
+{# 递归生成分类的树状结构 #}
+{% macro categoryTreeView(category, depth) %}
+    {% import _self as tree %}
+    {% if category.children is not empty %}
+        {% for tmp in category.children %}
+            {% if tmp.children is not empty %}
+                {% set style="folder open icon" %}
+            {% else %}
+                {% set style="file icon" %}
+            {% endif %}
+            <div class="level-{{ depth }} item" data-value="{{ tmp.defaultPath }}|{{ tmp.title }}">
+                <i class="{{ style }}"></i>
+                {{ tmp.title }}
+            </div>
+            {{ tree.categoryTreeView(tmp, depth+1) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{# 根据节点类型生成选择项 #}
+<label>{{ 'node.value'|trans }}</label>
+<div class="ui fluid selection dropdown">
+    <input type="hidden" id="node_value" value="" />
+    <i class="dropdown icon"></i>
+    <div class="default text">{{ 'common.select'|trans }}</div>
+    <div class="menu">
+        {% if nodeType == 'content_category' %}
+            {% import _self as tree %}
+            {% if categories is not empty %}
+                {% for category in categories %}
+                    {% if category.children is not empty %}
+                        {% set style="folder open icon" %}
+                    {% else %}
+                        {% set style="file icon" %}
+                    {% endif %}
+                    <div class="level-0 item" data-value="{{ category.id }}">
+                        <i class="{{ style }}"></i>
+                        {{ category.title }}
+                    </div>
+                    {{ tree.categoryTreeView(category, 1) }}
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            {% if contents is not empty %}
+                {% for content in contents %}
+                    {% set style="file icon" %}
+                    <div class="level-0 item" data-value="{{ content.id }}">
+                        <i class="{{ style }}"></i>
+                        {{ content.title }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

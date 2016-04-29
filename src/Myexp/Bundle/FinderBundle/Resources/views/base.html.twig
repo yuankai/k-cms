@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript">
+                var base_url = '{{ app.request.getBaseURL() }}';
+            </script>
+            <script type="text/javascript" src="{{ asset('bundles/myexpfinder/js/jquery.min.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

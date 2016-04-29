@@ -3,12 +3,13 @@
 namespace Myexp\Bundle\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Myexp\Bundle\AdminBundle\Entity\ContentEntity;
 
 /**
  * @ORM\Table(name="pages")
  * @ORM\Entity(repositoryClass="Myexp\Bundle\CmsBundle\Repository\PageRepository")
  */
-class Page {
+class Page extends ContentEntity {
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -18,7 +19,7 @@ class Page {
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Content", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Myexp\Bundle\AdminBundle\Entity\Content", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $content;
@@ -35,11 +36,11 @@ class Page {
     /**
      * Set content
      *
-     * @param \Myexp\Bundle\CmsBundle\Entity\Content $content
+     * @param \Myexp\Bundle\AdminBundle\Entity\Content $content
      *
-     * @return Article
+     * @return Page
      */
-    public function setContent(\Myexp\Bundle\CmsBundle\Entity\Content $content = null) {
+    public function setContent(\Myexp\Bundle\AdminBundle\Entity\Content $content = null) {
         $this->content = $content;
 
         return $this;
@@ -48,7 +49,7 @@ class Page {
     /**
      * Get content
      *
-     * @return \Myexp\Bundle\CmsBundle\Entity\Content
+     * @return \Myexp\Bundle\AdminBundle\Entity\Content
      */
     public function getContent() {
         return $this->content;

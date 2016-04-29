@@ -1,0 +1,55 @@
+{% if pageCount > 1 %}
+    <div class="ui right floated pagination menu">
+    {% if previous is defined %}
+        <a class="icon item" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">
+            <i class="left chevron icon"></i>
+        </a>
+    {% else %}
+        <a class="icon disabled item">
+            <i class="left chevron icon"></i>
+        </a>
+    {% endif %}
+
+    {% if startPage > 1 %}
+        <a class="item" href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a>
+        {% if startPage == 3 %}
+            <a class="item" href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a>
+        {% elseif startPage != 2 %}
+            <a class="item disabled">
+                <i>&hellip;</i>
+            </a>
+        {% endif %}
+    {% endif %}
+
+    {% for page in pagesInRange %}
+        {% if page != current %}
+            <a class="item" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+        {% else %}
+            <a class="item disabled">{{ page }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if pageCount > endPage %}
+        {% if pageCount > (endPage + 1) %}
+            {% if pageCount > (endPage + 2) %}
+                <a class="item disabled">
+                    <i>&hellip;</i>
+                </a>
+            {% else %}
+                <a class="item" href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
+            {% endif %}
+        {% endif %}
+        <a class="item" href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
+    {% endif %}
+    
+    {% if next is defined %}
+        <a class="icon item" href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+            <i class="right chevron icon"></i>
+        </a>
+    {% else %}
+        <a class="icon disabled item">
+            <i class="right chevron icon"></i>
+        </a>
+    {% endif %}
+    </div>
+{% endif %}
