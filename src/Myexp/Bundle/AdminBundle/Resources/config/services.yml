@@ -1,0 +1,71 @@
+services:
+    
+    # 菜单监听器
+    myexp_admin.menu_listener:
+        class: Myexp\Bundle\AdminBundle\EventListener\SidebarListener
+        tags:
+            - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }
+            - { name: kernel.event_listener, event:theme.breadcrumb, method:onSetupMenu }
+            
+    # 控制器监听器，用于执行前置操作
+    myexp_admin.listener.controller_listener:
+        class: 'Myexp\Bundle\AdminBundle\EventListener\ControllerListener'
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            
+    # URL别名实体监听器
+    myexp_admin.listener.urlalias_entity_subscriber:
+        class: 'Myexp\Bundle\AdminBundle\EventListener\UrlAliasEntitySubscriber'
+        arguments: ['@router', '@filesystem', %kernel.cache_dir%]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+            
+    # 注册实体ID转换表单类型
+    myexp_admin.form.entity_id_type:
+        class: 'Myexp\Bundle\AdminBundle\Form\Type\EntityIdType'
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: entity_id }
+    
+    # 内容类型
+    myexp_admin.form.content_type:
+        class: Myexp\Bundle\AdminBundle\Form\ContentType
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+        tags:
+            - { name: form.type, alias: content}
+    
+     # 内容查找类型
+    myexp_admin.form.content_find_type:
+        class: Myexp\Bundle\AdminBundle\Form\ContentFindType
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+        tags:
+            - { name: form.type, alias: content_find}
+            
+    # 内容分类选择器,用于其他
+    myexp_admin.form.content_category_type:
+        class: Myexp\Bundle\AdminBundle\Form\Type\ContentCategoryType
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+        tags:
+            - { name: form.type, alias: content_category}
+            
+    # 分类类型
+    myexp_admin.form.category_type:
+        class: Myexp\Bundle\AdminBundle\Form\CategoryType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: category}
+            
+    # 内容实体监听器
+    myexp_admin.listener.content_entity_subscriber:
+        class: 'Myexp\Bundle\AdminBundle\EventListener\ContentEntitySubscriber'
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+            
+        # 分类实体监听器
+    myexp_admin.listener.category_entity_subscriber:
+        class: 'Myexp\Bundle\AdminBundle\EventListener\CategoryEntitySubscriber'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+            
+    

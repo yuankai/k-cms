@@ -1,0 +1,54 @@
+{# 分类选择器 #}
+{%- block content_category_widget -%}
+<div class="ui category box">
+    <div class="ui fluid selection dropdown">
+        <input type="hidden" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+        <i class="dropdown icon"></i>
+        <div class="default text">{{ 'category.choose'|trans }}</div>
+        <div class="menu">
+            {% import 'MyexpAdminBundle:Chips:macros.html.twig' as tree %}
+            {% if categories is not empty %}
+                {% for category in categories %}
+                    {% if category.children is not empty %}
+                        {% set style="folder open icon" %}
+                    {% else %}
+                        {% set style="file icon" %}
+                    {% endif %}
+                    <div class="level-0 item" data-value="{{ category.id }}">
+                        <i class="{{ style }}"></i>
+                        {{ category.title }}
+                    </div>
+                    {{ tree.categoryTreeView(category, 1) }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{%- endblock content_category_widget -%}
+
+{# 内容查找 #}
+{%- block content_find_widget -%}
+    {{ form_row(form.title) }}
+    {{ form_row(form.keywords) }}
+    {% if form.category is defined %}
+        {{ form_row(form.category) }}
+    {% endif %}
+    {{ form_row(form.contentStatus) }}
+{%- endblock content_find_widget -%}
+
+{# 幻灯片照片 #}
+{%- block slider_photo_widget -%}
+     <div class="ui card">
+        {{ form_widget(form.url) }}
+        <div class="content">
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.link) }}
+        {{ form_row(form.sequenceId) }}
+        {{ form_row(form.isActive) }}
+        </div>
+        <div class="ui bottom attached delete button">
+            <i class="minus icon"></i> {{ 'slider.photo.delete'|trans }}
+        </div>
+    </div>
+{%- endblock slider_photo_widget -%}

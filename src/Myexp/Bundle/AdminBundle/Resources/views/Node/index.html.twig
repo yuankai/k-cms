@@ -1,0 +1,32 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/myexpadmin/jstree/themes/default/style.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block title %}{{ 'node.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <div class="active section">{{ 'node.manage'|trans }}</div>
+{% endblock %}
+{% block content %}
+    <div id="jstree_node_div">
+        <ul>
+            <li>{{ currentWebsite.name }}
+                {% import 'MyexpAdminBundle:Chips:macros.html.twig' as tree %}
+                {% if topNodes is not empty %}
+                    <ul>
+                        {% for node in topNodes %}
+                            <li dbid="{{ node.id }}">{{ node.title }}{{ tree.treeView(node) }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    <div class="ui modal"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/jstree/jstree.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/jquery.form.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/node.js') }}"></script>
+{% endblock %}

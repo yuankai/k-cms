@@ -1,0 +1,22 @@
+services:
+    
+    # URL别名加载器
+    myexp_front.routing.rewrite_loader:
+        class: 'Myexp\Bundle\FrontBundle\Routing\RewriteLoader'
+        arguments: ['@doctrine', %myexp_front.url_rewrite%]
+        tags:
+            - { name: routing.loader }
+
+    # 模板扩展
+    myexp_front.twig.extension.front:
+        class: Myexp\Bundle\FrontBundle\Twig\FrontExtension
+        arguments: ['@doctrine', '@router', %myexp_front.url_rewrite%]
+        tags:
+            - { name: twig.extension }
+            
+    # 本地化监听器，用于设置全局locale
+    myexp_front.listener.locale_listener:
+        class: 'Myexp\Bundle\FrontBundle\EventListener\LocaleListener'
+        arguments: [%myexp_front.enabled_locales%, %locale%]
+        tags:
+            - { name: kernel.event_subscriber}

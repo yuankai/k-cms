@@ -1,0 +1,8 @@
+services:
+    
+    # 菜单监听器
+    myexp_cms.menu_listener:
+        class: Myexp\Bundle\CmsBundle\EventListener\SidebarListener
+        tags:
+            - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }
+            - { name: kernel.event_listener, event:theme.breadcrumb, method:onSetupMenu }

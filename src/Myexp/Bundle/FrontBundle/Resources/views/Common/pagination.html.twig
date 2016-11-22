@@ -1,0 +1,37 @@
+{% if pageCount > 1 %}
+    <div id="pagination">
+
+    {% if startPage > 1 %}
+        <a class="readmore" href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a>
+        {% if startPage == 3 %}
+            <a class="readmore" href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a>
+        {% elseif startPage != 2 %}
+            <a class="readmore disabled">
+                <i>&hellip;</i>
+            </a>
+        {% endif %}
+    {% endif %}
+
+    {% for page in pagesInRange %}
+        {% if page != current %}
+            <a class="readmore" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+        {% else %}
+            <a class="readmore disabled">{{ page }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if pageCount > endPage %}
+        {% if pageCount > (endPage + 1) %}
+            {% if pageCount > (endPage + 2) %}
+                <a class="readmore disabled">
+                    <i>&hellip;</i>
+                </a>
+            {% else %}
+                <a class="readmore" href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
+            {% endif %}
+        {% endif %}
+        <a class="readmore" href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
+    {% endif %}
+    
+    </div>
+{% endif %}

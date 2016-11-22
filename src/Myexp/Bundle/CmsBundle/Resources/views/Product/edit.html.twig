@@ -1,0 +1,37 @@
+{% extends 'MyexpCmsBundle:Chips:finder.html.twig' %}
+{% block title %}{{ 'product.edit'|trans }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('cms_page') }}">{{ 'product.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'product.edit'|trans }}</div>
+{% endblock %}
+{% block content %}
+    {{ form_start(edit_form) }}
+    {{ form_row(edit_form.category) }}
+    {{ form_widget(edit_form.content) }}
+    {{ form_row(edit_form.featuredOrder) }}
+    {{ form_row(edit_form.stickOrder) }}
+    <div class="photo field" data-prototype="{{ form_widget(edit_form.productPhotos.vars.prototype)|e }}">
+        <label>{{ 'product.photos'|trans }}</label>
+        <div class="ui cards">
+            {% for productPhoto in edit_form.productPhotos %}
+                {{ form_widget(productPhoto) }}
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        {{ form_widget(edit_form.submit) }}
+        <button type="button" class="ui small labeled icon add button">
+            <i class="add icon"></i> {{ 'product.photo.add'|trans }}
+        </button>
+    </div>
+    {{ form_end(edit_form) }}
+    <div class="ui horizontal divider"> {{ 'common.or'|trans }} </div>
+    <div class="ui delete form">
+    {{ form(delete_form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/photos.js') }}"></script>
+{% endblock %}

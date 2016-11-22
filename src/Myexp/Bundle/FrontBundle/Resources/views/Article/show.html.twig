@@ -1,0 +1,26 @@
+{% extends 'MyexpFrontBundle::common.html.twig' %}
+{% block title %}{{ entity.content.title }} - {{ parent() }}{% endblock %}
+{% block nav %}
+    <section class="widget">
+        {% set topNode = node(nodePath) %}
+        <h3 class="title">{{ topNode.title }}</h3>		
+        <ul>
+            {% for node in node(topNode) %}
+              <li><a href="{{ node.path }}" title="{{node.title}}">{{node.title}}</a></li>
+          {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+{% block inner %}
+    <div class="news_content">
+        <h3>{{ entity.title }}</h3>
+        <div class="news_content_h2">
+            <span>{{ 'article.publish_time'|trans }}：{{ entity.publishTime|date('Y-m-d') }} </span>&nbsp; &nbsp;&nbsp;&nbsp;
+            <span>{{ 'article.source'|trans }}：{{ entity.source}}  </span>  &nbsp; &nbsp;&nbsp;&nbsp;
+            <span>{{ 'article.author'|trans }}：{{ entity.author}} </span> 
+        </div> 
+        <div class="news_content_p">
+            {{ entity.description | raw }}
+        </div>
+    </div>
+{% endblock %}

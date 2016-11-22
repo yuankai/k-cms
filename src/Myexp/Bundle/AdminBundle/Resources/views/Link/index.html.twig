@@ -1,0 +1,54 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block title %}{{ 'link.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <div class="active section">{{ 'link.manage'|trans }}</div>
+{% endblock %}
+{% block content %}
+    <table class="ui green table">
+        <thead>
+            <tr>
+                <th class="id">{{ 'link.id'|trans }}</th>
+                <th>{{ 'link.title'|trans }}</th>
+                <th>{{ 'link.url'|trans }}</th>
+                <th>{{ 'link.sequence_id'|trans }}</th>
+                <th class="actions">{{ 'common.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+                <tr>
+                    <td>
+                        {{ entity.id }}
+                        <input type="hidden" name="ids[]" value="{{ entity.id }}" />
+                    </td>
+                    <td>{{ entity.title }}</td>
+                    <td>{{ entity.url }}</td>
+                    <td>{{ entity.sequenceId }}</td>
+                    <td>
+                        <div class="ui icon buttons">
+                            <a class="ui button" href="{{ path('admin_link_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                                <i class="edit icon"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="8">
+                    <button class="ui left small olive button">
+                        {{ 'common.approve'|trans }}
+                    </button>
+                    <button class="ui left small red button">
+                        {{ 'common.deny'|trans }}
+                    </button>
+                    <a class="ui left small teal labeled icon button" href="{{ path('admin_link_new') }}">
+                        <i class="archive icon"></i> {{ 'link.new'|trans }}
+                    </a>
+                    {{ knp_pagination_render(pagination) }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

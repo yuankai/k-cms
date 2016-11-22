@@ -1,0 +1,78 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block title %}{{ 'article.list'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <div class="active section">{{ 'article.manage'|trans }}</div>
+{% endblock %}
+{% block content %}
+    
+    <div class="ui segment">
+        {{ form_start(find_form) }}
+        <div class="inline fields">
+            {{ form_widget(find_form.content) }}
+        </div>
+        <div class="inline fields">
+            {{ form_rest(find_form) }}
+        </div>
+        {{ form_end(find_form) }}
+    </div>
+    
+    <table class="ui green table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" class="ui checkbox" onclick="check_all(this, 'ids');" title="{{ 'common.select'|trans }}" />
+                </th>
+                <th>{{ 'article.title'|trans }}</th>
+                <th>{{ 'article.category'|trans }}</th>
+                <th>{{ 'article.create_time'|trans }}</th>
+                <th>{{ 'article.update_time'|trans }}</th>
+                <th>{{ 'article.author'|trans }}</th>
+                <th>{{ 'article.source'|trans }}</th>
+                <th>{{ 'article.status'|trans }}</th>
+                <th>{{ 'common.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="id">
+                    <input type="checkbox" class="ui checkbox" name="ids[]" value="{{ entity.id }}" />
+                </td>
+                <td>{{ entity.content.title }}</td>
+                <td>{{ entity.category.title }}</td>
+                <td>{{ entity.content.createTime|date('Y-m-d H:i') }}</td>
+                <td>{{ entity.content.updateTime|date('Y-m-d H:i') }}</td>
+                <td>{{ entity.author }}</td>
+                <td>{{ entity.source }}</td>
+                <td>{{ entity.content.contentStatus.title }}</td>
+                <td>
+                    <div class="ui icon buttons">
+                        <a class="ui button" href="{{ path('article_show', { 'id': entity.content.id }) }}"  title="{{ 'common.view'|trans }}" target="_blank">
+                            <i class="external icon"></i>
+                        </a>
+                        <a class="ui button" href="{{ path('cms_article_edit', { 'id': entity.id }) }}" title="{{ 'common.edit'|trans }}">
+                            <i class="edit icon"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="9">
+                    <button class="ui left small olive button">
+                        {{ 'common.approve'|trans }}
+                    </button>
+                    <button class="ui left small red button">
+                        {{ 'common.deny'|trans }}
+                    </button>
+                    <a class="ui left small teal labeled icon button" href="{{ path('cms_article_new') }}">
+                        <i class="archive icon"></i> {{ 'article.new'|trans }}
+                    </a>
+                    {{ knp_pagination_render(pagination) }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>   
+{% endblock %}

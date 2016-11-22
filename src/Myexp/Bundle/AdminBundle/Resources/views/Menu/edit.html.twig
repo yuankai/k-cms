@@ -1,0 +1,53 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/myexpadmin/jstree/themes/default/style.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block title %}{{ 'menu.edit'|trans }} - {{ 'menu.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <li><a class="section" href="{{ path('admin_menu') }}">{{ 'menu.manage'|trans }}</a></li>
+    <li class="active">{{ 'menu.edit'|trans }}</li>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+        <div class="col-xs-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">{{ 'menu.info'|trans }}</a></li>
+              <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">{{ 'menu.items'|trans }}</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+               {{ form(edit_form) }}
+        <div class="ui horizontal divider"> {{ 'common.or'|trans }} </div>
+        <div class="ui delete form">
+        {{ form(delete_form) }}
+        </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                {% include 'MyexpAdminBundle:MenuItem:index.html.twig' %}
+              </div>
+              <!-- /.tab-pane -->
+            
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+
+      </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var menuId = {{ entity.id }};
+    </script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/jstree/jstree.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/jquery.form.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/menu.js') }}"></script>
+{% endblock %}

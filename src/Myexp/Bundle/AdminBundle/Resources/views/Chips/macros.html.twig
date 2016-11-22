@@ -1,0 +1,30 @@
+{# 树状显示 #}
+{% macro treeView(node) %}
+    {% import _self as tree %}
+    {% if node.children is not empty %}
+        <ul>
+            {% for tmp in node.children %}
+                <li dbid="{{ tmp.id }}">{{ tmp.title }}{{ tree.treeView(tmp) }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{# 递归生成分类的树状结构 #}
+{% macro categoryTreeView(category, depth) %}
+    {% import _self as tree %}
+    {% if category.children is not empty %}
+        {% for tmp in category.children %}
+            {% if tmp.children is not empty %}
+                {% set style="folder open icon" %}
+            {% else %}
+                {% set style="file icon" %}
+            {% endif %}
+            <div class="level-{{ depth }} item" data-value="{{ tmp.id }}">
+                <i class="{{ style }}"></i>
+                {{ tmp.title }}
+            </div>
+            {{ tree.categoryTreeView(tmp, depth+1) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,39 @@
+{% extends 'MyexpAdminBundle:Chips:finder.html.twig' %}
+{% block title %}{{ 'slider.new'|trans }} - {{ 'slider.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('admin_slider') }}">{{ 'slider.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'slider.new'|trans }}</div>
+{% endblock %}
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.title) }}
+    <div class="field">
+        <label>{{ 'slider.size'|trans }}</label>
+        <div class="ui inline fields ">
+            {{ form_row(form.width) }}
+            {{ form_row(form.height) }}
+        </div>
+    </div>
+    {{ form_row(form.isActive) }}
+    <div class="photo field" data-prototype="{{ form_widget(form.sliderPhotos.vars.prototype)|e }}">
+        <label>{{ 'slider.photos'|trans }}</label>
+        <div class="ui cards">
+            {% for sliderPhoto in form.sliderPhotos %}
+                {{ form_widget(sliderPhoto) }}
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        {{ form_widget(form.submit) }}
+        <button type="button" class="ui small labeled icon add button">
+            <i class="add icon"></i> {{ 'slider.photo.add'|trans }}
+        </button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpadmin/js/photos.js') }}"></script>
+{% endblock %}

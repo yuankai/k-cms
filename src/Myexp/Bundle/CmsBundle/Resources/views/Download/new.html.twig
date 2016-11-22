@@ -1,0 +1,10 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block title %}{{ 'download.new'|trans }} - {{ 'download.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('cms_download') }}">{{ 'download.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'download.new'|trans }}</div>
+{% endblock %}
+{% block content %}
+{{ form(form) }}
+{% endblock %}

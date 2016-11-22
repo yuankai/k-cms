@@ -1,0 +1,13 @@
+{# 产品图片 #}
+{%- block product_photo_widget -%}
+     <div class="ui card">
+        {{ form_widget(form.url) }}
+        <div class="content">
+        {{ form_row(form.title) }}
+        {{ form_row(form.sequenceId) }}
+        </div>
+        <div class="ui bottom attached delete button">
+            <i class="minus icon"></i> {{ 'product.photo.delete'|trans }}
+        </div>
+    </div>
+{%- endblock product_photo_widget -%}

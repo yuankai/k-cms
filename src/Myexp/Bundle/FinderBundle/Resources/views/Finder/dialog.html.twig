@@ -1,0 +1,15 @@
+{% import 'MyexpFinderBundle:Finder:macros.html.twig' as finder %}
+{{ finder.stylesheets() }}
+{{ finder.javascripts() }}
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        var elf = $('#elfinder').elfinder({
+            url: '{{ path('finder_connector') }}',
+            lang: 'zh_CN',
+            getFileCallback: function (file) {
+                {{ callback }}(file);
+            }
+        }).elfinder('instance');
+    });
+</script>
+<div id="elfinder"></div>

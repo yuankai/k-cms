@@ -1,0 +1,31 @@
+{% extends 'MyexpFrontBundle::base.html.twig' %}
+{% block title %}{{ website.title }}{{ parent() }} {% endblock %}
+{% block body %}
+    <div class="header">
+        <div class="container"> <a class="navbar-brand" href="{{ path('homepage') }}"><i class="fa fa-paper-plane"></i> {{ website.title }}</a>
+            <div class="menu"> <a class="toggleMenu" href="#"><img src="{{ asset('bundles/myexpfront/images/nav_icon.png') }}" alt="" /> </a>
+                <ul class="nav" id="nav">
+                    {% for menuItem in menu('main') %}
+                        <li><a href="{{ menuItem.url }}">{{ menuItem.title }}</a></li>
+                        {% endfor %}
+                    <div class="clear"></div>
+                </ul>
+                <script type="text/javascript" src="{{ asset('bundles/myexpfront/js/responsive-nav.js') }}"></script>
+            </div>
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+    <div class="footer">
+        <div class="footer_bottom">
+            <div class="follow-us"> 
+                <a class="fa fa-facebook social-icon" href="#"></a> 
+                <a class="fa fa-twitter social-icon" href="#"></a> 
+                <a class="fa fa-linkedin social-icon" href="#"></a> 
+                <a class="fa fa-google-plus social-icon" href="#"></a> 
+            </div>
+            <div class="copy">
+                <p>Copyright &copy; 2015 {{ website.title }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

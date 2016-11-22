@@ -1,0 +1,90 @@
+<div id="node-builder" class="field">
+    <div class="three fields">
+        <div class="field">
+            <label>{{ 'node.type'|trans }}</label>
+            <select id="node_type" class="ui dropdown">
+                <option value="">{{ 'common.select'|trans }}</option>
+                <option value="empty">{{ 'node.type_name.empty'|trans }}</option>
+                <option value="content_category">{{ 'node.type_name.content_category'|trans }}</option>
+                <option value="content">{{ 'node.type_name.content'|trans }}</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>{{ 'node.content_model'|trans }}</label>
+            <select id="node_content_model" class="ui dropdown">
+                <option value="">{{ 'common.select'|trans }}</option>
+            </select>
+        </div>
+        <div class="field" id="nodes_container">
+            <label>{{ 'node.value'|trans }}</label>
+            <select class="ui dropdown">
+                <option value="">{{ 'common.select'|trans }}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+    $('#node-builder .ui.dropdown').dropdown();
+
+    $('#node_type').change(function () {
+        cleanNode();
+        
+        var nodeType = $(this).val();
+        
+        if (nodeType === '' || nodeType === 'empty') {
+            return;
+        }
+
+        $.get('/admin/node/get_models', {nodeType: nodeType}, function (data) {
+
+            $('option[value!=""]', $('#node_content_model')).remove();
+            $('#node_content_model').val('');
+
+            if (data.code === 'ok') {
+                var models = data.models;
+                for (var i in models) {
+                    $('#node_content_model').append('<option value="' + i + '">' + models[i] + '</option>');
+                }
+            }
+        }, 'json');
+    });
+
+    $('#node_content_model').change(function () {
+        cleanNode();
+
+        var nodeType = $('#node_type').val();
+        var nodeContentModel = $(this).val();
+
+        if (nodeContentModel === '') {
+            return;
+        }
+
+        var param = {nodeType: nodeType, nodeContentModel: nodeContentModel};
+
+        $.get('/admin/node/get_nodes', param, function (html) {
+            $('#nodes_container').html(html);
+            $('.ui.dropdown', $('#nodes_container')).dropdown({
+                onChange: function (value, text, $selectedItem) {
+
+                    var vParam = {
+                        nodeType: nodeType,
+                        nodeContentModel: nodeContentModel,
+                        nodeValue: value
+                    };
+
+                    $.get('/admin/node/get_value', vParam, function (data) {
+                        $('#node_title').val(data.title);
+                        $('#node_path').val(data.path);
+                    }, 'json');
+                }
+            });
+        });
+    });
+    
+    //清理字段
+    function cleanNode(){
+        $('#node_title').val('');
+        $('#node_path').val('');
+    }
+</script>

@@ -1,0 +1,16 @@
+{# 需要引入的样式 #}
+{% macro stylesheets() %}
+    <link rel="stylesheet" href="{{ asset('bundles/myexpfinder/elfinder/jquery/jquery-ui.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('bundles/myexpfinder/elfinder/jquery/jquery-ui.structure.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('bundles/myexpfinder/elfinder/jquery/jquery-ui.theme.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('bundles/myexpfinder/elfinder/css/elfinder.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('bundles/myexpfinder/elfinder/css/theme.css') }}" type="text/css"/>
+{% endmacro %}
+
+{# 需要引入的javascript文件 #}
+{% macro javascripts() %}
+    <script type="text/javascript" src="{{ asset('bundles/myexpfinder/elfinder/jquery/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpfinder/elfinder/js/elfinder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpfinder/elfinder/js/i18n/elfinder.zh_CN.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/myexpfinder/js/finder.js') }}"></script>
+{% endmacro %}

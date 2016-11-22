@@ -1,0 +1,39 @@
+<?php
+
+namespace Myexp\Bundle\CmsBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Myexp\Bundle\AdminBundle\Form\ContentType;
+
+class PageType extends AbstractType {
+
+    /**
+     * 
+     * 创建form
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+                ->add('content', ContentType::class, array(
+                    'content_model' => 'page'
+                ))
+        ;
+    }
+
+    /**
+     * 默认配置
+     * 
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver) {
+        $resolver->setDefaults(array(
+            'data_class' => 'Myexp\Bundle\CmsBundle\Entity\Page'
+        ));
+    }
+
+}

@@ -1,0 +1,14 @@
+services:
+    
+    # 字段类型
+    myexp_finder.form.finder_type:
+        class: Myexp\Bundle\FinderBundle\Form\Type\FinderType
+        tags:
+            - { name: form.type, alias: finder}
+            
+    # 菜单监听器
+    myexp_finder.menu_listener:
+        class: Myexp\Bundle\FinderBundle\EventListener\SidebarListener
+        tags:
+            - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }
+            - { name: kernel.event_listener, event:theme.breadcrumb, method:onSetupMenu }

@@ -1,0 +1,18 @@
+{% extends 'MyexpFrontBundle::common.html.twig' %}
+{% block title %}{{ entity.title }} - {{ parent() }}{% endblock %}
+{% block nav %}
+    <section class="widget">
+        {% set topNode = node(nodePath) %}
+        <h3 class="title">{{ topNode.title }}</h3>		
+        <ul>
+            {% for node in node(topNode) %}
+              <li><a href="{{ front_url(node.path) }}" title="{{node.title}}">{{node.title}}</a></li>
+          {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+{% block inner %}
+    <div class="content">
+        {{ entity.description | raw }}
+    </div>
+{% endblock %}

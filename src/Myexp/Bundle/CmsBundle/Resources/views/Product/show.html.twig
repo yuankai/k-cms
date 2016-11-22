@@ -1,0 +1,15 @@
+{% extends 'MyexpCmsBundle::main.html.twig' %}
+{% block title %}{{ entity.trans.title }} - {{category.trans.title}}{{ parent() }}{% endblock %}
+{% block content %}
+    <div class="news_content">
+        <h1>{{ entity.trans.title }}</h1>
+        <div class="news_content_h2">
+            <span>{{ 'article.publish_time'|trans }}：{{ entity.publishTime|date('Y-m-d') }} </span>&nbsp; &nbsp;&nbsp;&nbsp;
+            <span>{{ 'article.source'|trans }}：{{ entity.source}}  </span>  &nbsp; &nbsp;&nbsp;&nbsp;
+            <span>{{ 'article.author'|trans }}：{{ entity.author}} </span> 
+        </div> 
+        <div class="news_content_p">
+            {{ entity.trans.content | raw }}
+        </div>
+    </div>
+{% endblock %}

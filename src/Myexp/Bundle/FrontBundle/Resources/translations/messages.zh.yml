@@ -1,0 +1,323 @@
+admin:
+    title: K-WEB管理后台
+    homepage: 管理首页
+    dashboard: 管理面板
+    settings: 系统设置
+    menu: 菜单
+    content: 网站内容
+    website: 网站配置
+    other: 其他管理
+
+common:
+    submit: 提交
+    cancle: 取消
+    create: 创建
+    update: 更新
+    reset: 重置
+    yes: 是
+    no: 否
+    actions: 操作
+    edit: 编辑
+    delete: 删除
+    cut: 剪切
+    copy: 复制
+    paste: 粘贴
+    rename: 重命名
+    approve: 通过审核
+    deny: 取消审核
+    delete_confirm: 你确定要删除吗？
+    show: 查看 
+    new: 新建
+    select: 选择
+    back: 返回
+    back_list: 返回列表
+    success: 操作成功！
+    down: 下载
+    more: 更多
+    notice: 操作提醒
+    or: 或者
+    select: 选择
+    find: 查找
+
+paginator:
+    limit: 每页显示：
+    all: 所有
+
+nav:
+    home: 首页
+    back: 返回
+    location: 现在位置
+
+user:
+    welcome: 欢迎您，%name%
+    login: 登录
+    register: 注册
+    manage: 用户管理
+    logout: 退出登录
+    list: 用户列表
+    new: 新建用户
+    edit: 编辑用户
+    show: 查看用户
+    id: 编号
+    username: 用户名
+    email: 邮箱
+    last_login: 最后登录
+    password: 
+        change: 修改密码
+        current: 当前密码
+        new: 新密码
+        confirm: 确认密码
+    active: 是否可用
+    role: 角色
+
+login:
+    title: 用户登录
+    username: 用户名
+    password: 密码
+    remember_me: 记住我
+
+register:
+    username: 用户名
+    email: 邮箱
+    password: 密码
+    password_confirm: 确认密码
+    
+content:
+    title: 内容标题
+    description: 内容明细
+    category: 内容分类
+    keywords: 关键词
+    url_alias: 路径别名
+    status: 发布状态
+
+article:
+    list: 文章列表
+    manage: 文章管理
+    new: 新建文章
+    edit: 编辑
+    show: 查看
+    id: 文章编号
+    title: 文章标题
+    author: 文章作者
+    category: 所属分类
+    image_url: 标题图片
+    content: 文章内容
+    create_time: 创建时间
+    update_time: 修改时间
+    publish_time: 发表时间
+    status: 状态
+    source: 来源
+
+page:
+    list: 页面列表
+    manage: 页面管理
+    new: 新建页面
+    edit: 编辑页面
+    show: 查看页面
+    id: 页面编号
+    url: 访问地址
+    title: 页面标题
+    content: 页面内容
+    group: 所属栏目
+    order: 栏目排序
+    level: 栏目级别
+    path: 标题图片
+
+category:
+    manage: 分类管理
+    new: 新建分类
+    edit: 编辑分类
+    id: 分类编号
+    title: 分类标题
+    keywords: 关键词
+    url_alias: 路径别名
+    sequence_id: 序号
+    root_node: 根节点
+    list: 分类列表
+    choose: 选择分类
+    is_active: 是否可用
+
+menu:
+    list: 菜单列表
+    id: 菜单编号
+    manage: 菜单管理
+    new: 新建菜单
+    edit: 编辑菜单
+    name: 菜单名称
+    title: 菜单标题
+    info: 基本信息
+    items: 菜单项
+    item:
+        root: 根节点
+        new: 新建菜单项
+        edit: 编辑菜单项
+        url: 链接地址
+        target: 打开目标
+        style: 样式
+
+link:
+    list: 链接列表
+    manage: 链接管理
+    id: 编号
+    new: 新建链接
+    show: 查看链接
+    edit: 编辑链接
+    title: 链接标题
+    url: 链接地址
+    sequence_id: 链接排序
+    logo_url: LOGO图片
+    is_active: 启用
+
+album:
+    manage: 相册管理
+    id: 编号
+    name: 相册名称
+    title: 相册标题
+    photos: 图片
+    order: 相册排序
+    new: 创建相册
+    list: 相册列表
+    edit: 修改相册
+
+photo:
+    manage: 图片管理
+    album: 所属相册
+    name: 图片名称
+    comment: 图片说明
+    picurl: 图片地址
+    title: 图片标题
+    order: 图片排序
+    is_active: 是否审核
+    new: 上传新图片
+    create_time: 创建时间
+    update_time: 更新时间
+    list: 图片列表
+    new: 新建图片
+    edit: 修改图片
+    show: 查看图片
+
+back:
+    main: 网站内容
+    dashboard: 控制台
+    other: 其他
+    visit: 返回前台
+    menu: 菜单与分类
+    slider: 幻灯管理
+    manage: 后台管理
+    login: 请输入账号和密码
+    lanuage: 切换页面语言
+    current: 当前页
+
+news: 
+    manage: 新闻管理
+
+product:
+    all: 所有产品
+    manage: 产品管理
+    new: 新建产品
+    edit: 编辑产品
+    title: 标题
+    category: 所属分类
+    photos: 产品图片
+    photo:
+        title: 图片标题
+        sequence_id: 序号
+        delete: 删除图片
+        add: 增加图片
+
+sort:
+    manage: 页面分类
+    new: 新建分类
+    edit: 编辑分类
+    id: 分类编号
+    name: 分类名称
+    list: 分类列表
+    show: 分类详细
+
+search:
+    content_model: 内容分类
+    result: 搜索结果
+    no_result: 该搜索词未找到结果
+
+download:
+    manage: 下载管理
+    new: 新建下载页面
+    edit: 编辑
+    id: 编号
+    name: 下载名称
+    list: 下载列表
+    show: 查看下载
+    title: 标题
+    publish_time: 发布时间
+    is_active: 是否通过
+    category: 栏目
+    title: 标题名称
+    url: 下载文件
+
+slider:
+    id: 幻灯编号
+    manage: 幻灯管理
+    show: 查看幻灯
+    edit: 编辑幻灯
+    new: 创建幻灯
+    list: 幻灯列表
+    name: 幻灯名称
+    title: 幻灯标题
+    width: 宽度
+    height: 高度
+    photos: 幻灯图片
+    size: 尺寸
+    photo:
+        total: 图片数量
+        url: 图片
+        title: 图片标题
+        description: 图片描述
+        link: 链接地址
+        sequence_id: 图片排序
+        add: 新增图片
+        delete: 删除图片
+
+website:
+    homepage: 网站首页
+    manage: 网站管理
+    new: 新建站点
+    edit: 编辑站点
+    id: 编号
+    name: 网站名称
+    list: 站点列表
+    show: 查看站点
+    title: 标题
+    slogan: 口号
+    http_url: HTTP网址
+    https_url: HTTPS网址
+    icp_num: ICP备案号
+    address: 地址
+    zip_code: 邮编
+    email: 电子邮箱
+    tel: 电话
+    fax: 传真
+
+node:
+    manage: 网站结构
+    new: 新建节点
+    edit: 编辑节点
+    title: 节点标题
+    path: 节点路径
+    sequence_id: 序号
+    is_active: 是否可用
+    type: 节点类型
+    type_name:
+        empty: 空节点
+        content_category: 可分类内容
+        content: 不可分类内容
+    content_model: 内容类型
+    value: 选择项
+    
+file:
+    manage: 附件管理
+    
+finder:
+    choose: 选择
+    
+front:
+    homepage: 首页

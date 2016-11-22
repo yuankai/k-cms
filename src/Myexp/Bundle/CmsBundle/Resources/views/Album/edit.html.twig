@@ -1,0 +1,34 @@
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
+{% block title %}{{ 'album.edit'|trans }}{% endblock %}
+{% block breadcrumd %}
+        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('album')}}">{{ 'album.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'album.edit'|trans }}</a></span>
+{% endblock %}
+{% block content %}
+<form action="{{ path('album_update', { 'id': entity.id }) }}" method="post">
+    <div class="form">
+        <input type="hidden" name="_method" value="PUT" />
+        {% form_theme edit_form 'MyexpCmsBundle:Form:tabs.html.twig' %}
+        {{ form_widget(edit_form) }}
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />
+            <input class="btn btn-danger" type="reset" value="{{ 'common.reset'|trans }}" />
+        </div>
+    </div>
+</form>
+<form action="{{ path('album_delete', { 'id': entity.id }) }}" method="post">
+    <div class="form-actions">
+        <input class="btn" type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+        <button type="submit" class="btn btn-warning" onclick="return confirm('{{ 'common.delete_confirm'|trans }}');">{{ 'common.delete'|trans }}</button>
+        <input class="btn btn-primary" type="submit" value="{{ 'common.back_list'|trans }}"  onclick="saveToDraft(this,'{{ path('album') }}');" />
+    </div>
+</form>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.tabs').tabs();
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,93 @@
+article:
+    list: 文章列表
+    manage: 文章管理
+    new: 新建文章
+    edit: 编辑
+    show: 查看
+    id: 文章编号
+    title: 文章标题
+    author: 文章作者
+    category: 所属分类
+    image_url: 标题图片
+    content: 文章内容
+    create_time: 创建时间
+    update_time: 修改时间
+    publish_time: 发表时间
+    status: 状态
+    source: 来源
+    featured_order: 特色排序
+    stick_order: 置顶排序
+
+page:
+    list: 页面列表
+    manage: 页面管理
+    new: 新建页面
+    edit: 编辑页面
+    show: 查看页面
+    id: 页面编号
+    url: 访问地址
+    title: 页面标题
+    content: 页面内容
+    path: 标题图片
+
+album:
+    manage: 相册管理
+    id: 编号
+    name: 相册名称
+    title: 相册标题
+    photos: 图片
+    order: 相册排序
+    new: 创建相册
+    list: 相册列表
+    edit: 修改相册
+    featured_order: 特色排序
+    stick_order: 置顶排序
+
+photo:
+    manage: 图片管理
+    album: 所属相册
+    name: 图片名称
+    comment: 图片说明
+    picurl: 图片地址
+    title: 图片标题
+    order: 图片排序
+    is_active: 是否审核
+    new: 上传新图片
+    create_time: 创建时间
+    update_time: 更新时间
+    list: 图片列表
+    new: 新建图片
+    edit: 修改图片
+    show: 查看图片
+
+product:
+    manage: 产品管理
+    new: 新建产品
+    edit: 编辑产品
+    title: 标题
+    category: 所属分类
+    photos: 产品图片
+    photo:
+        title: 图片标题
+        sequence_id: 序号
+        delete: 删除图片
+        add: 增加图片
+    featured_order: 特色排序
+    stick_order: 置顶排序
+
+download:
+    manage: 下载管理
+    new: 新建下载页面
+    edit: 编辑
+    id: 编号
+    name: 下载名称
+    list: 下载列表
+    show: 查看下载
+    title: 标题
+    publish_time: 发布时间
+    is_active: 是否通过
+    category: 栏目
+    title: 标题名称
+    url: 下载文件
+    featured_order: 特色排序
+    stick_order: 置顶排序

@@ -1,3 +1,35 @@
-app:
-    resource: "@AppBundle/Controller/"
+   #FOSUserBundle routing file
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+# image processing bundle
+# https://github.com/liip/LiipImagineBundle
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+    
+myexp_user:
+    resource: "@MyexpUserBundle/Controller/"
     type:     annotation
+
+myexp_admin:
+    resource: "@MyexpAdminBundle/Controller/"
+    prefix: /admin
+    type:     annotation
+
+myexp_cms:
+    resource: "@MyexpCmsBundle/Controller/"
+    prefix: /cms
+    type:     annotation
+    
+myexp_finder:
+    resource: "@MyexpFinderBundle/Controller/"
+    prefix: /finder
+    type:     annotation
+    
+myexp_front:
+    resource: "@MyexpFrontBundle/Controller/"
+    type:     annotation
+
+myexp_front_rewrite:
+    resource: .
+    type: rewrite

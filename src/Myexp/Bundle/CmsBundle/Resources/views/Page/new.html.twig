@@ -1,0 +1,19 @@
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block title %}{{ 'page.new'|trans }}{% endblock %}
+{% block breadcrumd %}
+    <a class="section" href="{{ path('cms_page') }}">{{ 'page.manage'|trans }}</a>
+    <i class="right angle icon divider"></i>
+    <div class="active section">{{ 'page.new'|trans }}</div>
+{% endblock %}
+{% block content %}
+    <div class="box box-primary">
+        {{ macro.box_header('', false, false, 'primary') }}
+        <div class="box-body">
+            {{ form(form) }}
+        </div>
+        <div class="box-footer clearfix">
+            <button type="submit" class="btn btn-primary pull-left"><i class="fa fa-check-square"></i> Submit</button>
+            <button type="reset" class="btn btn-warning pull-right"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+{% endblock %}

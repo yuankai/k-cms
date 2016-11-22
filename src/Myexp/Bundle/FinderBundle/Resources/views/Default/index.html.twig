@@ -1,0 +1,26 @@
+{% import 'MyexpFinderBundle:Finder:macros.html.twig' as finder %}
+{% extends 'MyexpAdminBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ finder.stylesheets() }}
+{% endblock %}
+{% block title %}{{ 'file.manage'|trans }}{{ parent() }}{% endblock %}
+{% block breadcrumd %}
+    <div class="active section">{{ 'file.manage'|trans }}</div>
+{% endblock %}
+{% block content %}
+    <div id="elfinder"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ finder.javascripts() }}
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('#elfinder').elfinder({
+                url: '{{ path('finder_connector') }}',
+                lang: 'zh_CN',
+                height: '470px'
+            });
+        });
+    </script>
+{% endblock %}

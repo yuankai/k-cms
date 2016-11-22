@@ -1,0 +1,38 @@
+{% extends 'MyexpCmsBundle:Admin:layout.html.twig' %}
+{% block title %}{{ 'photo.edit'|trans }}{% endblock %}
+{% block breadcrumd %}
+        <a href="{{ path('admin') }}">{{ 'nav.home'|trans }}</a> ><a href="{{path('photo')}}">{{ 'photo.manage'|trans }}</a> ><a href="{{app.request.getRequestUri()}}">{{ 'photo.edit'|trans }}</a></span>
+{% endblock %}
+{% block content %}
+<form action="{{ path('photo_update', { 'id': entity.id }) }}" method="post">
+    <div class="form">
+{% if entity.picurl %}<img src="{{ asset(entity.picurl) }}" width="180">{% endif %}
+        <input type="hidden" name="_method" value="PUT" />
+        {% form_theme edit_form 'MyexpCmsBundle:Form:tabs.html.twig' %}
+        {{ form_widget(edit_form) }}
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="{{ 'common.submit'|trans }}" />
+            <input class="btn btn-danger" type="reset" value="{{ 'common.reset'|trans }}" />
+        </div>
+    </div>
+</form>
+
+<div class="form-actions">
+    <form action="{{ path('photo_delete', { 'id': entity.id }) }}" method="post">
+        <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+        <button type="submit" class="btn btn-warning" onclick="return confirm('{{ 'common.delete_confirm'|trans }}');">{{ 'common.delete'|trans }}</button>
+        <input class="btn btn-primary" type="submit" value="{{ 'common.back_list'|trans }}"  onclick="saveToDraft(this, '{{ path('photo') }}');" />
+    </form>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.tabs').tabs();
+    });
+</script>
+{% endblock %}

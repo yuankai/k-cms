@@ -1,0 +1,62 @@
+{% extends 'MyexpCmsBundle::layout.html.twig' %}
+{% block title %}{{ 'front.homepage'|trans }} - {{ parent() }}{% endblock %}
+{% block content %}
+
+    <!-- 幻灯片 -->
+    {% set slider = slider('main') %}
+    <div id="slider-wrap">
+        <div class="flexslider">
+            <ul class="slides">
+                {% for sliderPhoto in slider(slider) %}
+                <li>
+                    <a href="{{ sliderPhoto.link }}" title="{{ sliderPhoto.title }}" class="img-hover" >
+                        <img src="{{ sliderPhoto.url }}" alt="{{ sliderPhoto.title }}"/>
+                    </a>                                                                                                             
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="slide-nav slides-5">
+                {% for sliderPhoto in slider(slider) %}
+                <li>
+                    <h4>{{ sliderPhoto.title }}</h4>
+                    <p>{{ sliderPhoto.description }}</p>                                                                                                                                                                               
+                </li>
+                {% endfor %}
+            </ul><!-- end of slider nav -->
+        </div>
+    </div><!-- end of slider-wrap -->
+
+    <div id="container">
+
+        <section class="slogan">
+            <h2>我们致力于为科研院所、高校及行政机关提供全方位的解决方案</h2>
+            <h3>本着顾客至上、诚信为先的宗旨，精诚合作，共创美好未来</h3>
+        </section>
+
+        {% set products = product(null, 5) %}
+        <ul class="services">
+            {% for product in products %}
+            <li class="service">
+                <figure class="service-thumb"><a href="single-service.html"><img src="{{ product.productPhotos[0].url }}" alt="Diagnostic Imaging"></a></figure>
+                <h4><a href="single-service.html">{{ product.content.title }}</a></h4>
+                <p>{{ product.content.description|slice(0, 25)|raw }}</p>
+            </li>
+            {% endfor %}
+        </ul><!-- end of services -->  
+
+        <section class="slogan">
+        <a href="doctors-four-columns.html" class="readmore">更多产品...</a>
+        </section>
+    </div><!-- end of container -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/myexpcms/js/jquery.cycle2.min.js') }}"></script>
+    <script>
+        $('.cycle-slideshow').cycle({
+            speed: 600,
+            manualSpeed: 100
+        });
+    </script>
+{% endblock %}

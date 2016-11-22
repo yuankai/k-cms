@@ -1,0 +1,40 @@
+{% import 'MyexpFinderBundle:Finder:macros.html.twig' as finder %}
+{% extends 'MyexpFinderBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ finder.stylesheets() }}
+{% endblock %}
+{% block title %}{{ 'file.manage'|trans }}{{ parent() }}{% endblock %}
+{% block body %}
+    <div id="elfinder"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ finder.javascripts() }}
+    <script type="text/javascript" charset="utf-8">
+
+        // Helper function to get parameters from the query string.
+        function getUrlParam(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i');
+            var match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : '';
+        }
+
+        $(document).ready(function () {
+
+            var funcNum = getUrlParam('CKEditorFuncNum');
+            var winHeight = $(window).height();
+
+            var elf = $('#elfinder').elfinder({
+                url: '{{ path('finder_connector') }}',
+                lang: 'zh_CN',
+                height: winHeight - 20,
+                getFileCallback: function (file) {
+                    window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
+                    window.close();
+                }
+            }).elfinder('instance');
+        });
+    </script>
+{% endblock %}
